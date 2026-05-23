@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Support — Wordo & Shade Spotter</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <title>Support — Wordo, Shade Spotter & Video Poker Mania</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --cream:   #f5f0e8;
@@ -16,13 +16,21 @@
       --grey:    #b0aaa0;
       --shadow:  rgba(43,29,14,0.12);
 
-      /* Shade Spotter palette */
       --ss-indigo:  #4a5fe0;
       --ss-violet:  #8b5cf6;
       --ss-sky:     #38bdf8;
       --ss-dark:    #1a1630;
       --ss-border:  rgba(255,255,255,0.12);
       --ss-shadow:  rgba(74,95,224,0.25);
+
+      --vp-gold:    #c9a84c;
+      --vp-gold2:   #e8c96a;
+      --vp-red:     #c0392b;
+      --vp-dark:    #0d0d0d;
+      --vp-felt:    #0a2a1a;
+      --vp-border:  rgba(201,168,76,0.3);
+      --vp-shadow:  rgba(201,168,76,0.2);
+      --vp-text:    rgba(255,255,255,0.75);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -55,6 +63,7 @@
       justify-content: center;
       gap: 10px;
       padding: 24px 24px 0;
+      flex-wrap: wrap;
       animation: fadeDown 0.5s both;
     }
 
@@ -83,10 +92,17 @@
       color: var(--grey);
       border-color: var(--border);
     }
+    .nav-btn.poker {
+      background: transparent;
+      color: var(--grey);
+      border-color: var(--border);
+    }
     .nav-btn.wordo:hover { opacity: 0.88; }
     .nav-btn.shade:hover { border-color: var(--ss-indigo); color: var(--ss-indigo); }
+    .nav-btn.poker:hover { border-color: var(--vp-gold); color: var(--vp-gold); }
 
-    nav.on-shade .nav-btn.wordo {
+    nav.on-shade .nav-btn.wordo,
+    nav.on-poker .nav-btn.wordo {
       background: transparent;
       color: var(--grey);
       border-color: var(--border);
@@ -97,14 +113,25 @@
       border-color: var(--ss-indigo);
     }
     nav.on-shade .nav-btn.wordo:hover { border-color: var(--brown); color: var(--brown); }
+    nav.on-shade .nav-btn.poker:hover { border-color: var(--vp-gold); color: var(--vp-gold); }
+
+    nav.on-poker .nav-btn.poker {
+      background: linear-gradient(135deg, #8b6914, var(--vp-gold));
+      color: #0d0d0d;
+      border-color: var(--vp-gold);
+    }
+    nav.on-poker .nav-btn.shade { color: var(--grey); border-color: var(--border); }
 
     .nav-dot {
       width: 8px; height: 8px;
       border-radius: 50%;
     }
     .nav-btn.wordo .nav-dot { background: var(--green); }
-    nav.on-shade .nav-btn.wordo .nav-dot { background: var(--grey); }
+    nav.on-shade .nav-btn.wordo .nav-dot,
+    nav.on-poker .nav-btn.wordo .nav-dot { background: var(--grey); }
     .nav-btn.shade .nav-dot { background: var(--ss-violet); }
+    .nav-btn.poker .nav-dot { background: var(--vp-gold); }
+    nav.on-shade .nav-btn.poker .nav-dot { background: var(--grey); }
 
     /* ── PANELS ── */
     .panel { display: none; }
@@ -181,11 +208,6 @@
 
     #shade-panel .page { position: relative; z-index: 1; }
 
-    #shade-panel nav {
-      /* override nav for dark panel */
-    }
-
-    /* shade header */
     #shade-panel header {
       padding: 32px 24px 24px;
       text-align: center;
@@ -243,7 +265,6 @@
       font-weight: 500;
     }
 
-    /* shade sections */
     #shade-panel main {
       max-width: 560px;
       margin: 0 auto;
@@ -286,7 +307,6 @@
     #shade-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     #shade-panel li::before { content: '→ '; color: var(--ss-sky); font-weight: 700; }
 
-    /* shade form */
     #shade-panel form { display: flex; flex-direction: column; gap: 12px; }
     #shade-panel label {
       font-size: 12px; font-weight: 600;
@@ -341,7 +361,6 @@
       color: var(--ss-sky); font-weight: 600; font-size: 15px;
     }
 
-    /* shade details/faq */
     #shade-panel details { border-bottom: 1px solid rgba(255,255,255,.08); padding: 12px 0; }
     #shade-panel details:last-child { border-bottom: none; }
     #shade-panel summary {
@@ -354,7 +373,6 @@
     #shade-panel details[open] summary::after { transform: rotate(45deg); }
     #shade-panel details p { margin-top: 10px; }
 
-    /* shade footer */
     #shade-panel footer {
       text-align: center; padding: 12px 24px 32px;
       font-size: 13px; color: rgba(255,255,255,.25);
@@ -362,7 +380,7 @@
     }
 
     /* ══════════════════════
-       SHARED WORDO STYLES
+       WORDO SHARED STYLES
     ══════════════════════ */
     #wordo-panel main {
       max-width: 560px;
@@ -468,6 +486,410 @@
       animation: fadeUp 0.5s 0.75s both;
     }
 
+    /* ══════════════════════
+       VIDEO POKER MANIA PANEL
+    ══════════════════════ */
+    #poker-panel {
+      background: var(--vp-dark);
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* felt texture overlay */
+    #poker-panel::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10,42,26,.9) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 10% 80%, rgba(201,168,76,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 90% 20%, rgba(192,57,43,.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* diagonal felt lines */
+    #poker-panel::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,.012) 0px,
+        rgba(255,255,255,.012) 1px,
+        transparent 1px,
+        transparent 8px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #poker-panel .page { position: relative; z-index: 1; }
+
+    /* poker header */
+    #poker-panel header {
+      padding: 32px 24px 24px;
+      text-align: center;
+    }
+
+    .poker-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      animation: fadeDown 0.5s 0.1s both;
+    }
+
+    .poker-cards {
+      display: flex;
+      gap: -4px;
+    }
+
+    .mini-card {
+      width: 32px; height: 44px;
+      border-radius: 5px;
+      background: #fff;
+      border: 1px solid #ddd;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.5);
+      animation: cardDeal 0.4s both;
+      position: relative;
+    }
+    .mini-card:nth-child(1){animation-delay:.05s; transform: rotate(-8deg) translateY(2px);}
+    .mini-card:nth-child(2){animation-delay:.10s; transform: rotate(-3deg) translateY(-2px);}
+    .mini-card:nth-child(3){animation-delay:.15s; transform: rotate(0deg) translateY(-4px);}
+    .mini-card:nth-child(4){animation-delay:.20s; transform: rotate(3deg) translateY(-2px);}
+    .mini-card:nth-child(5){animation-delay:.25s; transform: rotate(8deg) translateY(2px);}
+
+    @keyframes cardDeal {
+      from { opacity: 0; transform: translateY(-30px) rotate(0deg); }
+      to   { opacity: 1; }
+    }
+
+    .poker-logo-text {
+      text-align: left;
+    }
+
+    .poker-logo-text .title-line1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--vp-gold);
+      opacity: 0.7;
+      line-height: 1;
+    }
+
+    .poker-logo-text .title-line2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--vp-gold2), var(--vp-gold), #a07830);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .poker-logo-text .title-line3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      color: #fff;
+    }
+
+    #poker-panel header > p {
+      font-size: 15px;
+      color: rgba(255,255,255,.35);
+      font-weight: 500;
+    }
+
+    /* poker sub-nav (Support / Privacy) */
+    .poker-subnav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 20px 0;
+      animation: fadeDown 0.5s 0.2s both;
+    }
+
+    .poker-subnav-btn {
+      padding: 8px 22px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid var(--vp-border);
+      background: transparent;
+      color: rgba(255,255,255,.4);
+      letter-spacing: 0.02em;
+      transition: all .2s;
+    }
+    .poker-subnav-btn.active {
+      background: rgba(201,168,76,.15);
+      color: var(--vp-gold2);
+      border-color: var(--vp-gold);
+    }
+    .poker-subnav-btn:hover:not(.active) {
+      border-color: rgba(201,168,76,.5);
+      color: rgba(201,168,76,.7);
+    }
+
+    /* poker sub-panels */
+    .poker-subpanel { display: none; }
+    .poker-subpanel.active { display: block; }
+
+    #poker-panel main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px 20px 60px;
+    }
+
+    #poker-panel section {
+      background: rgba(255,255,255,.04);
+      border: 1.5px solid var(--vp-border);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 0 rgba(201,168,76,.08), 0 8px 32px rgba(0,0,0,.5);
+      backdrop-filter: blur(8px);
+      animation: fadeUp 0.5s both;
+    }
+    #poker-panel section:nth-child(1){animation-delay:.35s}
+    #poker-panel section:nth-child(2){animation-delay:.45s}
+    #poker-panel section:nth-child(3){animation-delay:.55s}
+    #poker-panel section:nth-child(4){animation-delay:.65s}
+
+    #poker-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+
+    #poker-panel h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.06em;
+      color: var(--vp-gold2);
+    }
+
+    .poker-icon-tile {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+
+    #poker-panel p, #poker-panel li {
+      font-size: 15px; line-height: 1.7;
+      color: var(--vp-text);
+    }
+
+    #poker-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #poker-panel li::before { content: '♦ '; color: var(--vp-gold); font-weight: 700; font-size: 11px; }
+
+    #poker-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #poker-panel label {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(201,168,76,.5); margin-bottom: 4px; display: block;
+    }
+    #poker-panel input,
+    #poker-panel textarea,
+    #poker-panel select {
+      width: 100%; padding: 12px 14px;
+      border: 1.5px solid rgba(201,168,76,.2);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: #fff;
+      background: rgba(255,255,255,.05);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    #poker-panel select option { background: #1a1209; }
+    #poker-panel input::placeholder,
+    #poker-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #poker-panel input:focus,
+    #poker-panel textarea:focus,
+    #poker-panel select:focus {
+      border-color: var(--vp-gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,.15);
+      background: rgba(255,255,255,.08);
+    }
+    #poker-panel textarea { resize: vertical; min-height: 110px; }
+
+    #poker-panel .send-btn {
+      background: linear-gradient(135deg, #8b6914, var(--vp-gold), #a07830);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      font-weight: 900;
+      box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px rgba(201,168,76,.25);
+      transition: transform .1s, box-shadow .1s, opacity .1s;
+    }
+    #poker-panel .send-btn:hover  { transform: translateY(-1px); opacity: .92; box-shadow: 0 4px 0 rgba(0,0,0,.4), 0 0 32px rgba(201,168,76,.35); }
+    #poker-panel .send-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
+
+    #poker-panel .success-msg {
+      display: none; text-align: center; padding: 16px;
+      background: rgba(201,168,76,.12);
+      border-radius: 10px;
+      border: 1px solid rgba(201,168,76,.35);
+      color: var(--vp-gold2); font-weight: 600; font-size: 15px;
+    }
+
+    #poker-panel details { border-bottom: 1px solid rgba(201,168,76,.12); padding: 12px 0; }
+    #poker-panel details:last-child { border-bottom: none; }
+    #poker-panel summary {
+      font-weight: 600; font-size: 15px; cursor: pointer;
+      list-style: none; display: flex;
+      justify-content: space-between; align-items: center;
+      color: rgba(255,255,255,.8);
+    }
+    #poker-panel summary::after { content: '+'; font-size: 20px; color: rgba(201,168,76,.4); transition: transform .2s; }
+    #poker-panel details[open] summary::after { transform: rotate(45deg); }
+    #poker-panel details p { margin-top: 10px; }
+
+    /* Privacy Policy styles */
+    .privacy-section {
+      background: rgba(255,255,255,.04);
+      border: 1.5px solid var(--vp-border);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 0 rgba(201,168,76,.08), 0 8px 32px rgba(0,0,0,.5);
+      backdrop-filter: blur(8px);
+      animation: fadeUp 0.5s both;
+    }
+    .privacy-section:nth-child(1){animation-delay:.35s}
+    .privacy-section:nth-child(2){animation-delay:.42s}
+    .privacy-section:nth-child(3){animation-delay:.49s}
+    .privacy-section:nth-child(4){animation-delay:.56s}
+    .privacy-section:nth-child(5){animation-delay:.63s}
+    .privacy-section:nth-child(6){animation-delay:.70s}
+    .privacy-section:nth-child(7){animation-delay:.77s}
+
+    .privacy-section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.06em;
+      color: var(--vp-gold2);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .privacy-section p {
+      font-size: 15px; line-height: 1.7;
+      color: var(--vp-text);
+      margin-bottom: 10px;
+    }
+    .privacy-section p:last-child { margin-bottom: 0; }
+
+    .privacy-meta {
+      font-size: 13px;
+      color: rgba(201,168,76,.5);
+      text-align: center;
+      margin-bottom: 20px;
+      letter-spacing: 0.04em;
+      animation: fadeDown 0.5s 0.3s both;
+    }
+
+    /* privacy table */
+    .privacy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .privacy-table th {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,.6);
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(201,168,76,.2);
+      text-align: left;
+    }
+    .privacy-table td {
+      font-size: 14px;
+      color: var(--vp-text);
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .privacy-table tr:last-child td { border-bottom: none; }
+    .privacy-table td a {
+      color: rgba(201,168,76,.7);
+      text-decoration: none;
+      font-size: 12px;
+      word-break: break-all;
+    }
+    .privacy-table td a:hover { color: var(--vp-gold2); }
+
+    .privacy-section ul {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 8px;
+      margin-top: 4px;
+    }
+    .privacy-section li {
+      font-size: 15px; line-height: 1.65;
+      color: var(--vp-text);
+    }
+    .privacy-section li::before { content: '♦ '; color: var(--vp-gold); font-weight: 700; font-size: 11px; }
+
+    /* data tag chips */
+    .data-tag {
+      display: inline-block;
+      background: rgba(201,168,76,.1);
+      border: 1px solid rgba(201,168,76,.25);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(201,168,76,.8);
+      letter-spacing: 0.04em;
+      margin: 2px 2px;
+    }
+
+    .not-collected-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .not-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(192,57,43,.08);
+      border: 1px solid rgba(192,57,43,.15);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: rgba(255,255,255,.5);
+    }
+    .not-item::before {
+      content: '✕';
+      color: rgba(192,57,43,.6);
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    #poker-panel footer {
+      text-align: center; padding: 12px 24px 32px;
+      font-size: 13px; color: rgba(255,255,255,.2);
+      animation: fadeUp 0.5s 0.75s both;
+    }
+
     /* ── ANIMATIONS ── */
     @keyframes tileIn {
       from { opacity: 0; transform: translateY(-16px) rotate(-4deg); }
@@ -481,6 +903,14 @@
       from { opacity: 0; transform: translateY(-10px); }
       to   { opacity: 1; transform: none; }
     }
+
+    @media (max-width: 480px) {
+      .not-collected-grid { grid-template-columns: 1fr; }
+      .poker-logo-text .title-line2,
+      .poker-logo-text .title-line3 { font-size: 30px; }
+      .privacy-table { font-size: 13px; }
+      .privacy-table td a { font-size: 11px; }
+    }
   </style>
 </head>
 <body>
@@ -493,6 +923,9 @@
     </button>
     <button class="nav-btn shade" onclick="switchApp('shade')">
       <span class="nav-dot"></span> Shade Spotter
+    </button>
+    <button class="nav-btn poker" onclick="switchApp('poker')">
+      <span class="nav-dot"></span> Video Poker Mania
     </button>
   </nav>
 
@@ -510,7 +943,6 @@
     </header>
 
     <main>
-      <!-- Contact -->
       <section>
         <div class="section-header">
           <div class="icon-tile b">✉️</div>
@@ -545,7 +977,6 @@
         </form>
       </section>
 
-      <!-- FAQ -->
       <section>
         <div class="section-header">
           <div class="icon-tile y">💡</div>
@@ -573,7 +1004,6 @@
         </details>
       </section>
 
-      <!-- Tips -->
       <section>
         <div class="section-header">
           <div class="icon-tile g">🎯</div>
@@ -588,7 +1018,6 @@
         </ul>
       </section>
 
-      <!-- App Info -->
       <section>
         <div class="section-header">
           <div class="icon-tile r">📱</div>
@@ -625,7 +1054,6 @@
       </header>
 
       <main>
-        <!-- Contact -->
         <section>
           <div class="section-header">
             <div class="shade-icon-tile" style="background:rgba(56,189,248,.15)">✉️</div>
@@ -660,7 +1088,6 @@
           </form>
         </section>
 
-        <!-- FAQ -->
         <section>
           <div class="section-header">
             <div class="shade-icon-tile" style="background:rgba(240,180,41,.12)">💡</div>
@@ -688,7 +1115,6 @@
           </details>
         </section>
 
-        <!-- Tips -->
         <section>
           <div class="section-header">
             <div class="shade-icon-tile" style="background:rgba(139,92,246,.15)">🎨</div>
@@ -703,7 +1129,6 @@
           </ul>
         </section>
 
-        <!-- App Info -->
         <section>
           <div class="section-header">
             <div class="shade-icon-tile" style="background:rgba(74,95,224,.15)">📱</div>
@@ -721,6 +1146,254 @@
     </div>
   </div>
 
+  <!-- ══ VIDEO POKER MANIA PANEL ══ -->
+  <div class="panel" id="poker-panel">
+    <div class="page">
+      <header>
+        <div class="poker-logo">
+          <div class="poker-cards">
+            <div class="mini-card">♠</div>
+            <div class="mini-card" style="color:#c0392b">♥</div>
+            <div class="mini-card">♣</div>
+            <div class="mini-card" style="color:#c0392b">♦</div>
+            <div class="mini-card">👑</div>
+          </div>
+          <div class="poker-logo-text">
+            <div class="title-line1">Video</div>
+            <div class="title-line2">POKER</div>
+            <div class="title-line3">MANIA</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+      </header>
+
+      <!-- Sub-nav: Support / Privacy Policy -->
+      <div class="poker-subnav">
+        <button class="poker-subnav-btn active" onclick="switchPokerTab('support')">Support</button>
+        <button class="poker-subnav-btn" onclick="switchPokerTab('privacy')">Privacy Policy</button>
+      </div>
+
+      <main>
+
+        <!-- ── SUPPORT SUB-PANEL ── -->
+        <div class="poker-subpanel active" id="poker-support">
+
+          <!-- Contact -->
+          <section>
+            <div class="section-header">
+              <div class="poker-icon-tile" style="background:rgba(201,168,76,.12)">✉️</div>
+              <h2>Contact Us</h2>
+            </div>
+            <form id="pokerForm">
+              <div>
+                <label for="p-name">Your Name</label>
+                <input type="text" id="p-name" placeholder="Tony" required />
+              </div>
+              <div>
+                <label for="p-email">Email Address</label>
+                <input type="email" id="p-email" placeholder="you@example.com" required />
+              </div>
+              <div>
+                <label for="p-topic">Topic</label>
+                <select id="p-topic">
+                  <option>Bug or crash report</option>
+                  <option>In-app purchase issue</option>
+                  <option>Credits / balance issue</option>
+                  <option>Game Center / leaderboard</option>
+                  <option>Ad or tracking issue</option>
+                  <option>Feature request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div>
+                <label for="p-message">Message</label>
+                <textarea id="p-message" placeholder="Describe your issue…" required></textarea>
+              </div>
+              <button type="submit" class="send-btn">DEAL ME IN — SEND</button>
+              <div class="success-msg" id="pokerSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <!-- FAQ -->
+          <section>
+            <div class="section-header">
+              <div class="poker-icon-tile" style="background:rgba(201,168,76,.1)">💡</div>
+              <h2>FAQ</h2>
+            </div>
+            <details>
+              <summary>My credits disappeared after reinstalling</summary>
+              <p>Credits and progress are stored in iCloud. Make sure you're signed into the same Apple ID and iCloud is enabled in Settings → [Your Name] → iCloud → Video Poker Mania.</p>
+            </details>
+            <details>
+              <summary>In-app purchase didn't grant credits</summary>
+              <p>Tap Settings → Restore Purchases inside the app. Purchases may take a moment to process. If credits still don't appear, contact us using the form above and include the transaction date.</p>
+            </details>
+            <details>
+              <summary>Ads aren't loading / rewarded ads don't work</summary>
+              <p>Check your internet connection and make sure you haven't restricted ad content in your device settings. Rewarded ads require a live connection to Google AdMob servers. Try force-quitting and restarting the app.</p>
+            </details>
+            <details>
+              <summary>Is this real gambling? Can I win real money?</summary>
+              <p>No. Video Poker Mania is entertainment-only. All credits are virtual, have no cash value, and cannot be exchanged for real money. The app is rated 17+ for simulated gambling content only.</p>
+            </details>
+            <details>
+              <summary>How do I turn off ad personalization?</summary>
+              <p>Go to Settings → Privacy &amp; Security → Tracking and toggle off tracking for Video Poker Mania. Ads will still appear but won't be personalized. You can also revoke consent via the in-app privacy prompt.</p>
+            </details>
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, restart, and try again. If the crash repeats, contact us with your device model, iOS version, and what you were doing when it crashed.</p>
+            </details>
+          </section>
+
+          <!-- Tips -->
+          <section>
+            <div class="section-header">
+              <div class="poker-icon-tile" style="background:rgba(192,57,43,.12)">🃏</div>
+              <h2>Quick Tips</h2>
+            </div>
+            <ul>
+              <li>Hold the cards that contribute to the best potential hand</li>
+              <li>A pair of Jacks or better pays out — don't fold too early</li>
+              <li>Watch a rewarded video ad to earn free credits</li>
+              <li>Build a daily streak for bonus multipliers</li>
+              <li>Royal Flush is the jackpot — keep an eye on your suited high cards</li>
+            </ul>
+          </section>
+
+          <!-- App Info -->
+          <section>
+            <div class="section-header">
+              <div class="poker-icon-tile" style="background:rgba(74,95,224,.12)">📱</div>
+              <h2>App Info</h2>
+            </div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Platform: iOS 16.0 and later</li>
+              <li>Age Rating: 17+ (Simulated Gambling)</li>
+              <li>Entertainment-only — no real money, no real payouts</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+          </section>
+
+        </div><!-- /poker-support -->
+
+        <!-- ── PRIVACY POLICY SUB-PANEL ── -->
+        <div class="poker-subpanel" id="poker-privacy">
+
+          <p class="privacy-meta">Last updated: [insert date you publish]</p>
+
+          <div class="privacy-section">
+            <h2>🃏 About This App</h2>
+            <p>Video Poker Mania ("the App", "we", "us") is a single-player, entertainment-only video poker game. There is no real-money gambling, no real cash payouts, and no account sign-up required. This policy explains what limited data the App handles, why, and your choices.</p>
+          </div>
+
+          <div class="privacy-section">
+            <h2>📦 Information We Collect</h2>
+            <p><strong style="color:var(--vp-gold2)">On your device (local-only):</strong></p>
+            <p>The following data lives only on your device and is never sent to us:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px;">
+              <span class="data-tag">Hands played</span>
+              <span class="data-tag">Biggest win</span>
+              <span class="data-tag">Win streak</span>
+              <span class="data-tag">Achievement progress</span>
+              <span class="data-tag">Daily streak</span>
+              <span class="data-tag">Sound preference</span>
+              <span class="data-tag">Haptics preference</span>
+              <span class="data-tag">Currency display</span>
+              <span class="data-tag">Player name</span>
+              <span class="data-tag">Credit balance</span>
+              <span class="data-tag">Purchase history</span>
+            </div>
+            <p>Stored in iOS <code style="color:var(--vp-gold);background:rgba(201,168,76,.1);padding:1px 6px;border-radius:4px;font-size:13px">UserDefaults</code> and optionally synced via your private iCloud Key-Value Store. We never see this data; it never leaves Apple's ecosystem.</p>
+
+            <p style="margin-top:16px"><strong style="color:var(--vp-gold2)">Advertising identifiers (only with your consent):</strong></p>
+            <p>If you tap <strong>Allow</strong> on the App Tracking Transparency prompt, the App passes Apple's IDFA to Google AdMob so ads are more relevant. If you tap <strong>Ask App Not to Track</strong>, ads still appear but are not personalized — we do not collect the IDFA in that case.</p>
+
+            <p style="margin-top:16px"><strong style="color:var(--vp-gold2)">Game Center:</strong></p>
+            <p>If you sign in to Game Center, Apple shares your Game Center alias so leaderboards and achievements work. Score submissions go to Apple's Game Center service — not to us.</p>
+
+            <p style="margin-top:16px"><strong style="color:var(--vp-gold2)">In-App Purchases:</strong></p>
+            <p>StoreKit handles billing entirely on Apple's side. The App receives only the product ID and grants credits — it never sees your payment method, billing address, or Apple ID email.</p>
+          </div>
+
+          <div class="privacy-section">
+            <h2>🚫 What We Do NOT Collect</h2>
+            <div class="not-collected-grid">
+              <div class="not-item">Real name or email</div>
+              <div class="not-item">Phone or address</div>
+              <div class="not-item">Precise location</div>
+              <div class="not-item">Photos or contacts</div>
+              <div class="not-item">Microphone or camera</div>
+              <div class="not-item">Financial information</div>
+              <div class="not-item">Browsing history</div>
+              <div class="not-item">Data from under-17s</div>
+            </div>
+          </div>
+
+          <div class="privacy-section">
+            <h2>🔗 Third-Party Services</h2>
+            <table class="privacy-table">
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Purpose</th>
+                  <th>Privacy Policy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Google AdMob</td>
+                  <td>Rewarded video ads</td>
+                  <td><a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></td>
+                </tr>
+                <tr>
+                  <td>Google UMP</td>
+                  <td>GDPR/CCPA consent prompts</td>
+                  <td><a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></td>
+                </tr>
+                <tr>
+                  <td>Apple Game Center</td>
+                  <td>Leaderboards &amp; achievements</td>
+                  <td><a href="https://www.apple.com/legal/privacy/data/en/game-center/" target="_blank">apple.com/legal/privacy/…/game-center</a></td>
+                </tr>
+                <tr>
+                  <td>Apple StoreKit</td>
+                  <td>In-app purchases</td>
+                  <td><a href="https://www.apple.com/legal/privacy/data/en/app-store/" target="_blank">apple.com/legal/privacy/…/app-store</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="privacy-section">
+            <h2>⚙️ Your Choices</h2>
+            <ul>
+              <li><strong>Ad tracking:</strong> Settings → Privacy &amp; Security → Tracking — toggle off any time.</li>
+              <li><strong>Game Center:</strong> Sign out via Settings → Game Center.</li>
+              <li><strong>Local data wipe:</strong> Delete the App to remove all locally stored gameplay data and disconnect iCloud sync.</li>
+            </ul>
+          </div>
+
+          <div class="privacy-section">
+            <h2>🔞 Children</h2>
+            <p>The App is rated 17+ for simulated gambling content. We do not knowingly collect data from users under 17.</p>
+          </div>
+
+          <div class="privacy-section">
+            <h2>📝 Changes &amp; Contact</h2>
+            <p>We may update this policy when we add features. The "Last updated" date will change accordingly. Continued use of the App after an update means you accept the revised policy.</p>
+            <p style="margin-top:12px">Questions? Email <strong style="color:var(--vp-gold2)">[insert your support email]</strong> or use the Support tab to contact us directly.</p>
+          </div>
+
+        </div><!-- /poker-privacy -->
+
+      </main>
+
+      <footer>© 2025 Video Poker Mania · Entertainment only — no real money · All rights reserved</footer>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -728,23 +1401,40 @@
     const nav = document.getElementById('mainNav');
     const wordoPanel = document.getElementById('wordo-panel');
     const shadePanel = document.getElementById('shade-panel');
+    const pokerPanel = document.getElementById('poker-panel');
+
+    wordoPanel.classList.remove('active');
+    shadePanel.classList.remove('active');
+    pokerPanel.classList.remove('active');
+    nav.classList.remove('on-shade', 'on-poker');
 
     if (app === 'wordo') {
       wordoPanel.classList.add('active');
-      shadePanel.classList.remove('active');
-      nav.classList.remove('on-shade');
       document.body.style.background = '#f5f0e8';
       document.body.style.color = '#2b1d0e';
-    } else {
+    } else if (app === 'shade') {
       shadePanel.classList.add('active');
-      wordoPanel.classList.remove('active');
       nav.classList.add('on-shade');
       document.body.style.background = '#1a1630';
+      document.body.style.color = '#fff';
+    } else {
+      pokerPanel.classList.add('active');
+      nav.classList.add('on-poker');
+      document.body.style.background = '#0d0d0d';
       document.body.style.color = '#fff';
     }
   }
 
-  // Form handlers
+  function switchPokerTab(tab) {
+    const btns = document.querySelectorAll('.poker-subnav-btn');
+    const panels = document.querySelectorAll('.poker-subpanel');
+    btns.forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && tab === 'support') || (i === 1 && tab === 'privacy'));
+    });
+    document.getElementById('poker-support').classList.toggle('active', tab === 'support');
+    document.getElementById('poker-privacy').classList.toggle('active', tab === 'privacy');
+  }
+
   function setupForm(formId, successId) {
     document.getElementById(formId).addEventListener('submit', function(e) {
       e.preventDefault();
@@ -761,6 +1451,7 @@
 
   setupForm('wordoForm', 'wordoSuccess');
   setupForm('shadeForm', 'shadeSuccess');
+  setupForm('pokerForm', 'pokerSuccess');
 </script>
 </body>
 </html>
