@@ -1452,6 +1452,36 @@
   setupForm('wordoForm', 'wordoSuccess');
   setupForm('shadeForm', 'shadeSuccess');
   setupForm('pokerForm', 'pokerSuccess');
+
+  // URL param routing: ?app=wordo|shade|poker&tab=support|privacy
+  function readParams() {
+    const params = new URLSearchParams(window.location.search);
+    const app = params.get('app') || 'wordo';
+    const tab = params.get('tab') || 'support';
+    if (['wordo', 'shade', 'poker'].includes(app)) switchApp(app);
+    if (app === 'poker' && ['support', 'privacy'].includes(tab)) switchPokerTab(tab);
+  }
+
+  // Update URL when switching app
+  const _switchApp = switchApp;
+  switchApp = function(app) {
+    _switchApp(app);
+    const params = new URLSearchParams(window.location.search);
+    params.set('app', app);
+    params.delete('tab');
+    history.replaceState(null, '', '?' + params.toString());
+  };
+
+  // Update URL when switching poker tab
+  const _switchPokerTab = switchPokerTab;
+  switchPokerTab = function(tab) {
+    _switchPokerTab(tab);
+    const params = new URLSearchParams(window.location.search);
+    params.set('tab', tab);
+    history.replaceState(null, '', '?' + params.toString());
+  };
+
+  readParams();
 </script>
 </body>
 </html>
