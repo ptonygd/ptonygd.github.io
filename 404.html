@@ -3,14 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <script>
-    // GitHub Pages SPA redirect trick
-    // Converts /poko/zap/privacy → /?p=/zap/privacy then support.html reads it back
-    var seg = window.location.pathname.replace('/poko', '') || '/';
-    var query = window.location.search;
-    var hash  = window.location.hash;
-    window.location.replace(
-      '/poko/?p=' + encodeURIComponent(seg) + (query ? '&' + query.slice(1) : '') + hash
-    );
+    var path = window.location.pathname;
+    var base = '/poko';
+
+    // Strip the base prefix to get the sub-path
+    var sub = path.startsWith(base) ? path.slice(base.length) : path;
+
+    // Only redirect if there's actually a sub-path (not root / or empty)
+    if (sub && sub !== '/' && sub !== '') {
+      window.location.replace(
+        base + '/?p=' + encodeURIComponent(sub) + window.location.search.replace('?','&')
+      );
+    } else {
+      // Root — just load index.html directly, no redirect needed
+      window.location.replace(base + '/');
+    }
   </script>
 </head>
 <body></body>
