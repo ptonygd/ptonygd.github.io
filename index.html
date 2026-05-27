@@ -1507,12 +1507,12 @@ setupForm('sudokuruForm', 'sudokuruSuccess');
 
 // Initial load — honour URL path (and GitHub Pages ?p= SPA redirect)
 (function() {
-  // GitHub Pages has no server rewrite rules, so 404.html bounces
-  // unknown paths to /?p=/app/tab — read it back and restore the real path
+  // Read ?p= param set by 404.html, fall back to real pathname
   const redirected = new URLSearchParams(location.search).get('p');
   const pathname   = redirected ? decodeURIComponent(redirected) : location.pathname;
   const { app, tab } = parsePath(pathname);
-  safeReplace({ app, tab }, buildPath(app, tab));
+  // Clean the URL without triggering any navigation
+  if (redirected) safeReplace({ app, tab }, buildPath(app, tab));
   _switchApp(app);
   if (app === 'zap')      _switchZapTab(tab);
   if (app === 'poker')    _switchPokerTab(tab);
