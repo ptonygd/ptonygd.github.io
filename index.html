@@ -1351,14 +1351,23 @@
 //   /poker/privacy → poker privacy
 
 const TAB_MAP = {
-  zap:   ['support', 'privacy', 'terms'],
-  poker: ['support', 'privacy'],
-  poko:  ['support', 'whats-new', 'privacy'],
+  zap:      ['support', 'privacy', 'terms'],
+  poker:    ['support', 'privacy'],
+  poko:     ['support', 'whats-new', 'privacy'],
   sudokuru: ['support', 'privacy'],
 };
 
+// Detect base path — e.g. /poko on GitHub Pages, empty on a custom domain
+const BASE = (function() {
+  var b = window.location.pathname.split('/');
+  return (b[1] && b[1] !== '' && !['wordo','zap','poker','poko','sudokuru'].includes(b[1]))
+    ? '/' + b[1] : '';
+})();
+
 function parsePath(pathname) {
-  const parts = pathname.replace(/^\//, '').split('/').filter(Boolean);
+  // Strip base prefix before parsing app/tab segments
+  const stripped = BASE ? pathname.replace(new RegExp('^' + BASE), '') : pathname;
+  const parts = stripped.replace(/^\//, '').split('/').filter(Boolean);
   const app   = parts[0] || 'wordo';
   const tab   = parts[1] || 'support';
   const validApps = ['wordo', 'zap', 'poker', 'poko', 'sudokuru'];
@@ -1369,9 +1378,9 @@ function parsePath(pathname) {
 }
 
 function buildPath(app, tab) {
-  if (app === 'wordo') return '/';
-  if (!tab || tab === 'support') return '/' + app;
-  return '/' + app + '/' + tab;
+  if (app === 'wordo') return BASE + '/';
+  if (!tab || tab === 'support') return BASE + '/' + app;
+  return BASE + '/' + app + '/' + tab;
 }
 
 // Low-level switchers — no history side effects
@@ -1496,14 +1505,18 @@ setupForm('pokerForm', 'pokerSuccess');
 setupForm('pokoForm',  'pokoSuccess');
 setupForm('sudokuruForm', 'sudokuruSuccess');
 
-// Initial load — honour URL path
+// Initial load — honour URL path (and GitHub Pages ?p= SPA redirect)
 (function() {
-  const { app, tab } = parsePath(location.pathname);
+  // GitHub Pages has no server rewrite rules, so 404.html bounces
+  // unknown paths to /?p=/app/tab — read it back and restore the real path
+  const redirected = new URLSearchParams(location.search).get('p');
+  const pathname   = redirected ? decodeURIComponent(redirected) : location.pathname;
+  const { app, tab } = parsePath(pathname);
   safeReplace({ app, tab }, buildPath(app, tab));
   _switchApp(app);
-  if (app === 'zap')   _switchZapTab(tab);
-  if (app === 'poker') _switchPokerTab(tab);
-  if (app === 'poko')  _switchPokoTab(tab);
+  if (app === 'zap')      _switchZapTab(tab);
+  if (app === 'poker')    _switchPokerTab(tab);
+  if (app === 'poko')     _switchPokoTab(tab);
   if (app === 'sudokuru') _switchSudokuruTab(tab);
 })();
 </script>
