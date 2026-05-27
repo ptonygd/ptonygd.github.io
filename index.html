@@ -1340,15 +1340,8 @@
 </div>
 
 <script>
-// ── PATH-BASED ROUTER ──────────────────────────────────────────────
-// Routes:
-//   /              → wordo support
-//   /wordo         → wordo support
-//   /zap           → zap support
-//   /zap/privacy   → zap privacy
-//   /zap/terms     → zap terms
-//   /poker         → poker support
-//   /poker/privacy → poker privacy
+// ── QUERY PARAM ROUTER ─────────────────────────────────────────────
+// URLs: ?app=zap  ?app=zap&page=privacy  ?app=poko&page=whats-new
 
 const TAB_MAP = {
   zap:      ['support', 'privacy', 'terms'],
@@ -1357,26 +1350,21 @@ const TAB_MAP = {
   sudokuru: ['support', 'privacy'],
 };
 
-// No base prefix — this is a user GitHub Pages site served from root
-const BASE = '';
-
-function parsePath(pathname) {
-  // Strip base prefix before parsing app/tab segments
-  const stripped = BASE ? pathname.replace(new RegExp('^' + BASE), '') : pathname;
-  const parts = stripped.replace(/^\//, '').split('/').filter(Boolean);
-  const app   = parts[0] || 'wordo';
-  const tab   = parts[1] || 'support';
+function parseQuery() {
+  const p    = new URLSearchParams(location.search);
+  const app  = p.get('app')  || 'wordo';
+  const page = p.get('page') || 'support';
   const validApps = ['wordo', 'zap', 'poker', 'poko', 'sudokuru'];
   const validApp  = validApps.includes(app) ? app : 'wordo';
   const tabs      = TAB_MAP[validApp] || ['support'];
-  const validTab  = tabs.includes(tab) ? tab : 'support';
-  return { app: validApp, tab: validTab };
+  const validPage = tabs.includes(page) ? page : 'support';
+  return { app: validApp, page: validPage };
 }
 
-function buildPath(app, tab) {
-  if (app === 'wordo') return BASE + '/';
-  if (!tab || tab === 'support') return BASE + '/' + app;
-  return BASE + '/' + app + '/' + tab;
+function buildQuery(app, page) {
+  if (app === 'wordo') return '?';
+  if (!page || page === 'support') return '?app=' + app;
+  return '?app=' + app + '&page=' + page;
 }
 
 // Low-level switchers — no history side effects
@@ -1408,73 +1396,69 @@ function _switchApp(app) {
   }
 }
 
-function _switchZapTab(tab) {
+function _switchZapTab(page) {
   const btns = document.querySelectorAll('.zap-subnav-btn');
   const tabs  = ['support', 'privacy', 'terms'];
-  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === page));
   tabs.forEach(t =>
-    document.getElementById('zap-' + t).classList.toggle('active', t === tab));
+    document.getElementById('zap-' + t).classList.toggle('active', t === page));
 }
 
-function _switchPokerTab(tab) {
+function _switchPokerTab(page) {
   const btns = document.querySelectorAll('.poker-subnav-btn');
   const tabs  = ['support', 'privacy'];
-  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === page));
   tabs.forEach(t =>
-    document.getElementById('poker-' + t).classList.toggle('active', t === tab));
+    document.getElementById('poker-' + t).classList.toggle('active', t === page));
 }
 
-// Safe wrappers — history API blocked in sandboxed iframes, so never crash
-function safePush(state, path) {
-  try { history.pushState(state, '', path); } catch(e) {}
-}
-function safeReplace(state, path) {
-  try { history.replaceState(state, '', path); } catch(e) {}
-}
-
-function _switchSudokuruTab(tab) {
-  const btns = document.querySelectorAll('.su-subnav-btn');
-  const tabs  = ['support', 'privacy'];
-  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
-  tabs.forEach(t =>
-    document.getElementById('sudokuru-' + t).classList.toggle('active', t === tab));
-}
-
-function _switchPokoTab(tab) {
+function _switchPokoTab(page) {
   const btns = document.querySelectorAll('.poko-subnav-btn');
   const tabs  = ['support', 'whats-new', 'privacy'];
-  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === page));
   tabs.forEach(t =>
-    document.getElementById('poko-' + t).classList.toggle('active', t === tab));
+    document.getElementById('poko-' + t).classList.toggle('active', t === page));
 }
 
-// Public API — updates URL and view
-function navigate(app, tab) {
-  tab = tab || 'support';
-  safePush({ app, tab }, buildPath(app, tab));
+function _switchSudokuruTab(page) {
+  const btns = document.querySelectorAll('.su-subnav-btn');
+  const tabs  = ['support', 'privacy'];
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === page));
+  tabs.forEach(t =>
+    document.getElementById('sudokuru-' + t).classList.toggle('active', t === page));
+}
+
+// Safe history wrapper — blocked in sandboxed iframes, never crash
+function safePush(state, url) {
+  try { history.pushState(state, '', url); } catch(e) {}
+}
+
+// Public API
+function navigate(app, page) {
+  page = page || 'support';
+  safePush({ app, page }, buildQuery(app, page));
   _switchApp(app);
-  if (app === 'zap')   _switchZapTab(tab);
-  if (app === 'poker') _switchPokerTab(tab);
-  if (app === 'poko')  _switchPokoTab(tab);
-  if (app === 'sudokuru') _switchSudokuruTab(tab);
+  if (app === 'zap')      _switchZapTab(page);
+  if (app === 'poker')    _switchPokerTab(page);
+  if (app === 'poko')     _switchPokoTab(page);
+  if (app === 'sudokuru') _switchSudokuruTab(page);
   window.scrollTo(0, 0);
 }
 
-// Exposed to onclick attributes
-function switchApp(app)      { navigate(app, 'support'); }
-function switchZapTab(tab)   { navigate('zap',   tab); }
-function switchPokerTab(tab) { navigate('poker', tab); }
-function switchPokoTab(tab)  { navigate('poko',  tab); }
-function switchSudokuruTab(tab) { navigate('sudokuru', tab); }
+function switchApp(app)         { navigate(app, 'support'); }
+function switchZapTab(page)     { navigate('zap',      page); }
+function switchPokerTab(page)   { navigate('poker',    page); }
+function switchPokoTab(page)    { navigate('poko',     page); }
+function switchSudokuruTab(page){ navigate('sudokuru', page); }
 
 // Back/forward
 window.addEventListener('popstate', function(e) {
-  const state = e.state || parsePath(location.pathname);
+  const state = e.state || parseQuery();
   _switchApp(state.app);
-  if (state.app === 'zap')   _switchZapTab(state.tab);
-  if (state.app === 'poker') _switchPokerTab(state.tab);
-  if (state.app === 'poko')  _switchPokoTab(state.tab);
-  if (state.app === 'sudokuru') _switchSudokuruTab(state.tab);
+  if (state.app === 'zap')      _switchZapTab(state.page);
+  if (state.app === 'poker')    _switchPokerTab(state.page);
+  if (state.app === 'poko')     _switchPokoTab(state.page);
+  if (state.app === 'sudokuru') _switchSudokuruTab(state.page);
 });
 
 // Forms
@@ -1495,26 +1479,20 @@ function setupForm(formId, successId) {
     setTimeout(() => { btn.style.display = 'none'; msg.style.display = 'block'; }, 800);
   });
 }
-setupForm('wordoForm', 'wordoSuccess');
-setupForm('zapForm',   'zapSuccess');
-setupForm('pokerForm', 'pokerSuccess');
-setupForm('pokoForm',  'pokoSuccess');
+setupForm('wordoForm',    'wordoSuccess');
+setupForm('zapForm',      'zapSuccess');
+setupForm('pokerForm',    'pokerSuccess');
+setupForm('pokoForm',     'pokoSuccess');
 setupForm('sudokuruForm', 'sudokuruSuccess');
 
-// Initial load — honour URL path (and GitHub Pages ?p= SPA redirect)
+// Initial load
 (function() {
-  // Read ?p= param set by 404.html, fall back to real pathname
-  const redirected = new URLSearchParams(location.search).get('p');
-  const pathname   = redirected ? decodeURIComponent(redirected) : location.pathname;
-  const { app, tab } = parsePath(pathname);
-  // Clean the URL without triggering any navigation
-  if (redirected) safeReplace({ app, tab }, buildPath(app, tab));
+  const { app, page } = parseQuery();
   _switchApp(app);
-  if (app === 'zap')      _switchZapTab(tab);
-  if (app === 'poker')    _switchPokerTab(tab);
-  if (app === 'poko')     _switchPokoTab(tab);
-  if (app === 'sudokuru') _switchSudokuruTab(tab);
-})();
-</script>
+  if (app === 'zap')      _switchZapTab(page);
+  if (app === 'poker')    _switchPokerTab(page);
+  if (app === 'poko')     _switchPokoTab(page);
+  if (app === 'sudokuru') _switchSudokuruTab(page);
+})();</script>
 </body>
 </html>
