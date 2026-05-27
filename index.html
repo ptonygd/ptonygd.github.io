@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Support — Wordo, Zap Remote & Video Poker Mania</title>
+  <title>Support — POKO, Wordo, Zap Remote & Video Poker Mania</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -15,8 +15,6 @@
       --yellow:  #f0b429;
       --grey:    #b0aaa0;
       --shadow:  rgba(43,29,14,0.12);
-
-      /* Zap Remote */
       --zap-bg:       #0a0e1a;
       --zap-accent:   #00d4ff;
       --zap-accent2:  #0066ff;
@@ -25,7 +23,23 @@
       --zap-card:     rgba(255,255,255,0.04);
       --zap-text:     rgba(255,255,255,0.7);
       --zap-shadow:   rgba(0,212,255,0.2);
-
+      --su-bg:      #0c0f1a;
+      --su-accent:  #6c63ff;
+      --su-accent2: #a78bfa;
+      --su-gold:    #f59e0b;
+      --su-border:  rgba(108,99,255,0.2);
+      --su-card:    rgba(255,255,255,0.04);
+      --su-text:    rgba(255,255,255,0.75);
+      --pk-red:     #e3350d;
+      --pk-red2:    #ff6b4a;
+      --pk-yellow:  #ffcb05;
+      --pk-yellow2: #ffe566;
+      --pk-blue:    #3b4cca;
+      --pk-dark:    #0f0f14;
+      --pk-card:    rgba(255,255,255,0.05);
+      --pk-border:  rgba(255,203,5,0.25);
+      --pk-text:    rgba(255,255,255,0.75);
+      --pk-shadow:  rgba(255,203,5,0.15);
       --vp-gold:    #c9a84c;
       --vp-gold2:   #e8c96a;
       --vp-red:     #c0392b;
@@ -35,9 +49,7 @@
       --vp-shadow:  rgba(201,168,76,0.2);
       --vp-text:    rgba(255,255,255,0.75);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background: var(--cream);
       color: var(--brown);
@@ -45,7 +57,6 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
     body::before {
       content: '';
       position: fixed;
@@ -57,10 +68,7 @@
       pointer-events: none;
       z-index: 0;
     }
-
     .page { position: relative; z-index: 1; }
-
-    /* ── NAV ── */
     nav {
       display: flex;
       justify-content: center;
@@ -68,8 +76,9 @@
       padding: 24px 24px 0;
       flex-wrap: wrap;
       animation: fadeDown 0.5s both;
+      position: relative;
+      z-index: 10;
     }
-
     .nav-btn {
       display: flex;
       align-items: center;
@@ -84,121 +93,137 @@
       transition: all .2s;
       letter-spacing: 0.01em;
     }
-
-    .nav-btn.wordo {
-      background: var(--brown);
-      color: var(--cream);
-      border-color: var(--brown);
-    }
-    .nav-btn.zap {
-      background: transparent;
-      color: var(--grey);
-      border-color: var(--border);
-    }
-    .nav-btn.poker {
-      background: transparent;
-      color: var(--grey);
-      border-color: var(--border);
-    }
+    .nav-btn.wordo { background: var(--brown); color: var(--cream); border-color: var(--brown); }
+    .nav-btn.zap   { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.poker { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.poko  { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.sudokuru { background: transparent; color: var(--grey); border-color: var(--border); }
     .nav-btn.wordo:hover { opacity: 0.88; }
-    .nav-btn.zap:hover { border-color: var(--zap-accent); color: var(--zap-accent); }
+    .nav-btn.zap:hover   { border-color: var(--zap-accent); color: var(--zap-accent); }
     .nav-btn.poker:hover { border-color: var(--vp-gold); color: var(--vp-gold); }
+    .nav-btn.poko:hover  { border-color: var(--pk-yellow); color: var(--pk-yellow); }
+    .nav-btn.sudokuru:hover { border-color: var(--su-accent2); color: var(--su-accent2); }
+    /* App Store Badge */
+    .as-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 18px 9px 14px;
+      border-radius: 12px;
+      background: #000;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+      flex-shrink: 0;
+    }
+    .as-badge:hover { transform: translateY(-2px); opacity: .88; }
+    .as-badge:active { transform: translateY(0); }
+    .as-badge svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .as-badge-text { display: flex; flex-direction: column; line-height: 1; }
+    .as-badge-sub { font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.06em; color: rgba(255,255,255,.75); text-transform: uppercase; }
+    .as-badge-main { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+    /* header badge wrapper — sits below the logo in each panel header */
+    .header-badge-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+      margin-bottom: 4px;
+    }
+    /* per-panel badge shadow colours */
+    #wordo-panel .as-badge { box-shadow: 0 4px 16px rgba(0,0,0,.3); }
+    #wordo-panel .as-badge:hover { box-shadow: 0 8px 24px rgba(76,175,80,.25); }
+    #zap-panel .as-badge { box-shadow: 0 4px 20px rgba(0,212,255,.15); border-color: rgba(0,212,255,.2); }
+    #zap-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(0,212,255,.3); }
+    #poker-panel .as-badge { box-shadow: 0 4px 20px rgba(201,168,76,.15); border-color: rgba(201,168,76,.2); }
+    #poker-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(201,168,76,.3); }
+    #poko-panel .as-badge { box-shadow: 0 4px 20px rgba(227,53,13,.2); border-color: rgba(255,107,74,.2); }
+    #poko-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(227,53,13,.35); }
+
+    .as-badge.coming-soon {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+      cursor: default;
+      pointer-events: none;
+    }
+    .as-badge.coming-soon:hover { transform: none; opacity: 1; box-shadow: none; }
+    .as-badge.coming-soon .as-badge-sub { color: rgba(255,255,255,.45); }
+    .as-badge.coming-soon .as-badge-main { font-size: 13px; color: rgba(255,255,255,.55); letter-spacing: 0.01em; }
+    .as-badge.coming-soon svg { opacity: 0.35; }
 
     nav.on-zap .nav-btn.wordo,
-    nav.on-poker .nav-btn.wordo {
-      background: transparent;
-      color: var(--grey);
-      border-color: var(--border);
-    }
+    nav.on-poker .nav-btn.wordo,
+    nav.on-poko .nav-btn.wordo,
+    nav.on-sudokuru .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
     nav.on-zap .nav-btn.zap {
       background: linear-gradient(135deg, var(--zap-accent2), var(--zap-accent));
-      color: #fff;
-      border-color: var(--zap-accent);
+      color: #fff; border-color: var(--zap-accent);
     }
-    nav.on-zap .nav-btn.wordo:hover { border-color: var(--brown); color: var(--brown); }
-    nav.on-zap .nav-btn.poker:hover { border-color: var(--vp-gold); color: var(--vp-gold); }
-
+    nav.on-zap .nav-btn.wordo:hover  { border-color: var(--brown); color: var(--brown); }
+    nav.on-zap .nav-btn.poker:hover  { border-color: var(--vp-gold); color: var(--vp-gold); }
+    nav.on-zap .nav-btn.poko:hover   { border-color: var(--pk-yellow); color: var(--pk-yellow); }
     nav.on-poker .nav-btn.poker {
       background: linear-gradient(135deg, #8b6914, var(--vp-gold));
-      color: #0d0d0d;
-      border-color: var(--vp-gold);
+      color: #0d0d0d; border-color: var(--vp-gold);
     }
-    nav.on-poker .nav-btn.zap { color: var(--grey); border-color: var(--border); }
-
-    .nav-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
+    nav.on-poker .nav-btn.zap  { color: var(--grey); border-color: var(--border); }
+    nav.on-poker .nav-btn.poko { color: var(--grey); border-color: var(--border); }
+    nav.on-poko .nav-btn.poko {
+      background: linear-gradient(135deg, var(--pk-red), var(--pk-red2));
+      color: #fff; border-color: var(--pk-red2);
+      box-shadow: 0 0 14px rgba(227,53,13,0.3);
     }
+    nav.on-poko .nav-btn.zap      { color: var(--grey); border-color: var(--border); }
+    nav.on-poko .nav-btn.poker    { color: var(--grey); border-color: var(--border); }
+    nav.on-poko .nav-btn.sudokuru { color: var(--grey); border-color: var(--border); }
+    nav.on-sudokuru .nav-btn.sudokuru {
+      background: linear-gradient(135deg, var(--su-accent), var(--su-accent2));
+      color: #fff; border-color: var(--su-accent2);
+      box-shadow: 0 0 14px rgba(108,99,255,0.35);
+    }
+    nav.on-sudokuru .nav-btn.zap   { color: var(--grey); border-color: var(--border); }
+    nav.on-sudokuru .nav-btn.poker { color: var(--grey); border-color: var(--border); }
+    nav.on-sudokuru .nav-btn.poko  { color: var(--grey); border-color: var(--border); }
+    .nav-dot { width: 8px; height: 8px; border-radius: 50%; }
     .nav-btn.wordo .nav-dot { background: var(--green); }
     nav.on-zap .nav-btn.wordo .nav-dot,
-    nav.on-poker .nav-btn.wordo .nav-dot { background: var(--grey); }
-    .nav-btn.zap .nav-dot { background: var(--zap-accent); }
+    nav.on-poker .nav-btn.wordo .nav-dot,
+    nav.on-poko .nav-btn.wordo .nav-dot { background: var(--grey); }
+    .nav-btn.zap .nav-dot   { background: var(--zap-accent); }
     .nav-btn.poker .nav-dot { background: var(--vp-gold); }
-    nav.on-zap .nav-btn.poker .nav-dot { background: var(--grey); }
-
-    /* ── PANELS ── */
+    nav.on-zap .nav-btn.poker .nav-dot  { background: var(--grey); }
+    nav.on-poker .nav-btn.zap .nav-dot  { background: var(--grey); }
+    nav.on-poko .nav-btn.zap .nav-dot   { background: var(--grey); }
+    nav.on-poko .nav-btn.poker .nav-dot    { background: var(--grey); }
+    nav.on-sudokuru .nav-btn.zap .nav-dot  { background: var(--grey); }
+    nav.on-sudokuru .nav-btn.poker .nav-dot{ background: var(--grey); }
+    nav.on-sudokuru .nav-btn.poko .nav-dot { background: var(--grey); }
+    .nav-btn.poko .nav-dot     { background: var(--pk-yellow); }
+    .nav-btn.sudokuru .nav-dot { background: var(--su-accent2); }
     .panel { display: none; }
     .panel.active { display: block; }
 
-    /* ══════════════════════
-       WORDO PANEL
-    ══════════════════════ */
-    #wordo-panel header {
-      padding: 32px 24px 24px;
-      text-align: center;
-    }
-
-    .logo-row {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
+    /* WORDO */
+    #wordo-panel header { padding: 32px 24px 24px; text-align: center; }
+    .logo-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 16px; }
     .tile {
-      width: 52px; height: 52px;
-      background: var(--tile);
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      color: var(--brown);
+      width: 52px; height: 52px; background: var(--tile);
+      border: 2px solid var(--border); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--brown);
       box-shadow: 0 3px 0 var(--border), 0 5px 12px var(--shadow);
-      position: relative;
-      animation: tileIn 0.45s both;
+      position: relative; animation: tileIn 0.45s both;
     }
-    .tile:nth-child(1){animation-delay:.00s}
-    .tile:nth-child(2){animation-delay:.07s}
-    .tile:nth-child(3){animation-delay:.14s}
-    .tile:nth-child(4){animation-delay:.21s}
+    .tile:nth-child(1){animation-delay:.00s}.tile:nth-child(2){animation-delay:.07s}
+    .tile:nth-child(3){animation-delay:.14s}.tile:nth-child(4){animation-delay:.21s}
     .tile:nth-child(5){animation-delay:.28s}
     .tile.green  { background: var(--green);  border-color: #3d9140; color:#fff; box-shadow: 0 3px 0 #3d9140,  0 5px 12px var(--shadow); }
     .tile.yellow { background: var(--yellow); border-color: #d49a1a; color:#fff; box-shadow: 0 3px 0 #d49a1a, 0 5px 12px var(--shadow); }
-
-    .score-dot {
-      position: absolute; bottom: 4px; right: 6px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 9px; font-weight: 600;
-      color: inherit; opacity: 0.6;
-    }
-
+    .score-dot { position: absolute; bottom: 4px; right: 6px; font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 600; color: inherit; opacity: 0.6; }
     #wordo-panel header p { font-size: 15px; color: var(--grey); font-weight: 500; }
-
-    #wordo-panel main {
-      max-width: 560px;
-      margin: 0 auto;
-      padding: 0 20px 60px;
-    }
-
+    #wordo-panel main { max-width: 560px; margin: 0 auto; padding: 0 20px 60px; }
     #wordo-panel section {
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 16px;
+      background: white; border: 1.5px solid var(--border); border-radius: 18px;
+      padding: 28px; margin-bottom: 16px;
       box-shadow: 0 2px 0 var(--border), 0 6px 24px var(--shadow);
       animation: fadeUp 0.5s both;
     }
@@ -206,155 +231,65 @@
     #wordo-panel section:nth-child(2){animation-delay:.45s}
     #wordo-panel section:nth-child(3){animation-delay:.55s}
     #wordo-panel section:nth-child(4){animation-delay:.65s}
-
     .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-
-    .icon-tile {
-      width: 36px; height: 36px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
-    }
-    .icon-tile.g { background: #e8f5e9; }
-    .icon-tile.y { background: #fff8e6; }
-    .icon-tile.b { background: #e8f0fe; }
-    .icon-tile.r { background: #fce8e8; }
-
-    #wordo-panel h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
-      letter-spacing: 0.04em;
-      color: var(--brown);
-    }
-
+    .icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .icon-tile.g { background: #e8f5e9; }.icon-tile.y { background: #fff8e6; }
+    .icon-tile.b { background: #e8f0fe; }.icon-tile.r { background: #fce8e8; }
+    #wordo-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; color: var(--brown); }
     #wordo-panel p, #wordo-panel li { font-size: 15px; line-height: 1.65; color: #5a4a38; }
     #wordo-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     #wordo-panel li::before { content: '→ '; color: var(--green); font-weight: 700; }
-
     #wordo-panel form { display: flex; flex-direction: column; gap: 12px; }
-    #wordo-panel label {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      color: var(--grey); margin-bottom: 4px; display: block;
+    #wordo-panel label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey); margin-bottom: 4px; display: block; }
+    #wordo-panel input, #wordo-panel textarea, #wordo-panel select {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--brown); background: var(--tile); outline: none;
+      transition: border-color .2s, box-shadow .2s;
     }
-    #wordo-panel input,
-    #wordo-panel textarea,
-    #wordo-panel select {
-      width: 100%; padding: 12px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif; font-size: 15px;
-      color: var(--brown); background: var(--tile);
-      outline: none; transition: border-color .2s, box-shadow .2s;
-    }
-    #wordo-panel input:focus,
-    #wordo-panel textarea:focus,
-    #wordo-panel select:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(76,175,80,.12);
-      background: #fff;
+    #wordo-panel input:focus, #wordo-panel textarea:focus, #wordo-panel select:focus {
+      border-color: var(--green); box-shadow: 0 0 0 3px rgba(76,175,80,.12); background: #fff;
     }
     #wordo-panel textarea { resize: vertical; min-height: 110px; }
-
     #wordo-panel .send-btn {
-      background: var(--brown); color: var(--cream);
-      border: none; border-radius: 10px; padding: 14px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px; letter-spacing: 0.06em;
-      cursor: pointer;
-      box-shadow: 0 3px 0 rgba(0,0,0,.25);
+      background: var(--brown); color: var(--cream); border: none; border-radius: 10px;
+      padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+      letter-spacing: 0.06em; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.25);
       transition: transform .1s, box-shadow .1s;
     }
     #wordo-panel .send-btn:hover  { transform: translateY(-1px); box-shadow: 0 4px 0 rgba(0,0,0,.25); }
     #wordo-panel .send-btn:active { transform: translateY(1px);  box-shadow: 0 1px 0 rgba(0,0,0,.25); }
-
-    #wordo-panel .success-msg {
-      display: none; text-align: center; padding: 16px;
-      background: #e8f5e9; border-radius: 10px;
-      color: #2e7d32; font-weight: 600; font-size: 15px;
-    }
-
+    #wordo-panel .success-msg { display: none; text-align: center; padding: 16px; background: #e8f5e9; border-radius: 10px; color: #2e7d32; font-weight: 600; font-size: 15px; }
     #wordo-panel details { border-bottom: 1px solid var(--border); padding: 12px 0; }
     #wordo-panel details:last-child { border-bottom: none; }
-    #wordo-panel summary {
-      font-weight: 600; font-size: 15px; cursor: pointer;
-      list-style: none; display: flex;
-      justify-content: space-between; align-items: center;
-      color: var(--brown);
-    }
+    #wordo-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--brown); }
     #wordo-panel summary::after { content: '+'; font-size: 20px; color: var(--grey); transition: transform .2s; }
     #wordo-panel details[open] summary::after { transform: rotate(45deg); }
     #wordo-panel details p { margin-top: 10px; padding-left: 2px; }
+    #wordo-panel footer { text-align: center; padding: 12px 24px 32px; font-size: 13px; color: var(--grey); animation: fadeUp 0.5s 0.75s both; }
 
-    #wordo-panel footer {
-      text-align: center; padding: 12px 24px 32px;
-      font-size: 13px; color: var(--grey);
-      animation: fadeUp 0.5s 0.75s both;
-    }
-
-    /* ══════════════════════
-       ZAP REMOTE PANEL
-    ══════════════════════ */
-    #zap-panel {
-      background: var(--zap-bg);
-      min-height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
-
+    /* ZAP */
+    #zap-panel { background: var(--zap-bg); min-height: 100vh; position: relative; overflow: hidden; }
     #zap-panel::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 15% 10%, rgba(0,102,255,.12) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 85% 80%, rgba(0,212,255,.1) 0%, transparent 55%),
-        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,10,30,.8) 0%, transparent 80%);
-      pointer-events: none;
-      z-index: 0;
+      content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 15% 10%, rgba(0,102,255,.12) 0%, transparent 55%),
+                  radial-gradient(ellipse 50% 40% at 85% 80%, rgba(0,212,255,.1) 0%, transparent 55%),
+                  radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,10,30,.8) 0%, transparent 80%);
+      pointer-events: none; z-index: 0;
     }
-
-    /* scanline grid */
     #zap-panel::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,212,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,.025) 1px, transparent 1px);
-      background-size: 32px 32px;
-      pointer-events: none;
-      z-index: 0;
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(0,212,255,.025) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0,212,255,.025) 1px, transparent 1px);
+      background-size: 32px 32px; pointer-events: none; z-index: 0;
     }
-
     #zap-panel .page { position: relative; z-index: 1; }
-
-    #zap-panel header {
-      padding: 32px 24px 24px;
-      text-align: center;
-    }
-
-    .zap-logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 16px;
-      animation: fadeDown 0.5s 0.1s both;
-    }
-
-    /* Stylized remote icon */
+    #zap-panel header { padding: 32px 24px 24px; text-align: center; }
+    .zap-logo { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
     .zap-remote-icon {
-      width: 48px;
-      height: 72px;
-      border: 2px solid rgba(0,212,255,0.5);
-      border-radius: 12px;
-      background: rgba(0,212,255,0.06);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 8px 6px 6px;
-      gap: 4px;
+      width: 48px; height: 72px; border: 2px solid rgba(0,212,255,0.5); border-radius: 12px;
+      background: rgba(0,212,255,0.06); display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start; padding: 8px 6px 6px; gap: 4px;
       box-shadow: 0 0 20px rgba(0,212,255,0.2), inset 0 0 10px rgba(0,212,255,0.05);
       animation: iconPulse 3s ease-in-out infinite;
     }
@@ -362,714 +297,345 @@
       0%, 100% { box-shadow: 0 0 20px rgba(0,212,255,0.2), inset 0 0 10px rgba(0,212,255,0.05); }
       50%       { box-shadow: 0 0 30px rgba(0,212,255,0.4), inset 0 0 15px rgba(0,212,255,0.1); }
     }
-
-    .remote-btn-row {
-      display: flex;
-      gap: 4px;
-    }
-    .remote-btn {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: rgba(0,212,255,0.3);
-      animation: btnBlink 2s ease-in-out infinite;
-    }
-    .remote-btn.red { background: rgba(255,68,68,0.5); animation-delay: 0.3s; }
+    .remote-btn-row { display: flex; gap: 4px; }
+    .remote-btn { width: 10px; height: 10px; border-radius: 50%; background: rgba(0,212,255,0.3); animation: btnBlink 2s ease-in-out infinite; }
+    .remote-btn.red   { background: rgba(255,68,68,0.5); animation-delay: 0.3s; }
     .remote-btn.green { background: rgba(0,212,100,0.5); animation-delay: 0.6s; }
-    @keyframes btnBlink {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-    .remote-dpad {
-      width: 22px; height: 22px;
-      background: rgba(0,212,255,0.15);
-      border-radius: 50%;
-      border: 1px solid rgba(0,212,255,0.3);
-      margin-top: 2px;
-    }
-    .remote-ir {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--zap-accent);
-      margin-top: 1px;
-      box-shadow: 0 0 6px var(--zap-accent);
-    }
-
-    .zap-logo-text {
-      text-align: left;
-    }
-    .zap-logo-text .zap-line1 {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--zap-accent);
-      opacity: 0.7;
-      line-height: 1;
-    }
-    .zap-logo-text .zap-line2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px;
-      letter-spacing: 0.08em;
-      line-height: 1;
-      background: linear-gradient(135deg, #fff 0%, var(--zap-accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .zap-logo-text .zap-line3 {
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      color: rgba(255,255,255,0.35);
-      line-height: 1.4;
-    }
-
-    #zap-panel header > p {
-      font-size: 15px;
-      color: rgba(255,255,255,.35);
-      font-weight: 500;
-    }
-
-    /* zap sub-nav */
-    .zap-subnav {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 16px 20px 0;
-      animation: fadeDown 0.5s 0.2s both;
-    }
-    .zap-subnav-btn {
-      padding: 8px 22px;
-      border-radius: 50px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      border: 1.5px solid var(--zap-border);
-      background: transparent;
-      color: rgba(255,255,255,.35);
-      letter-spacing: 0.08em;
-      transition: all .2s;
-      text-transform: uppercase;
-    }
-    .zap-subnav-btn.active {
-      background: rgba(0,212,255,.1);
-      color: var(--zap-accent);
-      border-color: var(--zap-accent);
-      box-shadow: 0 0 12px rgba(0,212,255,0.15);
-    }
-    .zap-subnav-btn:hover:not(.active) {
-      border-color: rgba(0,212,255,0.4);
-      color: rgba(0,212,255,0.6);
-    }
-
-    /* zap sub-panels */
+    @keyframes btnBlink { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+    .remote-dpad { width: 22px; height: 22px; background: rgba(0,212,255,0.15); border-radius: 50%; border: 1px solid rgba(0,212,255,0.3); margin-top: 2px; }
+    .remote-ir { width: 6px; height: 6px; border-radius: 50%; background: var(--zap-accent); margin-top: 1px; box-shadow: 0 0 6px var(--zap-accent); }
+    .zap-logo-text { text-align: left; }
+    .zap-logo-text .zap-line1 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--zap-accent); opacity: 0.7; line-height: 1; }
+    .zap-logo-text .zap-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 0.08em; line-height: 1; background: linear-gradient(135deg, #fff 0%, var(--zap-accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .zap-logo-text .zap-line3 { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.2em; color: rgba(255,255,255,0.35); line-height: 1.4; }
+    #zap-panel header > p { font-size: 15px; color: rgba(255,255,255,.35); font-weight: 500; }
+    .zap-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; animation: fadeDown 0.5s 0.2s both; }
+    .zap-subnav-btn { padding: 8px 22px; border-radius: 50px; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; cursor: pointer; border: 1.5px solid var(--zap-border); background: transparent; color: rgba(255,255,255,.35); letter-spacing: 0.08em; transition: all .2s; text-transform: uppercase; }
+    .zap-subnav-btn.active { background: rgba(0,212,255,.1); color: var(--zap-accent); border-color: var(--zap-accent); box-shadow: 0 0 12px rgba(0,212,255,0.15); }
+    .zap-subnav-btn:hover:not(.active) { border-color: rgba(0,212,255,0.4); color: rgba(0,212,255,0.6); }
     .zap-subpanel { display: none; }
     .zap-subpanel.active { display: block; }
-
-    #zap-panel main {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px 20px 60px;
-    }
-
-    #zap-panel section {
-      background: var(--zap-card);
-      border: 1.5px solid var(--zap-border);
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 0 rgba(0,212,255,.04), 0 8px 32px rgba(0,0,0,.4);
-      backdrop-filter: blur(10px);
-      animation: fadeUp 0.5s both;
-    }
-    #zap-panel section:nth-child(1){animation-delay:.35s}
-    #zap-panel section:nth-child(2){animation-delay:.45s}
-    #zap-panel section:nth-child(3){animation-delay:.55s}
-    #zap-panel section:nth-child(4){animation-delay:.65s}
-
+    #zap-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #zap-panel section { background: var(--zap-card); border: 1.5px solid var(--zap-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(0,212,255,.04), 0 8px 32px rgba(0,0,0,.4); backdrop-filter: blur(10px); animation: fadeUp 0.5s both; }
+    #zap-panel section:nth-child(1){animation-delay:.35s}#zap-panel section:nth-child(2){animation-delay:.45s}
+    #zap-panel section:nth-child(3){animation-delay:.55s}#zap-panel section:nth-child(4){animation-delay:.65s}
     #zap-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-
-    #zap-panel h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
-      letter-spacing: 0.05em;
-      color: #fff;
-    }
-
-    .zap-icon-tile {
-      width: 36px; height: 36px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
-    }
-
+    #zap-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: #fff; }
+    .zap-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
     #zap-panel p, #zap-panel li { font-size: 15px; line-height: 1.65; color: var(--zap-text); }
     #zap-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     #zap-panel li::before { content: '⚡ '; color: var(--zap-accent); font-size: 11px; }
-
     #zap-panel form { display: flex; flex-direction: column; gap: 12px; }
-    #zap-panel label {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(0,212,255,.45); margin-bottom: 4px; display: block;
-    }
-    #zap-panel input,
-    #zap-panel textarea,
-    #zap-panel select {
-      width: 100%; padding: 12px 14px;
-      border: 1.5px solid rgba(0,212,255,.15);
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif; font-size: 15px;
-      color: #fff;
-      background: rgba(0,212,255,.04);
-      outline: none;
-      transition: border-color .2s, box-shadow .2s;
-    }
+    #zap-panel label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0,212,255,.45); margin-bottom: 4px; display: block; }
+    #zap-panel input, #zap-panel textarea, #zap-panel select { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(0,212,255,.15); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #fff; background: rgba(0,212,255,.04); outline: none; transition: border-color .2s, box-shadow .2s; }
     #zap-panel select option { background: #0a0e1a; }
-    #zap-panel input::placeholder,
-    #zap-panel textarea::placeholder { color: rgba(255,255,255,.2); }
-    #zap-panel input:focus,
-    #zap-panel textarea:focus,
-    #zap-panel select:focus {
-      border-color: var(--zap-accent);
-      box-shadow: 0 0 0 3px rgba(0,212,255,.12);
-      background: rgba(0,212,255,.06);
-    }
+    #zap-panel input::placeholder, #zap-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #zap-panel input:focus, #zap-panel textarea:focus, #zap-panel select:focus { border-color: var(--zap-accent); box-shadow: 0 0 0 3px rgba(0,212,255,.12); background: rgba(0,212,255,.06); }
     #zap-panel textarea { resize: vertical; min-height: 110px; }
-
-    #zap-panel .send-btn {
-      background: linear-gradient(135deg, var(--zap-accent2), var(--zap-accent));
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 14px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px var(--zap-shadow);
-      transition: transform .1s, box-shadow .1s, opacity .1s;
-    }
+    #zap-panel .send-btn { background: linear-gradient(135deg, var(--zap-accent2), var(--zap-accent)); color: #fff; border: none; border-radius: 10px; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px var(--zap-shadow); transition: transform .1s, box-shadow .1s, opacity .1s; }
     #zap-panel .send-btn:hover  { transform: translateY(-1px); opacity: .92; box-shadow: 0 4px 0 rgba(0,0,0,.4), 0 0 32px rgba(0,212,255,0.35); }
     #zap-panel .send-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
-
-    #zap-panel .success-msg {
-      display: none; text-align: center; padding: 16px;
-      background: rgba(0,212,255,.08);
-      border-radius: 10px;
-      border: 1px solid rgba(0,212,255,.3);
-      color: var(--zap-accent); font-weight: 600; font-size: 15px;
-    }
-
+    #zap-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(0,212,255,.08); border-radius: 10px; border: 1px solid rgba(0,212,255,.3); color: var(--zap-accent); font-weight: 600; font-size: 15px; }
     #zap-panel details { border-bottom: 1px solid rgba(0,212,255,.08); padding: 12px 0; }
     #zap-panel details:last-child { border-bottom: none; }
-    #zap-panel summary {
-      font-weight: 600; font-size: 15px; cursor: pointer;
-      list-style: none; display: flex;
-      justify-content: space-between; align-items: center;
-      color: rgba(255,255,255,.85);
-    }
+    #zap-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,.85); }
     #zap-panel summary::after { content: '+'; font-size: 20px; color: rgba(0,212,255,.35); transition: transform .2s; }
     #zap-panel details[open] summary::after { transform: rotate(45deg); }
     #zap-panel details p { margin-top: 10px; }
-
-    /* Legal doc styles for Zap */
-    .zap-legal-meta {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: rgba(0,212,255,.4);
-      text-align: center;
-      margin-bottom: 20px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      animation: fadeDown 0.5s 0.3s both;
-    }
-
-    .zap-legal-section {
-      background: var(--zap-card);
-      border: 1.5px solid var(--zap-border);
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 0 rgba(0,212,255,.04), 0 8px 32px rgba(0,0,0,.4);
-      backdrop-filter: blur(10px);
-      animation: fadeUp 0.5s both;
-    }
-    .zap-legal-section:nth-child(2){animation-delay:.35s}
-    .zap-legal-section:nth-child(3){animation-delay:.42s}
-    .zap-legal-section:nth-child(4){animation-delay:.49s}
-    .zap-legal-section:nth-child(5){animation-delay:.56s}
-    .zap-legal-section:nth-child(6){animation-delay:.63s}
-    .zap-legal-section:nth-child(7){animation-delay:.70s}
+    .zap-legal-meta { font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(0,212,255,.4); text-align: center; margin-bottom: 20px; letter-spacing: 0.06em; text-transform: uppercase; animation: fadeDown 0.5s 0.3s both; }
+    .zap-legal-section { background: var(--zap-card); border: 1.5px solid var(--zap-border); border-radius: 18px; padding: 28px; margin-bottom: 14px; box-shadow: 0 2px 0 rgba(0,212,255,.04), 0 8px 32px rgba(0,0,0,.4); backdrop-filter: blur(10px); animation: fadeUp 0.5s both; }
+    .zap-legal-section:nth-child(2){animation-delay:.35s}.zap-legal-section:nth-child(3){animation-delay:.42s}
+    .zap-legal-section:nth-child(4){animation-delay:.49s}.zap-legal-section:nth-child(5){animation-delay:.56s}
+    .zap-legal-section:nth-child(6){animation-delay:.63s}.zap-legal-section:nth-child(7){animation-delay:.70s}
     .zap-legal-section:nth-child(8){animation-delay:.77s}
-
-    .zap-legal-section h3 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
-      letter-spacing: 0.06em;
-      color: var(--zap-accent);
-      margin-bottom: 12px;
-      display: flex; align-items: center; gap: 8px;
-    }
-
-    .zap-legal-section p {
-      font-size: 14px;
-      line-height: 1.75;
-      color: rgba(255,255,255,.6);
-      margin-bottom: 10px;
-    }
+    .zap-legal-section h3 { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.06em; color: var(--zap-accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .zap-legal-section p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,.6); margin-bottom: 10px; }
     .zap-legal-section p:last-child { margin-bottom: 0; }
-
-    .zap-legal-section ul {
-      list-style: none;
-      display: flex; flex-direction: column; gap: 8px;
-      margin-top: 8px;
-    }
-    .zap-legal-section li {
-      font-size: 14px; line-height: 1.65;
-      color: rgba(255,255,255,.6);
-    }
+    .zap-legal-section ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .zap-legal-section li { font-size: 14px; line-height: 1.65; color: rgba(255,255,255,.6); }
     .zap-legal-section li::before { content: '⚡ '; color: var(--zap-accent); font-size: 10px; }
+    .zap-chip { display: inline-block; background: rgba(0,212,255,.08); border: 1px solid rgba(0,212,255,.2); border-radius: 5px; padding: 2px 8px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(0,212,255,.7); letter-spacing: 0.03em; margin: 2px; }
+    .zap-highlight { color: rgba(0,212,255,.9); font-weight: 600; }
+    #zap-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,255,255,.18); letter-spacing: 0.04em; animation: fadeUp 0.5s 0.75s both; }
 
-    .zap-chip {
-      display: inline-block;
-      background: rgba(0,212,255,.08);
-      border: 1px solid rgba(0,212,255,.2);
-      border-radius: 5px;
-      padding: 2px 8px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: rgba(0,212,255,.7);
-      letter-spacing: 0.03em;
-      margin: 2px;
-    }
-
-    .zap-highlight {
-      color: rgba(0,212,255,.9);
-      font-weight: 600;
-    }
-
-    /* tab switcher for legal */
-    .zap-legal-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 20px;
-      padding-top: 4px;
-    }
-    .zap-legal-tab {
-      padding: 7px 18px;
-      border-radius: 40px;
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      border: 1.5px solid rgba(0,212,255,.15);
-      background: transparent;
-      color: rgba(255,255,255,.3);
-      transition: all .2s;
-    }
-    .zap-legal-tab.active {
-      background: rgba(0,212,255,.1);
-      color: var(--zap-accent);
-      border-color: var(--zap-accent);
-    }
-    .zap-legal-tab:hover:not(.active) {
-      border-color: rgba(0,212,255,.3);
-      color: rgba(0,212,255,.5);
-    }
-
-    .zap-legal-doc { display: none; }
-    .zap-legal-doc.active { display: block; }
-
-    #zap-panel footer {
-      text-align: center; padding: 12px 24px 32px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px; color: rgba(255,255,255,.18);
-      letter-spacing: 0.04em;
-      animation: fadeUp 0.5s 0.75s both;
-    }
-
-    /* ══════════════════════
-       VIDEO POKER MANIA PANEL
-    ══════════════════════ */
-    #poker-panel {
-      background: var(--vp-dark);
-      min-height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
-    #poker-panel::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10,42,26,.9) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 40% at 10% 80%, rgba(201,168,76,.06) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 90% 20%, rgba(192,57,43,.05) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    #poker-panel::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: repeating-linear-gradient(
-        45deg,
-        rgba(255,255,255,.012) 0px,
-        rgba(255,255,255,.012) 1px,
-        transparent 1px,
-        transparent 8px
-      );
-      pointer-events: none;
-      z-index: 0;
-    }
+    /* POKER */
+    #poker-panel { background: var(--vp-dark); min-height: 100vh; position: relative; overflow: hidden; }
+    #poker-panel::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10,42,26,.9) 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 10% 80%, rgba(201,168,76,.06) 0%, transparent 60%), radial-gradient(ellipse 50% 50% at 90% 20%, rgba(192,57,43,.05) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+    #poker-panel::after { content: ''; position: fixed; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, transparent 1px, transparent 8px); pointer-events: none; z-index: 0; }
     #poker-panel .page { position: relative; z-index: 1; }
-
-    #poker-panel header {
-      padding: 32px 24px 24px;
-      text-align: center;
-    }
-
-    .poker-logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-      animation: fadeDown 0.5s 0.1s both;
-    }
-
+    #poker-panel header { padding: 32px 24px 24px; text-align: center; }
+    .poker-logo { display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
     .poker-cards { display: flex; gap: -4px; }
-
-    .mini-card {
-      width: 32px; height: 44px;
-      border-radius: 5px;
-      background: #fff;
-      border: 1px solid #ddd;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.5);
-      animation: cardDeal 0.4s both;
-      position: relative;
-    }
-    .mini-card:nth-child(1){animation-delay:.05s; transform: rotate(-8deg) translateY(2px);}
-    .mini-card:nth-child(2){animation-delay:.10s; transform: rotate(-3deg) translateY(-2px);}
-    .mini-card:nth-child(3){animation-delay:.15s; transform: rotate(0deg) translateY(-4px);}
-    .mini-card:nth-child(4){animation-delay:.20s; transform: rotate(3deg) translateY(-2px);}
-    .mini-card:nth-child(5){animation-delay:.25s; transform: rotate(8deg) translateY(2px);}
-
-    @keyframes cardDeal {
-      from { opacity: 0; transform: translateY(-30px) rotate(0deg); }
-      to   { opacity: 1; }
-    }
-
+    .mini-card { width: 32px; height: 44px; border-radius: 5px; background: #fff; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.5); animation: cardDeal 0.4s both; position: relative; }
+    .mini-card:nth-child(1){animation-delay:.05s;transform:rotate(-8deg) translateY(2px)}
+    .mini-card:nth-child(2){animation-delay:.10s;transform:rotate(-3deg) translateY(-2px)}
+    .mini-card:nth-child(3){animation-delay:.15s;transform:rotate(0deg) translateY(-4px)}
+    .mini-card:nth-child(4){animation-delay:.20s;transform:rotate(3deg) translateY(-2px)}
+    .mini-card:nth-child(5){animation-delay:.25s;transform:rotate(8deg) translateY(2px)}
+    @keyframes cardDeal { from { opacity: 0; transform: translateY(-30px) rotate(0deg); } to { opacity: 1; } }
     .poker-logo-text { text-align: left; }
-    .poker-logo-text .title-line1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 14px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--vp-gold);
-      opacity: 0.7;
-      line-height: 1;
-    }
-    .poker-logo-text .title-line2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 38px;
-      letter-spacing: 0.06em;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--vp-gold2), var(--vp-gold), #a07830);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .poker-logo-text .title-line3 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 38px;
-      letter-spacing: 0.12em;
-      line-height: 1;
-      color: #fff;
-    }
-
-    #poker-panel header > p {
-      font-size: 15px;
-      color: rgba(255,255,255,.35);
-      font-weight: 500;
-    }
-
-    .poker-subnav {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 16px 20px 0;
-      animation: fadeDown 0.5s 0.2s both;
-    }
-    .poker-subnav-btn {
-      padding: 8px 22px;
-      border-radius: 50px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1.5px solid var(--vp-border);
-      background: transparent;
-      color: rgba(255,255,255,.4);
-      letter-spacing: 0.02em;
-      transition: all .2s;
-    }
-    .poker-subnav-btn.active {
-      background: rgba(201,168,76,.15);
-      color: var(--vp-gold2);
-      border-color: var(--vp-gold);
-    }
-    .poker-subnav-btn:hover:not(.active) {
-      border-color: rgba(201,168,76,.5);
-      color: rgba(201,168,76,.7);
-    }
-
+    .poker-logo-text .title-line1 { font-family: 'Playfair Display', serif; font-size: 14px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--vp-gold); opacity: 0.7; line-height: 1; }
+    .poker-logo-text .title-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 0.06em; line-height: 1; background: linear-gradient(135deg, var(--vp-gold2), var(--vp-gold), #a07830); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .poker-logo-text .title-line3 { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 0.12em; line-height: 1; color: #fff; }
+    #poker-panel header > p { font-size: 15px; color: rgba(255,255,255,.35); font-weight: 500; }
+    .poker-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; animation: fadeDown 0.5s 0.2s both; }
+    .poker-subnav-btn { padding: 8px 22px; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--vp-border); background: transparent; color: rgba(255,255,255,.4); letter-spacing: 0.02em; transition: all .2s; }
+    .poker-subnav-btn.active { background: rgba(201,168,76,.15); color: var(--vp-gold2); border-color: var(--vp-gold); }
+    .poker-subnav-btn:hover:not(.active) { border-color: rgba(201,168,76,.5); color: rgba(201,168,76,.7); }
     .poker-subpanel { display: none; }
     .poker-subpanel.active { display: block; }
-
-    #poker-panel main {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px 20px 60px;
-    }
-
-    #poker-panel section {
-      background: rgba(255,255,255,.04);
-      border: 1.5px solid var(--vp-border);
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 0 rgba(201,168,76,.08), 0 8px 32px rgba(0,0,0,.5);
-      backdrop-filter: blur(8px);
-      animation: fadeUp 0.5s both;
-    }
-    #poker-panel section:nth-child(1){animation-delay:.35s}
-    #poker-panel section:nth-child(2){animation-delay:.45s}
-    #poker-panel section:nth-child(3){animation-delay:.55s}
-    #poker-panel section:nth-child(4){animation-delay:.65s}
-
+    #poker-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #poker-panel section { background: rgba(255,255,255,.04); border: 1.5px solid var(--vp-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(201,168,76,.08), 0 8px 32px rgba(0,0,0,.5); backdrop-filter: blur(8px); animation: fadeUp 0.5s both; }
+    #poker-panel section:nth-child(1){animation-delay:.35s}#poker-panel section:nth-child(2){animation-delay:.45s}
+    #poker-panel section:nth-child(3){animation-delay:.55s}#poker-panel section:nth-child(4){animation-delay:.65s}
     #poker-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-
-    #poker-panel h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
-      letter-spacing: 0.06em;
-      color: var(--vp-gold2);
-    }
-
-    .poker-icon-tile {
-      width: 36px; height: 36px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
-    }
-
-    #poker-panel p, #poker-panel li {
-      font-size: 15px; line-height: 1.7;
-      color: var(--vp-text);
-    }
+    #poker-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.06em; color: var(--vp-gold2); }
+    .poker-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #poker-panel p, #poker-panel li { font-size: 15px; line-height: 1.7; color: var(--vp-text); }
     #poker-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     #poker-panel li::before { content: '♦ '; color: var(--vp-gold); font-weight: 700; font-size: 11px; }
-
     #poker-panel form { display: flex; flex-direction: column; gap: 12px; }
-    #poker-panel label {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: rgba(201,168,76,.5); margin-bottom: 4px; display: block;
-    }
-    #poker-panel input,
-    #poker-panel textarea,
-    #poker-panel select {
-      width: 100%; padding: 12px 14px;
-      border: 1.5px solid rgba(201,168,76,.2);
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif; font-size: 15px;
-      color: #fff;
-      background: rgba(255,255,255,.05);
-      outline: none;
-      transition: border-color .2s, box-shadow .2s;
-    }
+    #poker-panel label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(201,168,76,.5); margin-bottom: 4px; display: block; }
+    #poker-panel input, #poker-panel textarea, #poker-panel select { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(201,168,76,.2); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #fff; background: rgba(255,255,255,.05); outline: none; transition: border-color .2s, box-shadow .2s; }
     #poker-panel select option { background: #1a1209; }
-    #poker-panel input::placeholder,
-    #poker-panel textarea::placeholder { color: rgba(255,255,255,.2); }
-    #poker-panel input:focus,
-    #poker-panel textarea:focus,
-    #poker-panel select:focus {
-      border-color: var(--vp-gold);
-      box-shadow: 0 0 0 3px rgba(201,168,76,.15);
-      background: rgba(255,255,255,.08);
-    }
+    #poker-panel input::placeholder, #poker-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #poker-panel input:focus, #poker-panel textarea:focus, #poker-panel select:focus { border-color: var(--vp-gold); box-shadow: 0 0 0 3px rgba(201,168,76,.15); background: rgba(255,255,255,.08); }
     #poker-panel textarea { resize: vertical; min-height: 110px; }
-
-    #poker-panel .send-btn {
-      background: linear-gradient(135deg, #8b6914, var(--vp-gold), #a07830);
-      color: #0d0d0d;
-      border: none;
-      border-radius: 10px;
-      padding: 14px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      font-weight: 900;
-      box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px rgba(201,168,76,.25);
-      transition: transform .1s, box-shadow .1s, opacity .1s;
-    }
+    #poker-panel .send-btn { background: linear-gradient(135deg, #8b6914, var(--vp-gold), #a07830); color: #0d0d0d; border: none; border-radius: 10px; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; cursor: pointer; font-weight: 900; box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px rgba(201,168,76,.25); transition: transform .1s, box-shadow .1s, opacity .1s; }
     #poker-panel .send-btn:hover  { transform: translateY(-1px); opacity: .92; }
     #poker-panel .send-btn:active { transform: translateY(1px); }
-
-    #poker-panel .success-msg {
-      display: none; text-align: center; padding: 16px;
-      background: rgba(201,168,76,.12);
-      border-radius: 10px;
-      border: 1px solid rgba(201,168,76,.35);
-      color: var(--vp-gold2); font-weight: 600; font-size: 15px;
-    }
-
+    #poker-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(201,168,76,.12); border-radius: 10px; border: 1px solid rgba(201,168,76,.35); color: var(--vp-gold2); font-weight: 600; font-size: 15px; }
     #poker-panel details { border-bottom: 1px solid rgba(201,168,76,.12); padding: 12px 0; }
     #poker-panel details:last-child { border-bottom: none; }
-    #poker-panel summary {
-      font-weight: 600; font-size: 15px; cursor: pointer;
-      list-style: none; display: flex;
-      justify-content: space-between; align-items: center;
-      color: rgba(255,255,255,.8);
-    }
+    #poker-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,.8); }
     #poker-panel summary::after { content: '+'; font-size: 20px; color: rgba(201,168,76,.4); transition: transform .2s; }
     #poker-panel details[open] summary::after { transform: rotate(45deg); }
     #poker-panel details p { margin-top: 10px; }
-
-    .privacy-section {
-      background: rgba(255,255,255,.04);
-      border: 1.5px solid var(--vp-border);
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 0 rgba(201,168,76,.08), 0 8px 32px rgba(0,0,0,.5);
-      backdrop-filter: blur(8px);
-      animation: fadeUp 0.5s both;
-    }
-    .privacy-section:nth-child(1){animation-delay:.35s}
-    .privacy-section:nth-child(2){animation-delay:.42s}
-    .privacy-section:nth-child(3){animation-delay:.49s}
-    .privacy-section:nth-child(4){animation-delay:.56s}
-    .privacy-section:nth-child(5){animation-delay:.63s}
-    .privacy-section:nth-child(6){animation-delay:.70s}
+    .privacy-section { background: rgba(255,255,255,.04); border: 1.5px solid var(--vp-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(201,168,76,.08), 0 8px 32px rgba(0,0,0,.5); backdrop-filter: blur(8px); animation: fadeUp 0.5s both; }
+    .privacy-section:nth-child(1){animation-delay:.35s}.privacy-section:nth-child(2){animation-delay:.42s}
+    .privacy-section:nth-child(3){animation-delay:.49s}.privacy-section:nth-child(4){animation-delay:.56s}
+    .privacy-section:nth-child(5){animation-delay:.63s}.privacy-section:nth-child(6){animation-delay:.70s}
     .privacy-section:nth-child(7){animation-delay:.77s}
-
-    .privacy-section h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
-      letter-spacing: 0.06em;
-      color: var(--vp-gold2);
-      margin-bottom: 14px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .privacy-section p {
-      font-size: 15px; line-height: 1.7;
-      color: var(--vp-text);
-      margin-bottom: 10px;
-    }
+    .privacy-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.06em; color: var(--vp-gold2); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+    .privacy-section p { font-size: 15px; line-height: 1.7; color: var(--vp-text); margin-bottom: 10px; }
     .privacy-section p:last-child { margin-bottom: 0; }
-    .privacy-meta {
-      font-size: 13px;
-      color: rgba(201,168,76,.5);
-      text-align: center;
-      margin-bottom: 20px;
-      letter-spacing: 0.04em;
-      animation: fadeDown 0.5s 0.3s both;
-    }
-    .privacy-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-    }
-    .privacy-table th {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(201,168,76,.6);
-      padding: 8px 10px;
-      border-bottom: 1px solid rgba(201,168,76,.2);
-      text-align: left;
-    }
-    .privacy-table td {
-      font-size: 14px;
-      color: var(--vp-text);
-      padding: 10px 10px;
-      border-bottom: 1px solid rgba(255,255,255,.05);
-      vertical-align: top;
-      line-height: 1.5;
-    }
+    .privacy-meta { font-size: 13px; color: rgba(201,168,76,.5); text-align: center; margin-bottom: 20px; letter-spacing: 0.04em; animation: fadeDown 0.5s 0.3s both; }
+    .privacy-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .privacy-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(201,168,76,.6); padding: 8px 10px; border-bottom: 1px solid rgba(201,168,76,.2); text-align: left; }
+    .privacy-table td { font-size: 14px; color: var(--vp-text); padding: 10px 10px; border-bottom: 1px solid rgba(255,255,255,.05); vertical-align: top; line-height: 1.5; }
     .privacy-table tr:last-child td { border-bottom: none; }
     .privacy-table td a { color: rgba(201,168,76,.7); text-decoration: none; font-size: 12px; word-break: break-all; }
     .privacy-table td a:hover { color: var(--vp-gold2); }
     .privacy-section ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
     .privacy-section li { font-size: 15px; line-height: 1.65; color: var(--vp-text); }
     .privacy-section li::before { content: '♦ '; color: var(--vp-gold); font-weight: 700; font-size: 11px; }
-    .data-tag {
-      display: inline-block;
-      background: rgba(201,168,76,.1);
-      border: 1px solid rgba(201,168,76,.25);
-      border-radius: 6px;
-      padding: 2px 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(201,168,76,.8);
-      letter-spacing: 0.04em;
-      margin: 2px 2px;
-    }
-    .not-collected-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .not-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(192,57,43,.08);
-      border: 1px solid rgba(192,57,43,.15);
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 13px;
-      color: rgba(255,255,255,.5);
-    }
+    .data-tag { display: inline-block; background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.25); border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; color: rgba(201,168,76,.8); letter-spacing: 0.04em; margin: 2px 2px; }
+    .not-collected-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .not-item { display: flex; align-items: center; gap: 8px; background: rgba(192,57,43,.08); border: 1px solid rgba(192,57,43,.15); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: rgba(255,255,255,.5); }
     .not-item::before { content: '✕'; color: rgba(192,57,43,.6); font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    #poker-panel footer { text-align: center; padding: 12px 24px 32px; font-size: 13px; color: rgba(255,255,255,.2); animation: fadeUp 0.5s 0.75s both; }
 
-    #poker-panel footer {
-      text-align: center; padding: 12px 24px 32px;
-      font-size: 13px; color: rgba(255,255,255,.2);
-      animation: fadeUp 0.5s 0.75s both;
+    /* POKO */
+    #poko-panel { background: var(--pk-dark); min-height: 100vh; position: relative; overflow: hidden; }
+    #poko-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 20% 0%, rgba(227,53,13,.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(59,76,202,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,203,5,.04) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
     }
+    #poko-panel::after {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,203,5,.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none; z-index: 0;
+    }
+    #poko-panel .page { position: relative; z-index: 1; }
+    #poko-panel header { padding: 32px 24px 24px; text-align: center; }
+    .poko-logo { display: flex; justify-content: center; align-items: center; gap: 14px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    .poko-ball {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(180deg, var(--pk-red) 50%, #fff 50%);
+      border: 3px solid rgba(255,255,255,0.15);
+      box-shadow: 0 0 0 2px rgba(0,0,0,.4), 0 0 24px rgba(227,53,13,.4);
+      position: relative; animation: ballSpin 8s linear infinite;
+      flex-shrink: 0;
+    }
+    .poko-ball::before {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background: linear-gradient(180deg, transparent 47%, rgba(0,0,0,.3) 47%, rgba(0,0,0,.3) 53%, transparent 53%);
+    }
+    .poko-ball::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px; height: 14px; border-radius: 50%;
+      background: #fff; border: 2px solid rgba(0,0,0,.3);
+      box-shadow: 0 0 8px rgba(255,203,5,.6);
+    }
+    @keyframes ballSpin { 0% { box-shadow: 0 0 0 2px rgba(0,0,0,.4), 0 0 24px rgba(227,53,13,.4); } 50% { box-shadow: 0 0 0 2px rgba(0,0,0,.4), 0 0 36px rgba(255,203,5,.5); } 100% { box-shadow: 0 0 0 2px rgba(0,0,0,.4), 0 0 24px rgba(227,53,13,.4); } }
+    .poko-logo-text { text-align: left; }
+    .poko-logo-text .pk-line1 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--pk-yellow); opacity: 0.6; line-height: 1; }
+    .poko-logo-text .pk-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.06em; line-height: 1; background: linear-gradient(135deg, #fff 30%, var(--pk-yellow2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .poko-logo-text .pk-line3 { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; color: rgba(255,255,255,.3); line-height: 1.4; }
+    #poko-panel header > p { font-size: 15px; color: rgba(255,255,255,.35); font-weight: 500; }
+    .poko-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; flex-wrap: wrap; animation: fadeDown 0.5s 0.2s both; }
+    .poko-subnav-btn { padding: 8px 18px; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--pk-border); background: transparent; color: rgba(255,255,255,.4); transition: all .2s; }
+    .poko-subnav-btn.active { background: rgba(227,53,13,.15); color: var(--pk-red2); border-color: var(--pk-red2); box-shadow: 0 0 12px rgba(227,53,13,.2); }
+    .poko-subnav-btn:hover:not(.active) { border-color: rgba(255,203,5,.4); color: rgba(255,203,5,.7); }
+    .poko-subpanel { display: none; }
+    .poko-subpanel.active { display: block; }
+    #poko-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #poko-panel section { background: var(--pk-card); border: 1.5px solid var(--pk-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(255,203,5,.04), 0 8px 32px rgba(0,0,0,.5); backdrop-filter: blur(10px); animation: fadeUp 0.5s both; }
+    #poko-panel section:nth-child(1){animation-delay:.35s}
+    #poko-panel section:nth-child(2){animation-delay:.45s}
+    #poko-panel section:nth-child(3){animation-delay:.55s}
+    #poko-panel section:nth-child(4){animation-delay:.65s}
+    #poko-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    #poko-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: var(--pk-yellow2); }
+    .poko-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #poko-panel p, #poko-panel li { font-size: 15px; line-height: 1.65; color: var(--pk-text); }
+    #poko-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #poko-panel li::before { content: '◆ '; color: var(--pk-red2); font-size: 10px; }
+    #poko-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #poko-panel label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,203,5,.4); margin-bottom: 4px; display: block; font-family: 'Space Mono', monospace; }
+    #poko-panel input, #poko-panel textarea, #poko-panel select { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(255,203,5,.15); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #fff; background: rgba(255,255,255,.04); outline: none; transition: border-color .2s, box-shadow .2s; }
+    #poko-panel select option { background: #0f0f14; }
+    #poko-panel input::placeholder, #poko-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #poko-panel input:focus, #poko-panel textarea:focus, #poko-panel select:focus { border-color: var(--pk-yellow); box-shadow: 0 0 0 3px rgba(255,203,5,.1); background: rgba(255,203,5,.04); }
+    #poko-panel textarea { resize: vertical; min-height: 110px; }
+    #poko-panel .send-btn { background: linear-gradient(135deg, var(--pk-red), var(--pk-red2)); color: #fff; border: none; border-radius: 10px; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px rgba(227,53,13,.3); transition: transform .1s, opacity .1s; }
+    #poko-panel .send-btn:hover  { transform: translateY(-1px); opacity: .92; }
+    #poko-panel .send-btn:active { transform: translateY(1px); }
+    #poko-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(227,53,13,.1); border-radius: 10px; border: 1px solid rgba(255,107,74,.35); color: var(--pk-red2); font-weight: 600; font-size: 15px; }
+    #poko-panel details { border-bottom: 1px solid rgba(255,203,5,.08); padding: 12px 0; }
+    #poko-panel details:last-child { border-bottom: none; }
+    #poko-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,.85); }
+    #poko-panel summary::after { content: '+'; font-size: 20px; color: rgba(255,203,5,.35); transition: transform .2s; }
+    #poko-panel details[open] summary::after { transform: rotate(45deg); }
+    #poko-panel details p { margin-top: 10px; }
+    /* What's New section */
+    .whats-new-item { display: flex; flex-direction: column; gap: 4px; padding: 14px 0; border-bottom: 1px solid rgba(255,203,5,.08); }
+    .whats-new-item:last-child { border-bottom: none; }
+    .whats-new-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pk-red2); margin-bottom: 2px; }
+    .whats-new-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--pk-red2); box-shadow: 0 0 6px var(--pk-red2); display: inline-block; }
+    .whats-new-title { font-weight: 600; font-size: 15px; color: rgba(255,255,255,.9); line-height: 1.4; }
+    .whats-new-desc { font-size: 14px; color: rgba(255,255,255,.5); line-height: 1.6; }
+    .polish-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+    .polish-item { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.5; display: flex; gap: 8px; }
+    .polish-item::before { content: '—'; color: rgba(255,203,5,.35); flex-shrink: 0; }
+    #poko-panel footer { text-align: center; padding: 12px 24px 32px; font-size: 13px; color: rgba(255,255,255,.2); animation: fadeUp 0.5s 0.75s both; }
 
-    /* ── ANIMATIONS ── */
-    @keyframes tileIn {
-      from { opacity: 0; transform: translateY(-16px) rotate(-4deg); }
-      to   { opacity: 1; transform: none; }
+
+    /* SUDOKURU */
+    #sudokuru-panel { background: var(--su-bg); min-height: 100vh; position: relative; overflow: hidden; }
+    #sudokuru-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 65% 55% at 10% 5%, rgba(108,99,255,.18) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 45% at 90% 90%, rgba(167,139,250,.12) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(245,158,11,.03) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
     }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: none; }
+    #sudokuru-panel::after {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(108,99,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108,99,255,.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none; z-index: 0;
     }
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: none; }
+    #sudokuru-panel .page { position: relative; z-index: 1; }
+    #sudokuru-panel header { padding: 32px 24px 24px; text-align: center; }
+    .sudokuru-logo { display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    .sudoku-grid-icon {
+      width: 56px; height: 56px;
+      display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(3,1fr);
+      gap: 2px; padding: 4px;
+      background: rgba(108,99,255,0.15);
+      border: 2px solid rgba(108,99,255,0.4);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(108,99,255,0.25);
+      animation: gridPulse 3s ease-in-out infinite;
     }
+    @keyframes gridPulse {
+      0%,100% { box-shadow: 0 0 20px rgba(108,99,255,0.25); }
+      50%      { box-shadow: 0 0 32px rgba(167,139,250,0.45); }
+    }
+    .sudoku-cell {
+      border-radius: 2px;
+      background: rgba(108,99,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; font-weight: 700;
+      color: rgba(167,139,250,0.9);
+      animation: cellFade 2.4s ease-in-out infinite;
+    }
+    .sudoku-cell.filled { background: rgba(108,99,255,0.35); color: #fff; }
+    .sudoku-cell.gold   { background: rgba(245,158,11,0.25); color: rgba(245,158,11,0.9); animation-delay:.3s; }
+    .sudoku-cell:nth-child(1){animation-delay:.0s}.sudoku-cell:nth-child(2){animation-delay:.15s}
+    .sudoku-cell:nth-child(3){animation-delay:.30s}.sudoku-cell:nth-child(4){animation-delay:.45s}
+    .sudoku-cell:nth-child(5){animation-delay:.60s}.sudoku-cell:nth-child(6){animation-delay:.75s}
+    .sudoku-cell:nth-child(7){animation-delay:.90s}.sudoku-cell:nth-child(8){animation-delay:1.05s}
+    .sudoku-cell:nth-child(9){animation-delay:1.20s}
+    @keyframes cellFade { 0%,100%{opacity:.6} 50%{opacity:1} }
+    .su-logo-text { text-align: left; }
+    .su-logo-text .su-line1 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--su-accent2); opacity: 0.6; line-height: 1; }
+    .su-logo-text .su-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 0.05em; line-height: 1; background: linear-gradient(135deg, #fff 20%, var(--su-accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .su-logo-text .su-line3 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: rgba(255,255,255,.3); line-height: 1.4; }
+    #sudokuru-panel header > p { font-size: 15px; color: rgba(255,255,255,.35); font-weight: 500; }
+    .su-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; animation: fadeDown 0.5s 0.2s both; }
+    .su-subnav-btn { padding: 8px 22px; border-radius: 50px; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; cursor: pointer; border: 1.5px solid var(--su-border); background: transparent; color: rgba(255,255,255,.35); letter-spacing: 0.08em; transition: all .2s; text-transform: uppercase; }
+    .su-subnav-btn.active { background: rgba(108,99,255,.12); color: var(--su-accent2); border-color: var(--su-accent2); box-shadow: 0 0 12px rgba(108,99,255,.2); }
+    .su-subnav-btn:hover:not(.active) { border-color: rgba(167,139,250,.4); color: rgba(167,139,250,.6); }
+    .su-subpanel { display: none; }
+    .su-subpanel.active { display: block; }
+    #sudokuru-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #sudokuru-panel section { background: var(--su-card); border: 1.5px solid var(--su-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(108,99,255,.04), 0 8px 32px rgba(0,0,0,.45); backdrop-filter: blur(10px); animation: fadeUp 0.5s both; }
+    #sudokuru-panel section:nth-child(1){animation-delay:.35s}
+    #sudokuru-panel section:nth-child(2){animation-delay:.45s}
+    #sudokuru-panel section:nth-child(3){animation-delay:.55s}
+    #sudokuru-panel section:nth-child(4){animation-delay:.65s}
+    #sudokuru-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    #sudokuru-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: var(--su-accent2); }
+    .su-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #sudokuru-panel p, #sudokuru-panel li { font-size: 15px; line-height: 1.65; color: var(--su-text); }
+    #sudokuru-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #sudokuru-panel li::before { content: '◈ '; color: var(--su-accent2); font-size: 11px; }
+    #sudokuru-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #sudokuru-panel label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(108,99,255,.5); margin-bottom: 4px; display: block; }
+    #sudokuru-panel input, #sudokuru-panel textarea, #sudokuru-panel select { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(108,99,255,.15); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #fff; background: rgba(108,99,255,.04); outline: none; transition: border-color .2s, box-shadow .2s; }
+    #sudokuru-panel select option { background: #0c0f1a; }
+    #sudokuru-panel input::placeholder, #sudokuru-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #sudokuru-panel input:focus, #sudokuru-panel textarea:focus, #sudokuru-panel select:focus { border-color: var(--su-accent2); box-shadow: 0 0 0 3px rgba(108,99,255,.12); background: rgba(108,99,255,.06); }
+    #sudokuru-panel textarea { resize: vertical; min-height: 110px; }
+    #sudokuru-panel .send-btn { background: linear-gradient(135deg, var(--su-accent), var(--su-accent2)); color: #fff; border: none; border-radius: 10px; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px rgba(108,99,255,.3); transition: transform .1s, opacity .1s; }
+    #sudokuru-panel .send-btn:hover  { transform: translateY(-1px); opacity: .9; }
+    #sudokuru-panel .send-btn:active { transform: translateY(1px); }
+    #sudokuru-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(108,99,255,.1); border-radius: 10px; border: 1px solid rgba(167,139,250,.35); color: var(--su-accent2); font-weight: 600; font-size: 15px; }
+    #sudokuru-panel details { border-bottom: 1px solid rgba(108,99,255,.1); padding: 12px 0; }
+    #sudokuru-panel details:last-child { border-bottom: none; }
+    #sudokuru-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,.85); }
+    #sudokuru-panel summary::after { content: '+'; font-size: 20px; color: rgba(108,99,255,.4); transition: transform .2s; }
+    #sudokuru-panel details[open] summary::after { transform: rotate(45deg); }
+    #sudokuru-panel details p { margin-top: 10px; }
+    .su-technique-tag { display: inline-block; background: rgba(108,99,255,.12); border: 1px solid rgba(167,139,250,.25); border-radius: 6px; padding: 2px 8px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(167,139,250,.85); letter-spacing: 0.03em; margin: 2px; }
+    .su-mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .su-mode-card { background: rgba(108,99,255,.08); border: 1px solid rgba(108,99,255,.2); border-radius: 10px; padding: 12px 14px; }
+    .su-mode-card .mode-name { font-weight: 700; font-size: 14px; color: var(--su-accent2); margin-bottom: 3px; }
+    .su-mode-card .mode-desc { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.4; }
+    #sudokuru-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,255,255,.18); letter-spacing: 0.04em; animation: fadeUp 0.5s 0.75s both; }
+    #sudokuru-panel .as-badge { box-shadow: 0 4px 20px rgba(108,99,255,.2); border-color: rgba(108,99,255,.25); }
+    #sudokuru-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(108,99,255,.4); }
+
+    @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
+    @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 
     @media (max-width: 480px) {
       .not-collected-grid { grid-template-columns: 1fr; }
-      .poker-logo-text .title-line2,
-      .poker-logo-text .title-line3 { font-size: 30px; }
+      .poker-logo-text .title-line2, .poker-logo-text .title-line3 { font-size: 30px; }
       .privacy-table { font-size: 13px; }
       .privacy-table td a { font-size: 11px; }
       .zap-logo-text .zap-line2 { font-size: 34px; }
@@ -1079,7 +645,6 @@
 <body>
 <div class="page">
 
-  <!-- Shared nav -->
   <nav id="mainNav">
     <button class="nav-btn wordo" onclick="switchApp('wordo')">
       <span class="nav-dot"></span> Wordo
@@ -1090,9 +655,15 @@
     <button class="nav-btn poker" onclick="switchApp('poker')">
       <span class="nav-dot"></span> Video Poker Mania
     </button>
+    <button class="nav-btn poko" onclick="switchApp('poko')">
+      <span class="nav-dot"></span> POKO
+    </button>
+    <button class="nav-btn sudokuru" onclick="switchApp('sudokuru')">
+      <span class="nav-dot"></span> Sudokuru
+    </button>
   </nav>
 
-  <!-- ══ WORDO PANEL ══ -->
+  <!-- WORDO -->
   <div class="panel active" id="wordo-panel">
     <header>
       <div class="logo-row">
@@ -1103,75 +674,44 @@
         <div class="tile yellow">O<span class="score-dot">1</span></div>
       </div>
       <p>Support &amp; Help Center</p>
+      <div class="header-badge-row">
+        <a class="as-badge" href="https://apps.apple.com/app/id6754192958" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <div class="as-badge-text">
+            <span class="as-badge-sub">Download on the</span>
+            <span class="as-badge-main">App Store</span>
+          </div>
+        </a>
+      </div>
     </header>
-
     <main>
       <section>
-        <div class="section-header">
-          <div class="icon-tile b">✉️</div>
-          <h2>Contact Us</h2>
-        </div>
+        <div class="section-header"><div class="icon-tile b">✉️</div><h2>Contact Us</h2></div>
         <form id="wordoForm">
-          <div>
-            <label for="w-name">Your Name</label>
-            <input type="text" id="w-name" placeholder="Tony" required />
-          </div>
-          <div>
-            <label for="w-email">Email Address</label>
-            <input type="email" id="w-email" placeholder="you@example.com" required />
-          </div>
-          <div>
-            <label for="w-topic">Topic</label>
+          <div><label for="w-name">Your Name</label><input type="text" id="w-name" placeholder="Tony" required /></div>
+          <div><label for="w-email">Email Address</label><input type="email" id="w-email" placeholder="you@example.com" required /></div>
+          <div><label for="w-topic">Topic</label>
             <select id="w-topic">
-              <option>Bug or crash report</option>
-              <option>In-app purchase issue</option>
-              <option>Game Center / leaderboard</option>
-              <option>Account &amp; progress</option>
-              <option>Feature request</option>
-              <option>Other</option>
+              <option>Bug or crash report</option><option>In-app purchase issue</option>
+              <option>Game Center / leaderboard</option><option>Account &amp; progress</option>
+              <option>Feature request</option><option>Other</option>
             </select>
           </div>
-          <div>
-            <label for="w-message">Message</label>
-            <textarea id="w-message" placeholder="Describe your issue…" required></textarea>
-          </div>
+          <div><label for="w-message">Message</label><textarea id="w-message" placeholder="Describe your issue…" required></textarea></div>
           <button type="submit" class="send-btn">SEND MESSAGE</button>
           <div class="success-msg" id="wordoSuccess">✓ Message sent! We'll reply within 48 hours.</div>
         </form>
       </section>
-
       <section>
-        <div class="section-header">
-          <div class="icon-tile y">💡</div>
-          <h2>FAQ</h2>
-        </div>
-        <details>
-          <summary>My progress was lost after reinstalling</summary>
-          <p>Your progress is backed up via iCloud. Make sure you're signed into the same Apple ID and iCloud is enabled in Settings → [Your Name] → iCloud → Wordo.</p>
-        </details>
-        <details>
-          <summary>Remove Ads purchase isn't working</summary>
-          <p>Tap Settings → Restore Purchases inside the app. Make sure you're signed into the same Apple ID used to buy it. If the issue persists, contact us above.</p>
-        </details>
-        <details>
-          <summary>How do I earn more credits?</summary>
-          <p>You earn credits by solving words — 1–3 credits per solve depending on speed. You can also watch a short video ad in the hint menu to earn 5 free credits.</p>
-        </details>
-        <details>
-          <summary>Game Center leaderboard isn't showing</summary>
-          <p>Go to Settings → Game Center and make sure you're signed in. The leaderboard requires an active Game Center account to display global rankings.</p>
-        </details>
-        <details>
-          <summary>The app crashed — what should I do?</summary>
-          <p>Force-quit the app, restart it, and try again. If the crash repeats, use the contact form above. Include your device model and iOS version.</p>
-        </details>
+        <div class="section-header"><div class="icon-tile y">💡</div><h2>FAQ</h2></div>
+        <details><summary>My progress was lost after reinstalling</summary><p>Your progress is backed up via iCloud. Make sure you're signed into the same Apple ID and iCloud is enabled in Settings → [Your Name] → iCloud → Wordo.</p></details>
+        <details><summary>Remove Ads purchase isn't working</summary><p>Tap Settings → Restore Purchases inside the app. Make sure you're signed into the same Apple ID used to buy it. If the issue persists, contact us above.</p></details>
+        <details><summary>How do I earn more credits?</summary><p>You earn credits by solving words — 1–3 credits per solve depending on speed. You can also watch a short video ad in the hint menu to earn 5 free credits.</p></details>
+        <details><summary>Game Center leaderboard isn't showing</summary><p>Go to Settings → Game Center and make sure you're signed in. The leaderboard requires an active Game Center account to display global rankings.</p></details>
+        <details><summary>The app crashed — what should I do?</summary><p>Force-quit the app, restart it, and try again. If the crash repeats, use the contact form above. Include your device model and iOS version.</p></details>
       </section>
-
       <section>
-        <div class="section-header">
-          <div class="icon-tile g">🎯</div>
-          <h2>Quick Tips</h2>
-        </div>
+        <div class="section-header"><div class="icon-tile g">🎯</div><h2>Quick Tips</h2></div>
         <ul>
           <li>Green tile = correct letter, correct position</li>
           <li>Yellow tile = correct letter, wrong position</li>
@@ -1180,12 +720,8 @@
           <li>Solve daily to build your streak and climb the leaderboard</li>
         </ul>
       </section>
-
       <section>
-        <div class="section-header">
-          <div class="icon-tile r">📱</div>
-          <h2>App Info</h2>
-        </div>
+        <div class="section-header"><div class="icon-tile r">📱</div><h2>App Info</h2></div>
         <ul>
           <li>Developer: Pathom Sriaroonthip</li>
           <li>Bundle ID: com.tonygd.puzzle.wordo</li>
@@ -1194,26 +730,19 @@
         </ul>
       </section>
     </main>
-
     <footer>© 2025 Wordo · All rights reserved</footer>
   </div>
 
-  <!-- ══ ZAP REMOTE PANEL ══ -->
+  <!-- ZAP -->
   <div class="panel" id="zap-panel">
     <div class="page">
       <header>
         <div class="zap-logo">
           <div class="zap-remote-icon">
             <div class="remote-ir"></div>
-            <div class="remote-btn-row">
-              <div class="remote-btn red"></div>
-              <div class="remote-btn green"></div>
-            </div>
+            <div class="remote-btn-row"><div class="remote-btn red"></div><div class="remote-btn green"></div></div>
             <div class="remote-dpad"></div>
-            <div class="remote-btn-row">
-              <div class="remote-btn"></div>
-              <div class="remote-btn"></div>
-            </div>
+            <div class="remote-btn-row"><div class="remote-btn"></div><div class="remote-btn"></div></div>
           </div>
           <div class="zap-logo-text">
             <div class="zap-line1">Smart TV</div>
@@ -1222,96 +751,53 @@
           </div>
         </div>
         <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
       </header>
-
-      <!-- Sub-nav -->
       <div class="zap-subnav">
         <button class="zap-subnav-btn active" onclick="switchZapTab('support')">Support</button>
         <button class="zap-subnav-btn" onclick="switchZapTab('privacy')">Privacy Policy</button>
         <button class="zap-subnav-btn" onclick="switchZapTab('terms')">Terms of Use</button>
       </div>
-
       <main>
-
-        <!-- ── SUPPORT ── -->
         <div class="zap-subpanel active" id="zap-support">
-
           <section>
-            <div class="section-header">
-              <div class="zap-icon-tile" style="background:rgba(0,212,255,.1)">✉️</div>
-              <h2>Contact Us</h2>
-            </div>
+            <div class="section-header"><div class="zap-icon-tile" style="background:rgba(0,212,255,.1)">✉️</div><h2>Contact Us</h2></div>
             <form id="zapForm">
-              <div>
-                <label for="z-name">Your Name</label>
-                <input type="text" id="z-name" placeholder="Tony" required />
-              </div>
-              <div>
-                <label for="z-email">Email Address</label>
-                <input type="email" id="z-email" placeholder="you@example.com" required />
-              </div>
-              <div>
-                <label for="z-topic">Topic</label>
+              <div><label for="z-name">Your Name</label><input type="text" id="z-name" placeholder="Tony" required /></div>
+              <div><label for="z-email">Email Address</label><input type="email" id="z-email" placeholder="you@example.com" required /></div>
+              <div><label for="z-topic">Topic</label>
                 <select id="z-topic">
-                  <option>TV not discovered on network</option>
-                  <option>Pairing / connection issue</option>
-                  <option>Macro not working</option>
-                  <option>Zap Remote Pro purchase issue</option>
-                  <option>AI assistant issue</option>
-                  <option>Bug or crash report</option>
-                  <option>Feature request</option>
-                  <option>Other</option>
+                  <option>TV not discovered on network</option><option>Pairing / connection issue</option>
+                  <option>Macro not working</option><option>Zap Remote Pro purchase issue</option>
+                  <option>AI assistant issue</option><option>Bug or crash report</option>
+                  <option>Feature request</option><option>Other</option>
                 </select>
               </div>
-              <div>
-                <label for="z-message">Message</label>
-                <textarea id="z-message" placeholder="Describe your issue — include your TV brand, model, and iOS version if relevant…" required></textarea>
-              </div>
+              <div><label for="z-message">Message</label><textarea id="z-message" placeholder="Describe your issue — include your TV brand, model, and iOS version if relevant…" required></textarea></div>
               <button type="submit" class="send-btn">⚡ SEND MESSAGE</button>
               <div class="success-msg" id="zapSuccess">✓ Message received! We'll reply within 48 hours.</div>
             </form>
           </section>
-
           <section>
-            <div class="section-header">
-              <div class="zap-icon-tile" style="background:rgba(0,212,255,.08)">💡</div>
-              <h2>FAQ</h2>
-            </div>
-            <details>
-              <summary>My TV isn't being discovered</summary>
-              <p>Make sure your iPhone and TV are on the same Wi-Fi network. Zap Remote uses local network discovery — it won't work over cellular or a different Wi-Fi band (try switching from 5 GHz to 2.4 GHz if your router separates them). Also ensure you've granted Local Network permission in Settings → Privacy → Local Network → Zap Remote.</p>
-            </details>
-            <details>
-              <summary>Pairing keeps failing (Samsung / LG)</summary>
-              <p>On Samsung, a PIN dialog should appear on your TV — accept it within a few seconds. On LG, accept the pairing prompt on-screen. If the dialog doesn't appear, go to your TV's Settings → Network and reset the Smart Hub or enable IP Control. Then delete the TV from Zap Remote and re-add it.</p>
-            </details>
-            <details>
-              <summary>Roku commands aren't working</summary>
-              <p>Roku uses ECP over HTTP on port 8060. Make sure your Roku is on the same Wi-Fi and that Settings → System → Advanced system settings → External control is enabled on the Roku device.</p>
-            </details>
-            <details>
-              <summary>My macros stopped working after a TV update</summary>
-              <p>TV firmware updates can change how commands are processed. Try deleting and recreating the macro. If a specific command is broken, contact us with your TV brand, model, and firmware version.</p>
-            </details>
-            <details>
-              <summary>Zap Remote Pro purchase isn't restoring</summary>
-              <p>Tap Settings → Restore Purchases inside the app. Make sure you're signed into the same Apple ID used at the time of purchase. Still not working? Contact us with your transaction date.</p>
-            </details>
-            <details>
-              <summary>The AI assistant isn't responding</summary>
-              <p>The AI assistant requires Apple Intelligence, which is available on iPhone 15 Pro and later (and iPhone 16 series) running iOS 18.1+. Make sure Apple Intelligence is enabled in Settings → Apple Intelligence &amp; Siri. The assistant processes everything on-device — no internet connection is needed for it.</p>
-            </details>
-            <details>
-              <summary>The app crashed — what should I do?</summary>
-              <p>Force-quit, restart, and try again. If the crash repeats, contact us with your device model, iOS version, TV brand and model, and what you were doing when it crashed.</p>
-            </details>
+            <div class="section-header"><div class="zap-icon-tile" style="background:rgba(0,212,255,.08)">💡</div><h2>FAQ</h2></div>
+            <details><summary>My TV isn't being discovered</summary><p>Make sure your iPhone and TV are on the same Wi-Fi network. Zap Remote uses local network discovery — it won't work over cellular or a different Wi-Fi band (try switching from 5 GHz to 2.4 GHz if your router separates them). Also ensure you've granted Local Network permission in Settings → Privacy → Local Network → Zap Remote.</p></details>
+            <details><summary>Pairing keeps failing (Samsung / LG)</summary><p>On Samsung, a PIN dialog should appear on your TV — accept it within a few seconds. On LG, accept the pairing prompt on-screen. If the dialog doesn't appear, go to your TV's Settings → Network and reset the Smart Hub or enable IP Control. Then delete the TV from Zap Remote and re-add it.</p></details>
+            <details><summary>Roku commands aren't working</summary><p>Roku uses ECP over HTTP on port 8060. Make sure your Roku is on the same Wi-Fi and that Settings → System → Advanced system settings → External control is enabled on the Roku device.</p></details>
+            <details><summary>My macros stopped working after a TV update</summary><p>TV firmware updates can change how commands are processed. Try deleting and recreating the macro. If a specific command is broken, contact us with your TV brand, model, and firmware version.</p></details>
+            <details><summary>Zap Remote Pro purchase isn't restoring</summary><p>Tap Settings → Restore Purchases inside the app. Make sure you're signed into the same Apple ID used at the time of purchase. Still not working? Contact us with your transaction date.</p></details>
+            <details><summary>The AI assistant isn't responding</summary><p>The AI assistant requires Apple Intelligence, which is available on iPhone 15 Pro and later (and iPhone 16 series) running iOS 18.1+. Make sure Apple Intelligence is enabled in Settings → Apple Intelligence &amp; Siri. The assistant processes everything on-device — no internet connection is needed for it.</p></details>
+            <details><summary>The app crashed — what should I do?</summary><p>Force-quit, restart, and try again. If the crash repeats, contact us with your device model, iOS version, TV brand and model, and what you were doing when it crashed.</p></details>
           </section>
-
           <section>
-            <div class="section-header">
-              <div class="zap-icon-tile" style="background:rgba(0,102,255,.12)">📡</div>
-              <h2>Quick Tips</h2>
-            </div>
+            <div class="section-header"><div class="zap-icon-tile" style="background:rgba(0,102,255,.12)">📡</div><h2>Quick Tips</h2></div>
             <ul>
               <li>Pair your TV once — Zap remembers the token so you never re-pair</li>
               <li>Use macros to chain actions: e.g. "Turn on → Switch to HDMI 2 → Set volume to 20"</li>
@@ -1320,12 +806,8 @@
               <li>Supports Roku, Samsung Tizen, and LG webOS TVs simultaneously</li>
             </ul>
           </section>
-
           <section>
-            <div class="section-header">
-              <div class="zap-icon-tile" style="background:rgba(0,212,255,.08)">📱</div>
-              <h2>App Info</h2>
-            </div>
+            <div class="section-header"><div class="zap-icon-tile" style="background:rgba(0,212,255,.08)">📱</div><h2>App Info</h2></div>
             <ul>
               <li>Developer: Pathom Sriaroonthip</li>
               <li>Platform: iOS 16.0 and later</li>
@@ -1334,150 +816,39 @@
               <li>Response time: within 48 hours</li>
             </ul>
           </section>
+        </div>
 
-        </div><!-- /zap-support -->
-
-        <!-- ── PRIVACY POLICY ── -->
         <div class="zap-subpanel" id="zap-privacy">
           <p class="zap-legal-meta">Last updated: May 26, 2025 &nbsp;·&nbsp; Zap Remote</p>
+          <div class="zap-legal-section"><h3>📡 Overview</h3><p>Zap Remote ("the app", "we") does not collect, store, or transmit any of your personal data to our servers — because we do not run servers. Everything stays on your device.</p></div>
+          <div class="zap-legal-section"><h3>📦 Information We Collect</h3><p>We collect <span class="zap-highlight">no personal information</span>. The app stores the following <span class="zap-highlight">locally on your device</span> (in iOS UserDefaults) and never transmits it off-device:</p><div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;"><span class="zap-chip">TV name &amp; IP address</span><span class="zap-chip">TV brand &amp; MAC address</span><span class="zap-chip">Samsung pairing tokens</span><span class="zap-chip">LG client keys</span><span class="zap-chip">Custom macros</span><span class="zap-chip">Pinned &amp; recent apps</span><span class="zap-chip">AI conversation history</span><span class="zap-chip">Onboarding status</span><span class="zap-chip">Pro subscription flag</span></div><p>Delete all of this at any time by uninstalling the app or tapping <span class="zap-highlight">Settings → Reset all settings</span> inside the app.</p><p style="margin-top:10px">We do not operate analytics servers, track your usage, location, advertising identifier, contacts, or browsing history, or use third-party analytics, ad networks, attribution SDKs, or trackers.</p></div>
+          <div class="zap-legal-section"><h3>📶 Network Access</h3><p>The app uses your local Wi-Fi network to discover and control TVs on the same network. Commands are sent directly from your device to the TV using each manufacturer's documented control protocol:</p><ul><li>Roku ECP over HTTP</li><li>Samsung Tizen WebSocket</li><li>LG webOS WebSocket</li></ul><p style="margin-top:10px">No commands are routed through our servers. We don't have any.</p></div>
+          <div class="zap-legal-section"><h3>🎙️ Microphone &amp; Speech</h3><p>If you use the AI assistant's voice input, the app uses your device's microphone and Apple's SFSpeechRecognizer framework. Speech recognition is performed on-device whenever your device supports it; otherwise Apple may process audio on its servers under Apple's own privacy terms. Audio is never sent to us or any third party other than Apple. We do not record, store, or retain any audio.</p></div>
+          <div class="zap-legal-section"><h3>🤖 AI Assistant</h3><p>The AI assistant uses Apple's on-device FoundationModels framework (Apple Intelligence). Your prompts and the model's responses are processed entirely on your device and never sent to us or any third-party language model provider. Your conversation history is stored only in local UserDefaults on your device.</p></div>
+          <div class="zap-legal-section"><h3>💳 Purchases &amp; Subscriptions</h3><p>In-app purchases and subscriptions are processed by Apple through the App Store using StoreKit. We never see, handle, or store your payment information. Apple handles billing, taxes, and refunds. Your subscription status is derived from Apple's Transaction.currentEntitlements on your device.</p></div>
+          <div class="zap-legal-section"><h3>👶 Children's Privacy</h3><p>The app is not directed to children under 13. We do not knowingly collect any information from anyone under 13.</p></div>
+          <div class="zap-legal-section"><h3>🗑️ Data Deletion</h3><p>Because no data is ever transmitted off your device, there is nothing for us to retain or delete server-side. To erase locally-stored data, uninstall the app or use <span class="zap-highlight">Settings → Reset all settings</span>.</p></div>
+          <div class="zap-legal-section"><h3>📝 Changes &amp; Contact</h3><p>We may update this policy from time to time. Material changes will be reflected by updating the "Last updated" date above.</p><p style="margin-top:8px">Questions? Use the Support tab to contact us directly.</p></div>
+        </div>
 
-          <div class="zap-legal-section">
-            <h3>📡 Overview</h3>
-            <p>Zap Remote ("the app", "we") does not collect, store, or transmit any of your personal data to our servers — because we do not run servers. Everything stays on your device.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>📦 Information We Collect</h3>
-            <p>We collect <span class="zap-highlight">no personal information</span>. The app stores the following <span class="zap-highlight">locally on your device</span> (in iOS UserDefaults) and never transmits it off-device:</p>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
-              <span class="zap-chip">TV name &amp; IP address</span>
-              <span class="zap-chip">TV brand &amp; MAC address</span>
-              <span class="zap-chip">Samsung pairing tokens</span>
-              <span class="zap-chip">LG client keys</span>
-              <span class="zap-chip">Custom macros</span>
-              <span class="zap-chip">Pinned &amp; recent apps</span>
-              <span class="zap-chip">AI conversation history</span>
-              <span class="zap-chip">Onboarding status</span>
-              <span class="zap-chip">Pro subscription flag</span>
-            </div>
-            <p>Delete all of this at any time by uninstalling the app or tapping <span class="zap-highlight">Settings → Reset all settings</span> inside the app.</p>
-            <p style="margin-top:10px">We do not operate analytics servers, track your usage, location, advertising identifier, contacts, or browsing history, or use third-party analytics, ad networks, attribution SDKs, or trackers.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>📶 Network Access</h3>
-            <p>The app uses your local Wi-Fi network to discover and control TVs on the same network. Commands are sent directly from your device to the TV using each manufacturer's documented control protocol:</p>
-            <ul>
-              <li>Roku ECP over HTTP</li>
-              <li>Samsung Tizen WebSocket</li>
-              <li>LG webOS WebSocket</li>
-            </ul>
-            <p style="margin-top:10px">No commands are routed through our servers. We don't have any.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>🎙️ Microphone &amp; Speech</h3>
-            <p>If you use the AI assistant's voice input, the app uses your device's microphone and Apple's SFSpeechRecognizer framework. Speech recognition is performed on-device whenever your device supports it; otherwise Apple may process audio on its servers under Apple's own privacy terms. Audio is never sent to us or any third party other than Apple. We do not record, store, or retain any audio.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>🤖 AI Assistant</h3>
-            <p>The AI assistant uses Apple's on-device FoundationModels framework (Apple Intelligence). Your prompts and the model's responses are processed entirely on your device and never sent to us or any third-party language model provider. Your conversation history is stored only in local UserDefaults on your device.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>💳 Purchases &amp; Subscriptions</h3>
-            <p>In-app purchases and subscriptions are processed by Apple through the App Store using StoreKit. We never see, handle, or store your payment information. Apple handles billing, taxes, and refunds. Your subscription status is derived from Apple's Transaction.currentEntitlements on your device.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>👶 Children's Privacy</h3>
-            <p>The app is not directed to children under 13. We do not knowingly collect any information from anyone under 13.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>🗑️ Data Deletion</h3>
-            <p>Because no data is ever transmitted off your device, there is nothing for us to retain or delete server-side. To erase locally-stored data, uninstall the app or use <span class="zap-highlight">Settings → Reset all settings</span>.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>📝 Changes &amp; Contact</h3>
-            <p>We may update this policy from time to time. Material changes will be reflected by updating the "Last updated" date above.</p>
-            <p style="margin-top:8px">Questions? Use the Support tab to contact us directly.</p>
-          </div>
-
-        </div><!-- /zap-privacy -->
-
-        <!-- ── TERMS OF USE ── -->
         <div class="zap-subpanel" id="zap-terms">
           <p class="zap-legal-meta">Last updated: May 26, 2025 &nbsp;·&nbsp; Zap Remote</p>
-
-          <div class="zap-legal-section">
-            <h3>📜 Introduction</h3>
-            <p>These Terms of Use ("Terms") govern your use of the Zap Remote iOS app ("the app"), provided by <span class="zap-highlight">Pathom Sriaroonthip</span> ("we", "us"). By installing or using the app, you agree to these Terms.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>🔑 License</h3>
-            <p>We grant you a personal, non-exclusive, non-transferable, revocable license to use the app on iOS devices you own or control, solely for personal, non-commercial purposes, in accordance with Apple's Standard EULA.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>✅ Acceptable Use</h3>
-            <p>You agree not to:</p>
-            <ul>
-              <li>Reverse-engineer, decompile, or attempt to extract the source code of the app, except where Apple's EULA expressly permits it</li>
-              <li>Use the app to control TVs you don't own or aren't authorised to control</li>
-              <li>Use the app for any unlawful purpose</li>
-            </ul>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>💳 Subscriptions &amp; Purchases</h3>
-            <p>Zap Remote Pro is available as auto-renewing subscriptions (Monthly and Yearly) and as a one-time Lifetime purchase, sold through the App Store using Apple StoreKit.</p>
-            <ul>
-              <li><strong>Auto-renewal:</strong> Subscriptions automatically renew at the displayed price unless you cancel at least 24 hours before the end of the current period. Manage or cancel in Settings → Apple ID → Subscriptions.</li>
-              <li><strong>Free trial:</strong> New subscribers may receive a free trial. If you don't cancel before the trial ends, the subscription will begin and you will be charged.</li>
-              <li><strong>Refunds:</strong> Handled by Apple via reportaproblem.apple.com. We have no ability to issue refunds directly.</li>
-              <li><strong>Price changes:</strong> Apple will notify you in advance and require your consent before any increase to existing subscribers.</li>
-            </ul>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>📺 Compatibility &amp; Third-Party TVs</h3>
-            <p>The app communicates with smart TVs from third parties (Roku, Samsung, and LG) using each manufacturer's documented control protocols. TV manufacturers may change or remove these protocols at any time. We do not guarantee that any specific TV model will work or continue to work. We are not affiliated with, endorsed by, or sponsored by any TV manufacturer.</p>
-            <p style="margin-top:8px">Brand names including "Roku", "Samsung", and "LG" are trademarks of their respective owners.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>⚠️ No Warranty</h3>
-            <p>The app is provided "as is" and "as available", without warranties of any kind, express or implied. To the maximum extent permitted by law, we disclaim all implied warranties, including merchantability, fitness for a particular purpose, and non-infringement.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>🛡️ Limitation of Liability</h3>
-            <p>To the maximum extent permitted by law, we will not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your use of the app. Our total liability for any claim shall not exceed the amount you paid for the app in the twelve months preceding the claim, or USD 50.00, whichever is greater.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>🍎 Apple's Role</h3>
-            <p>These Terms are between you and <span class="zap-highlight">Pathom Sriaroonthip</span>, not Apple. Apple is a third-party beneficiary of these Terms and is entitled to enforce them. Apple has no obligation to provide maintenance or support for the app.</p>
-          </div>
-
-          <div class="zap-legal-section">
-            <h3>⚖️ Changes</h3>
-            <p>We may update these Terms from time to time. Continued use of the app after changes constitutes acceptance. Questions? Use the Support tab to contact us directly.</p>
-          </div>
-
-        </div><!-- /zap-terms -->
-
+          <div class="zap-legal-section"><h3>📜 Introduction</h3><p>These Terms of Use ("Terms") govern your use of the Zap Remote iOS app ("the app"), provided by <span class="zap-highlight">Pathom Sriaroonthip</span> ("we", "us"). By installing or using the app, you agree to these Terms.</p></div>
+          <div class="zap-legal-section"><h3>🔑 License</h3><p>We grant you a personal, non-exclusive, non-transferable, revocable license to use the app on iOS devices you own or control, solely for personal, non-commercial purposes, in accordance with Apple's Standard EULA.</p></div>
+          <div class="zap-legal-section"><h3>✅ Acceptable Use</h3><p>You agree not to:</p><ul><li>Reverse-engineer, decompile, or attempt to extract the source code of the app, except where Apple's EULA expressly permits it</li><li>Use the app to control TVs you don't own or aren't authorised to control</li><li>Use the app for any unlawful purpose</li></ul></div>
+          <div class="zap-legal-section"><h3>💳 Subscriptions &amp; Purchases</h3><p>Zap Remote Pro is available as auto-renewing subscriptions (Monthly and Yearly) and as a one-time Lifetime purchase, sold through the App Store using Apple StoreKit.</p><ul><li><strong>Auto-renewal:</strong> Subscriptions automatically renew at the displayed price unless you cancel at least 24 hours before the end of the current period. Manage or cancel in Settings → Apple ID → Subscriptions.</li><li><strong>Free trial:</strong> New subscribers may receive a free trial. If you don't cancel before the trial ends, the subscription will begin and you will be charged.</li><li><strong>Refunds:</strong> Handled by Apple via reportaproblem.apple.com. We have no ability to issue refunds directly.</li><li><strong>Price changes:</strong> Apple will notify you in advance and require your consent before any increase to existing subscribers.</li></ul></div>
+          <div class="zap-legal-section"><h3>📺 Compatibility &amp; Third-Party TVs</h3><p>The app communicates with smart TVs from third parties (Roku, Samsung, and LG) using each manufacturer's documented control protocols. TV manufacturers may change or remove these protocols at any time. We do not guarantee that any specific TV model will work or continue to work. We are not affiliated with, endorsed by, or sponsored by any TV manufacturer.</p><p style="margin-top:8px">Brand names including "Roku", "Samsung", and "LG" are trademarks of their respective owners.</p></div>
+          <div class="zap-legal-section"><h3>⚠️ No Warranty</h3><p>The app is provided "as is" and "as available", without warranties of any kind, express or implied. To the maximum extent permitted by law, we disclaim all implied warranties, including merchantability, fitness for a particular purpose, and non-infringement.</p></div>
+          <div class="zap-legal-section"><h3>🛡️ Limitation of Liability</h3><p>To the maximum extent permitted by law, we will not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your use of the app. Our total liability for any claim shall not exceed the amount you paid for the app in the twelve months preceding the claim, or USD 50.00, whichever is greater.</p></div>
+          <div class="zap-legal-section"><h3>🍎 Apple's Role</h3><p>These Terms are between you and <span class="zap-highlight">Pathom Sriaroonthip</span>, not Apple. Apple is a third-party beneficiary of these Terms and is entitled to enforce them. Apple has no obligation to provide maintenance or support for the app.</p></div>
+          <div class="zap-legal-section"><h3>⚖️ Changes</h3><p>We may update these Terms from time to time. Continued use of the app after changes constitutes acceptance. Questions? Use the Support tab to contact us directly.</p></div>
+        </div>
       </main>
-
       <footer>© 2025 Zap Remote · All rights reserved · No data collected — ever</footer>
     </div>
   </div>
 
-  <!-- ══ VIDEO POKER MANIA PANEL ══ -->
+  <!-- POKER -->
   <div class="panel" id="poker-panel">
     <div class="page">
       <header>
@@ -1496,86 +867,50 @@
           </div>
         </div>
         <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
       </header>
-
       <div class="poker-subnav">
         <button class="poker-subnav-btn active" onclick="switchPokerTab('support')">Support</button>
         <button class="poker-subnav-btn" onclick="switchPokerTab('privacy')">Privacy Policy</button>
       </div>
-
       <main>
         <div class="poker-subpanel active" id="poker-support">
           <section>
-            <div class="section-header">
-              <div class="poker-icon-tile" style="background:rgba(201,168,76,.12)">✉️</div>
-              <h2>Contact Us</h2>
-            </div>
+            <div class="section-header"><div class="poker-icon-tile" style="background:rgba(201,168,76,.12)">✉️</div><h2>Contact Us</h2></div>
             <form id="pokerForm">
-              <div>
-                <label for="p-name">Your Name</label>
-                <input type="text" id="p-name" placeholder="Tony" required />
-              </div>
-              <div>
-                <label for="p-email">Email Address</label>
-                <input type="email" id="p-email" placeholder="you@example.com" required />
-              </div>
-              <div>
-                <label for="p-topic">Topic</label>
+              <div><label for="p-name">Your Name</label><input type="text" id="p-name" placeholder="Tony" required /></div>
+              <div><label for="p-email">Email Address</label><input type="email" id="p-email" placeholder="you@example.com" required /></div>
+              <div><label for="p-topic">Topic</label>
                 <select id="p-topic">
-                  <option>Bug or crash report</option>
-                  <option>In-app purchase issue</option>
-                  <option>Credits / balance issue</option>
-                  <option>Game Center / leaderboard</option>
-                  <option>Ad or tracking issue</option>
-                  <option>Feature request</option>
-                  <option>Other</option>
+                  <option>Bug or crash report</option><option>In-app purchase issue</option>
+                  <option>Credits / balance issue</option><option>Game Center / leaderboard</option>
+                  <option>Ad or tracking issue</option><option>Feature request</option><option>Other</option>
                 </select>
               </div>
-              <div>
-                <label for="p-message">Message</label>
-                <textarea id="p-message" placeholder="Describe your issue…" required></textarea>
-              </div>
+              <div><label for="p-message">Message</label><textarea id="p-message" placeholder="Describe your issue…" required></textarea></div>
               <button type="submit" class="send-btn">DEAL ME IN — SEND</button>
               <div class="success-msg" id="pokerSuccess">✓ Message received! We'll reply within 48 hours.</div>
             </form>
           </section>
-
           <section>
-            <div class="section-header">
-              <div class="poker-icon-tile" style="background:rgba(201,168,76,.1)">💡</div>
-              <h2>FAQ</h2>
-            </div>
-            <details>
-              <summary>My credits disappeared after reinstalling</summary>
-              <p>Credits and progress are stored in iCloud. Make sure you're signed into the same Apple ID and iCloud is enabled in Settings → [Your Name] → iCloud → Video Poker Mania.</p>
-            </details>
-            <details>
-              <summary>In-app purchase didn't grant credits</summary>
-              <p>Tap Settings → Restore Purchases inside the app. Purchases may take a moment to process. If credits still don't appear, contact us using the form above and include the transaction date.</p>
-            </details>
-            <details>
-              <summary>Ads aren't loading / rewarded ads don't work</summary>
-              <p>Check your internet connection and make sure you haven't restricted ad content in your device settings. Rewarded ads require a live connection to Google AdMob servers. Try force-quitting and restarting the app.</p>
-            </details>
-            <details>
-              <summary>Is this real gambling? Can I win real money?</summary>
-              <p>No. Video Poker Mania is entertainment-only. All credits are virtual, have no cash value, and cannot be exchanged for real money. The app is rated 17+ for simulated gambling content only.</p>
-            </details>
-            <details>
-              <summary>How do I turn off ad personalization?</summary>
-              <p>Go to Settings → Privacy &amp; Security → Tracking and toggle off tracking for Video Poker Mania. Ads will still appear but won't be personalized. You can also revoke consent via the in-app privacy prompt.</p>
-            </details>
-            <details>
-              <summary>The app crashed — what should I do?</summary>
-              <p>Force-quit, restart, and try again. If the crash repeats, contact us with your device model, iOS version, and what you were doing when it crashed.</p>
-            </details>
+            <div class="section-header"><div class="poker-icon-tile" style="background:rgba(201,168,76,.1)">💡</div><h2>FAQ</h2></div>
+            <details><summary>My credits disappeared after reinstalling</summary><p>Credits and progress are stored in iCloud. Make sure you're signed into the same Apple ID and iCloud is enabled in Settings → [Your Name] → iCloud → Video Poker Mania.</p></details>
+            <details><summary>In-app purchase didn't grant credits</summary><p>Tap Settings → Restore Purchases inside the app. Purchases may take a moment to process. If credits still don't appear, contact us using the form above and include the transaction date.</p></details>
+            <details><summary>Ads aren't loading / rewarded ads don't work</summary><p>Check your internet connection and make sure you haven't restricted ad content in your device settings. Rewarded ads require a live connection to Google AdMob servers. Try force-quitting and restarting the app.</p></details>
+            <details><summary>Is this real gambling? Can I win real money?</summary><p>No. Video Poker Mania is entertainment-only. All credits are virtual, have no cash value, and cannot be exchanged for real money. The app is rated 17+ for simulated gambling content only.</p></details>
+            <details><summary>How do I turn off ad personalization?</summary><p>Go to Settings → Privacy &amp; Security → Tracking and toggle off tracking for Video Poker Mania. Ads will still appear but won't be personalized. You can also revoke consent via the in-app privacy prompt.</p></details>
+            <details><summary>The app crashed — what should I do?</summary><p>Force-quit, restart, and try again. If the crash repeats, contact us with your device model, iOS version, and what you were doing when it crashed.</p></details>
           </section>
-
           <section>
-            <div class="section-header">
-              <div class="poker-icon-tile" style="background:rgba(192,57,43,.12)">🃏</div>
-              <h2>Quick Tips</h2>
-            </div>
+            <div class="section-header"><div class="poker-icon-tile" style="background:rgba(192,57,43,.12)">🃏</div><h2>Quick Tips</h2></div>
             <ul>
               <li>Hold the cards that contribute to the best potential hand</li>
               <li>A pair of Jacks or better pays out — don't fold too early</li>
@@ -1584,12 +919,8 @@
               <li>Royal Flush is the jackpot — keep an eye on your suited high cards</li>
             </ul>
           </section>
-
           <section>
-            <div class="section-header">
-              <div class="poker-icon-tile" style="background:rgba(74,95,224,.12)">📱</div>
-              <h2>App Info</h2>
-            </div>
+            <div class="section-header"><div class="poker-icon-tile" style="background:rgba(74,95,224,.12)">📱</div><h2>App Info</h2></div>
             <ul>
               <li>Developer: Pathom Sriaroonthip</li>
               <li>Platform: iOS 16.0 and later</li>
@@ -1602,236 +933,579 @@
 
         <div class="poker-subpanel" id="poker-privacy">
           <p class="privacy-meta">Last updated: May 26, 2025</p>
-
-          <div class="privacy-section">
-            <h2>🃏 About This App</h2>
-            <p>Video Poker Mania ("the App", "we", "us") is a single-player, entertainment-only video poker game. There is no real-money gambling, no real cash payouts, and no account sign-up required. This policy explains what limited data the App handles, why, and your choices.</p>
-          </div>
-
-          <div class="privacy-section">
-            <h2>📦 Information We Collect</h2>
-            <p><strong style="color:var(--vp-gold2)">On your device (local-only):</strong></p>
-            <p>The following data lives only on your device and is never sent to us:</p>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px;">
-              <span class="data-tag">Hands played</span>
-              <span class="data-tag">Biggest win</span>
-              <span class="data-tag">Win streak</span>
-              <span class="data-tag">Achievement progress</span>
-              <span class="data-tag">Daily streak</span>
-              <span class="data-tag">Sound preference</span>
-              <span class="data-tag">Haptics preference</span>
-              <span class="data-tag">Currency display</span>
-              <span class="data-tag">Player name</span>
-              <span class="data-tag">Credit balance</span>
-              <span class="data-tag">Purchase history</span>
-            </div>
-            <p>Stored in iOS <code style="color:var(--vp-gold);background:rgba(201,168,76,.1);padding:1px 6px;border-radius:4px;font-size:13px">UserDefaults</code> and optionally synced via your private iCloud Key-Value Store. We never see this data; it never leaves Apple's ecosystem.</p>
-
-            <p style="margin-top:16px"><strong style="color:var(--vp-gold2)">Advertising identifiers (only with your consent):</strong></p>
-            <p>If you tap <strong>Allow</strong> on the App Tracking Transparency prompt, the App passes Apple's IDFA to Google AdMob so ads are more relevant. If you tap <strong>Ask App Not to Track</strong>, ads still appear but are not personalized.</p>
-
-            <p style="margin-top:16px"><strong style="color:var(--vp-gold2)">Game Center:</strong></p>
-            <p>If you sign in to Game Center, Apple shares your Game Center alias so leaderboards and achievements work. Score submissions go to Apple's Game Center service — not to us.</p>
-
-            <p style="margin-top:16px"><strong style="color:var(--vp-gold2)">In-App Purchases:</strong></p>
-            <p>StoreKit handles billing entirely on Apple's side. The App receives only the product ID and grants credits — it never sees your payment method, billing address, or Apple ID email.</p>
-          </div>
-
-          <div class="privacy-section">
-            <h2>🚫 What We Do NOT Collect</h2>
-            <div class="not-collected-grid">
-              <div class="not-item">Real name or email</div>
-              <div class="not-item">Phone or address</div>
-              <div class="not-item">Precise location</div>
-              <div class="not-item">Photos or contacts</div>
-              <div class="not-item">Microphone or camera</div>
-              <div class="not-item">Financial information</div>
-              <div class="not-item">Browsing history</div>
-              <div class="not-item">Data from under-17s</div>
-            </div>
-          </div>
-
-          <div class="privacy-section">
-            <h2>🔗 Third-Party Services</h2>
-            <table class="privacy-table">
-              <thead>
-                <tr><th>Service</th><th>Purpose</th><th>Privacy Policy</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Google AdMob</td>
-                  <td>Rewarded video ads</td>
-                  <td><a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></td>
-                </tr>
-                <tr>
-                  <td>Google UMP</td>
-                  <td>GDPR/CCPA consent prompts</td>
-                  <td><a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></td>
-                </tr>
-                <tr>
-                  <td>Apple Game Center</td>
-                  <td>Leaderboards &amp; achievements</td>
-                  <td><a href="https://www.apple.com/legal/privacy/data/en/game-center/" target="_blank">apple.com/…/game-center</a></td>
-                </tr>
-                <tr>
-                  <td>Apple StoreKit</td>
-                  <td>In-app purchases</td>
-                  <td><a href="https://www.apple.com/legal/privacy/data/en/app-store/" target="_blank">apple.com/…/app-store</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="privacy-section">
-            <h2>⚙️ Your Choices</h2>
-            <ul>
-              <li><strong>Ad tracking:</strong> Settings → Privacy &amp; Security → Tracking — toggle off any time.</li>
-              <li><strong>Game Center:</strong> Sign out via Settings → Game Center.</li>
-              <li><strong>Local data wipe:</strong> Delete the App to remove all locally stored gameplay data.</li>
-            </ul>
-          </div>
-
-          <div class="privacy-section">
-            <h2>🔞 Children</h2>
-            <p>The App is rated 17+ for simulated gambling content. We do not knowingly collect data from users under 17.</p>
-          </div>
-
-          <div class="privacy-section">
-            <h2>📝 Changes &amp; Contact</h2>
-            <p>We may update this policy when we add features. Continued use of the App after an update means you accept the revised policy.</p>
-            <p style="margin-top:12px">Questions? Use the Support tab to contact us directly.</p>
-          </div>
+          <div class="privacy-section"><h2>🃏 About This App</h2><p>Video Poker Mania ("the App", "we", "us") is a single-player, entertainment-only video poker game. There is no real-money gambling, no real cash payouts, and no account sign-up required. This policy explains what limited data the App handles, why, and your choices.</p></div>
+          <div class="privacy-section"><h2>📦 Information We Collect</h2><p><strong style="color:var(--vp-gold2)">On your device (local-only):</strong></p><p>The following data lives only on your device and is never sent to us:</p><div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px;"><span class="data-tag">Hands played</span><span class="data-tag">Biggest win</span><span class="data-tag">Win streak</span><span class="data-tag">Achievement progress</span><span class="data-tag">Daily streak</span><span class="data-tag">Sound preference</span><span class="data-tag">Haptics preference</span><span class="data-tag">Currency display</span><span class="data-tag">Player name</span><span class="data-tag">Credit balance</span><span class="data-tag">Purchase history</span></div><p>Stored in iOS <code style="color:var(--vp-gold);background:rgba(201,168,76,.1);padding:1px 6px;border-radius:4px;font-size:13px">UserDefaults</code> and optionally synced via your private iCloud Key-Value Store. We never see this data; it never leaves Apple's ecosystem.</p><p style="margin-top:16px"><strong style="color:var(--vp-gold2)">Advertising identifiers (only with your consent):</strong></p><p>If you tap <strong>Allow</strong> on the App Tracking Transparency prompt, the App passes Apple's IDFA to Google AdMob so ads are more relevant. If you tap <strong>Ask App Not to Track</strong>, ads still appear but are not personalized.</p><p style="margin-top:16px"><strong style="color:var(--vp-gold2)">Game Center:</strong></p><p>If you sign in to Game Center, Apple shares your Game Center alias so leaderboards and achievements work. Score submissions go to Apple's Game Center service — not to us.</p><p style="margin-top:16px"><strong style="color:var(--vp-gold2)">In-App Purchases:</strong></p><p>StoreKit handles billing entirely on Apple's side. The App receives only the product ID and grants credits — it never sees your payment method, billing address, or Apple ID email.</p></div>
+          <div class="privacy-section"><h2>🚫 What We Do NOT Collect</h2><div class="not-collected-grid"><div class="not-item">Real name or email</div><div class="not-item">Phone or address</div><div class="not-item">Precise location</div><div class="not-item">Photos or contacts</div><div class="not-item">Microphone or camera</div><div class="not-item">Financial information</div><div class="not-item">Browsing history</div><div class="not-item">Data from under-17s</div></div></div>
+          <div class="privacy-section"><h2>🔗 Third-Party Services</h2><table class="privacy-table"><thead><tr><th>Service</th><th>Purpose</th><th>Privacy Policy</th></tr></thead><tbody><tr><td>Google AdMob</td><td>Rewarded video ads</td><td><a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></td></tr><tr><td>Google UMP</td><td>GDPR/CCPA consent prompts</td><td><a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></td></tr><tr><td>Apple Game Center</td><td>Leaderboards &amp; achievements</td><td><a href="https://www.apple.com/legal/privacy/data/en/game-center/" target="_blank">apple.com/…/game-center</a></td></tr><tr><td>Apple StoreKit</td><td>In-app purchases</td><td><a href="https://www.apple.com/legal/privacy/data/en/app-store/" target="_blank">apple.com/…/app-store</a></td></tr></tbody></table></div>
+          <div class="privacy-section"><h2>⚙️ Your Choices</h2><ul><li><strong>Ad tracking:</strong> Settings → Privacy &amp; Security → Tracking — toggle off any time.</li><li><strong>Game Center:</strong> Sign out via Settings → Game Center.</li><li><strong>Local data wipe:</strong> Delete the App to remove all locally stored gameplay data.</li></ul></div>
+          <div class="privacy-section"><h2>🔞 Children</h2><p>The App is rated 17+ for simulated gambling content. We do not knowingly collect data from users under 17.</p></div>
+          <div class="privacy-section"><h2>📝 Changes &amp; Contact</h2><p>We may update this policy when we add features. Continued use of the App after an update means you accept the revised policy.</p><p style="margin-top:12px">Questions? Use the Support tab to contact us directly.</p></div>
         </div>
       </main>
-
       <footer>© 2025 Video Poker Mania · Entertainment only — no real money · All rights reserved</footer>
     </div>
   </div>
 
+  <!-- POKO -->
+  <div class="panel" id="poko-panel">
+    <div class="page">
+      <header>
+        <div class="poko-logo">
+          <div class="poko-ball"></div>
+          <div class="poko-logo-text">
+            <div class="pk-line1">Pokémon TCG</div>
+            <div class="pk-line2">POKO</div>
+            <div class="pk-line3">COLLECT · SCAN · TRACK</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge" href="https://apps.apple.com/app/id6446088167" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Download on the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="poko-subnav">
+        <button class="poko-subnav-btn active" onclick="switchPokoTab('support')">Support</button>
+        <button class="poko-subnav-btn" onclick="switchPokoTab('whats-new')">What's New</button>
+        <button class="poko-subnav-btn" onclick="switchPokoTab('privacy')">Privacy</button>
+      </div>
+
+      <main>
+        <!-- SUPPORT -->
+        <div class="poko-subpanel active" id="poko-support">
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(227,53,13,.12)">✉️</div><h2>Contact Us</h2></div>
+            <form id="pokoForm">
+              <div><label for="pk-name">Your Name</label><input type="text" id="pk-name" placeholder="Tony" required /></div>
+              <div><label for="pk-email">Email Address</label><input type="email" id="pk-email" placeholder="you@example.com" required /></div>
+              <div><label for="pk-topic">Topic</label>
+                <select id="pk-topic">
+                  <option>Card scanner issue</option>
+                  <option>Collection sync / iCloud issue</option>
+                  <option>Pack opening issue</option>
+                  <option>Price data issue</option>
+                  <option>In-app purchase issue</option>
+                  <option>Deck builder issue</option>
+                  <option>Bug or crash report</option>
+                  <option>Feature request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label for="pk-message">Message</label><textarea id="pk-message" placeholder="Describe your issue — include your device model and iOS version if relevant…" required></textarea></div>
+              <button type="submit" class="send-btn">⚡ SEND MESSAGE</button>
+              <div class="success-msg" id="pokoSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(255,203,5,.1)">💡</div><h2>FAQ</h2></div>
+            <details>
+              <summary>The scanner didn't recognize my card</summary>
+              <p>Make sure the card is flat and well-lit with no glare. For holos and reverse holos, try angling the card slightly to reduce reflections. The scanner works best on cards in English — other languages may have lower accuracy. If a card is consistently missed, let us know via the contact form above.</p>
+            </details>
+            <details>
+              <summary>My collection disappeared after reinstalling</summary>
+              <p>Your collection is backed up via iCloud. Make sure you're signed into the same Apple ID and that iCloud is enabled in Settings → [Your Name] → iCloud → POKO. On first launch after reinstalling, POKO will offer to restore from your iCloud backup.</p>
+            </details>
+            <details>
+              <summary>Price data looks wrong or outdated</summary>
+              <p>Prices sync from TCGPlayer and eBay and refresh periodically. Pull down to refresh on the card detail screen. If a price looks consistently wrong for a specific card, let us know — include the card name, set, and variant.</p>
+            </details>
+            <details>
+              <summary>Cards pulled from packs aren't counting toward my collection</summary>
+              <p>This was a bug fixed in the latest update. Make sure you're on the most recent version of POKO. After updating, newly pulled cards will count correctly. If you're already on the latest version and still seeing the issue, contact us.</p>
+            </details>
+            <details>
+              <summary>In-app purchase didn't go through</summary>
+              <p>Tap Settings → Restore Purchases inside the app. Make sure you're on the same Apple ID used at purchase. If credits or features still aren't unlocked, contact us with your transaction date and Apple Order ID.</p>
+            </details>
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, restart, and try again. If the crash repeats, contact us with your device model, iOS version, and exactly what you were doing when it crashed.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(59,76,202,.15)">🎴</div><h2>Quick Tips</h2></div>
+            <ul>
+              <li>Open your free daily pack every day to build your collection for free</li>
+              <li>Use Live Scan to add cards instantly — tap the card in the result to add to collection</li>
+              <li>Check the Collection ring on the home screen to see your set completion at a glance</li>
+              <li>Wishlist a card to track its price — you'll see when the market dips</li>
+              <li>The deck legality checker flags any illegal cards before you go to a tournament</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(255,203,5,.08)">📱</div><h2>App Info</h2></div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Bundle ID: com.tonygd.poko</li>
+              <li>Platform: iOS 16.0 and later</li>
+              <li>Powered by the Pokémon TCG API</li>
+              <li>Not affiliated with Nintendo or The Pokémon Company</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- WHAT'S NEW -->
+        <div class="poko-subpanel" id="poko-whats-new">
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(227,53,13,.12)">🆕</div><h2>What's New</h2></div>
+
+            <div class="whats-new-item">
+              <span class="whats-new-badge">Live Scan</span>
+              <div class="whats-new-title">Scan a card and add it to your collection in one tap</div>
+              <div class="whats-new-desc">Point your camera at any card. If POKO recognizes it, a single tap adds it straight to your collection — no extra steps.</div>
+            </div>
+
+            <div class="whats-new-item">
+              <span class="whats-new-badge">Collection Progress</span>
+              <div class="whats-new-title">New progress gauges across the app</div>
+              <div class="whats-new-desc">A bright completion ring on the home screen, under Open a Pack, and on the new My Pulls screen shows how close you are to catching them all — with breakdowns by set and by rarity.</div>
+            </div>
+
+            <div class="whats-new-item">
+              <span class="whats-new-badge">Achievements</span>
+              <div class="whats-new-title">Live progress on every achievement</div>
+              <div class="whats-new-desc">Each achievement now shows a partial progress ring with your current count vs. the threshold — for example 23/50 Packs — instead of just locked or unlocked.</div>
+            </div>
+
+            <div class="whats-new-item">
+              <span class="whats-new-badge">iCloud Backup</span>
+              <div class="whats-new-title">Smarter automatic backups</div>
+              <div class="whats-new-desc">Your packs, pulls, decks, and wishlist back up automatically after every pull. On a new device, POKO will offer to restore from iCloud the first time you open the app.</div>
+            </div>
+
+            <div class="whats-new-item">
+              <span class="whats-new-badge">Design</span>
+              <div class="whats-new-title">New card-back artwork</div>
+              <div class="whats-new-desc">Brand new artwork on the Pokéball placeholder and the Open a Pack banner.</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(255,203,5,.08)">✨</div><h2>Polish</h2></div>
+            <div class="polish-list">
+              <div class="polish-item">Subtle parallax on card detail images</div>
+              <div class="polish-item">Light haptic tap when opening a card</div>
+              <div class="polish-item">Smooth crossfade as card images load</div>
+              <div class="polish-item">Numbers now use thousand separators</div>
+              <div class="polish-item">Ad banner moved to the bottom of the home screen</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(59,76,202,.15)">🔧</div><h2>Reliability Fixes</h2></div>
+            <div class="polish-list">
+              <div class="polish-item">Cards now show correctly when you tap a pull</div>
+              <div class="polish-item">Cards pulled from packs count toward your collection completion</div>
+              <div class="polish-item">Home page Latest Cards no longer stuck on the placeholder</div>
+              <div class="polish-item">Set list is more resilient to upstream data changes</div>
+            </div>
+          </section>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="poko-subpanel" id="poko-privacy">
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(227,53,13,.12)">🔐</div><h2>Privacy Policy</h2></div>
+            <p style="color:rgba(255,203,5,.5);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;margin-bottom:16px">Last updated: May 27, 2025</p>
+            <p>POKO ("the App", "we", "us") is a Pokémon TCG companion app. We collect minimal data to make the app work and improve it. We never sell your data.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(255,203,5,.08)">📦</div><h2>What We Store Locally</h2></div>
+            <p>The following lives only on your device (and optionally in your private iCloud Key-Value Store) and is never transmitted to us:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span style="display:inline-block;background:rgba(227,53,13,.1);border:1px solid rgba(255,107,74,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(255,107,74,.8);margin:2px">Collection cards</span>
+              <span style="display:inline-block;background:rgba(227,53,13,.1);border:1px solid rgba(255,107,74,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(255,107,74,.8);margin:2px">Pack history</span>
+              <span style="display:inline-block;background:rgba(227,53,13,.1);border:1px solid rgba(255,107,74,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(255,107,74,.8);margin:2px">Wishlist</span>
+              <span style="display:inline-block;background:rgba(227,53,13,.1);border:1px solid rgba(255,107,74,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(255,107,74,.8);margin:2px">Decks</span>
+              <span style="display:inline-block;background:rgba(227,53,13,.1);border:1px solid rgba(255,107,74,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(255,107,74,.8);margin:2px">Achievement progress</span>
+              <span style="display:inline-block;background:rgba(227,53,13,.1);border:1px solid rgba(255,107,74,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(255,107,74,.8);margin:2px">App preferences</span>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(59,76,202,.15)">🔗</div><h2>Third-Party Services</h2></div>
+            <ul>
+              <li><strong style="color:rgba(255,255,255,.85)">Pokémon TCG API</strong> — card data and images. No personal data is sent.</li>
+              <li><strong style="color:rgba(255,255,255,.85)">TCGPlayer / eBay</strong> — live price data. No personal data is sent.</li>
+              <li><strong style="color:rgba(255,255,255,.85)">Apple StoreKit</strong> — in-app purchases. We never see your payment details.</li>
+              <li><strong style="color:rgba(255,255,255,.85)">Apple Game Center</strong> — leaderboards. Apple shares your alias only if you're signed in.</li>
+            </ul>
+            <p style="margin-top:14px">POKO is not affiliated with Nintendo or The Pokémon Company International.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="poko-icon-tile" style="background:rgba(255,203,5,.08)">📝</div><h2>Changes &amp; Contact</h2></div>
+            <p>We may update this policy as we add features. Material changes will be noted by updating the date above. Questions? Use the Support tab to reach us directly.</p>
+            <p style="margin-top:10px">Terms of Use: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" style="color:rgba(255,107,74,.7);font-size:13px">Apple Standard EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2025 POKO · Not affiliated with Nintendo or The Pokémon Company · All rights reserved</footer>
+    </div>
+  </div>
+
+  <!-- SUDOKURU -->
+  <div class="panel" id="sudokuru-panel">
+    <div class="page">
+      <header>
+        <div class="sudokuru-logo">
+          <div class="sudoku-grid-icon">
+            <div class="sudoku-cell filled">5</div>
+            <div class="sudoku-cell">3</div>
+            <div class="sudoku-cell gold">7</div>
+            <div class="sudoku-cell">6</div>
+            <div class="sudoku-cell filled">1</div>
+            <div class="sudoku-cell">9</div>
+            <div class="sudoku-cell gold">8</div>
+            <div class="sudoku-cell">4</div>
+            <div class="sudoku-cell filled">2</div>
+          </div>
+          <div class="su-logo-text">
+            <div class="su-line1">Puzzle</div>
+            <div class="su-line2">SUDOKURU</div>
+            <div class="su-line3">MASTERED</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="su-subnav">
+        <button class="su-subnav-btn active" onclick="switchSudokuruTab('support')">Support</button>
+        <button class="su-subnav-btn" onclick="switchSudokuruTab('privacy')">Privacy</button>
+      </div>
+
+      <main>
+        <!-- SUPPORT -->
+        <div class="su-subpanel active" id="sudokuru-support">
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(108,99,255,.12)">✉️</div><h2>Contact Us</h2></div>
+            <form id="sudokuruForm">
+              <div><label for="su-name">Your Name</label><input type="text" id="su-name" placeholder="Tony" required /></div>
+              <div><label for="su-email">Email Address</label><input type="email" id="su-email" placeholder="you@example.com" required /></div>
+              <div><label for="su-topic">Topic</label>
+                <select id="su-topic">
+                  <option>Bug or crash report</option>
+                  <option>Hint engine issue</option>
+                  <option>Daily Challenge / streak issue</option>
+                  <option>iCloud sync issue</option>
+                  <option>In-app purchase issue</option>
+                  <option>Feature request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label for="su-message">Message</label><textarea id="su-message" placeholder="Describe your issue — include your device model and iOS version if relevant…" required></textarea></div>
+              <button type="submit" class="send-btn">◈ SEND MESSAGE</button>
+              <div class="success-msg" id="sudokuruSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(167,139,250,.1)">🧩</div><h2>Game Modes</h2></div>
+            <div class="su-mode-grid">
+              <div class="su-mode-card"><div class="mode-name">Classic 9×9</div><div class="mode-desc">The full standard grid — beginner to expert.</div></div>
+              <div class="su-mode-card"><div class="mode-name">Mini 6×6</div><div class="mode-desc">Faster puzzles, great for a quick session.</div></div>
+              <div class="su-mode-card"><div class="mode-name">Sudoku X</div><div class="mode-desc">Classic rules plus both diagonals must be unique.</div></div>
+              <div class="su-mode-card"><div class="mode-name">Killer Sudoku</div><div class="mode-desc">Caged regions with sums — no given digits.</div></div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(245,158,11,.1)">💡</div><h2>FAQ</h2></div>
+            <details>
+              <summary>My streak was lost after reinstalling</summary>
+              <p>Your streak, stats, and unlocks sync via iCloud. Make sure you're signed into the same Apple ID and that iCloud is enabled in Settings → [Your Name] → iCloud → Sudokuru. They should restore automatically on first launch.</p>
+            </details>
+            <details>
+              <summary>The hint isn't explaining the technique</summary>
+              <p>Hints are tiered — the first tap highlights the relevant cells, the second shows the technique name, and the third gives the full explanation. Make sure you're tapping through all three steps before reporting it as broken.</p>
+            </details>
+            <details>
+              <summary>What techniques does the hint engine teach?</summary>
+              <p>The engine currently covers:</p>
+              <p style="margin-top:8px">
+                <span class="su-technique-tag">Naked Single</span>
+                <span class="su-technique-tag">Hidden Single</span>
+                <span class="su-technique-tag">Naked Pair</span>
+                <span class="su-technique-tag">Hidden Pair</span>
+                <span class="su-technique-tag">Pointing Pair</span>
+                <span class="su-technique-tag">Box/Line Reduction</span>
+                <span class="su-technique-tag">X-Wing</span>
+              </p>
+            </details>
+            <details>
+              <summary>Daily Challenge streak not counting</summary>
+              <p>The Daily Challenge resets at midnight in your local time zone. Completing a puzzle after midnight counts for the new day. If your streak dropped despite finishing on time, contact us with your device's time zone and the date it happened.</p>
+            </details>
+            <details>
+              <summary>In-app purchase didn't unlock premium</summary>
+              <p>Tap Settings → Restore Purchases inside the app. If the unlock still doesn't appear, contact us with your Apple transaction date and Order ID.</p>
+            </details>
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, restart, and try again. If the crash repeats, contact us with your device model, iOS version, which puzzle mode you were in, and what you were doing when it crashed.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(108,99,255,.1)">⚡</div><h2>Quick Tips</h2></div>
+            <ul>
+              <li>Use the Daily Challenge every day to build your streak — puzzles reset at midnight local time</li>
+              <li>Stuck? Use a hint to learn the technique — not just to fill the cell</li>
+              <li>Sudoku X and Killer are unlocked once you complete a set number of Classic puzzles</li>
+              <li>Premium themes change the grid, number style, and background — try a few to find your focus mode</li>
+              <li>Your iCloud sync is automatic — start on iPhone, finish on iPad</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(167,139,250,.08)">📱</div><h2>App Info</h2></div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Platform: iOS 16.0 and later</li>
+              <li>iCloud sync included — no account needed</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="su-subpanel" id="sudokuru-privacy">
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(108,99,255,.12)">🔐</div><h2>Privacy Policy</h2></div>
+            <p style="color:rgba(167,139,250,.5);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;margin-bottom:16px">Last updated: May 27, 2025</p>
+            <p>Sudokuru ("the App", "we", "us") collects no personal data. Everything stays on your device or in your private iCloud storage. We never see it.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(167,139,250,.1)">📦</div><h2>What We Store Locally</h2></div>
+            <p>The following lives only on your device and in your private iCloud Key-Value Store — never on our servers:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span class="su-technique-tag">Puzzle progress</span>
+              <span class="su-technique-tag">Solved count</span>
+              <span class="su-technique-tag">Daily streak</span>
+              <span class="su-technique-tag">Best times</span>
+              <span class="su-technique-tag">Hint usage</span>
+              <span class="su-technique-tag">Unlocked modes</span>
+              <span class="su-technique-tag">Active theme</span>
+              <span class="su-technique-tag">Purchase status</span>
+              <span class="su-technique-tag">Sound &amp; haptics</span>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(108,99,255,.1)">🔗</div><h2>Third-Party Services</h2></div>
+            <ul>
+              <li><strong style="color:rgba(255,255,255,.85)">Apple StoreKit</strong> — in-app purchases. We never see your payment details.</li>
+              <li><strong style="color:rgba(255,255,255,.85)">Apple iCloud KV</strong> — stats &amp; streak sync. Stored privately in your own iCloud account.</li>
+            </ul>
+            <p style="margin-top:14px">No analytics, no ad networks, no third-party trackers. Ever.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="su-icon-tile" style="background:rgba(167,139,250,.08)">📝</div><h2>Changes &amp; Contact</h2></div>
+            <p>We may update this policy as we add features. Material changes will be noted by updating the date above.</p>
+            <p style="margin-top:10px">Questions? Use the Support tab to reach us directly.</p>
+            <p style="margin-top:10px">Terms of Use: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" style="color:rgba(167,139,250,.7);font-size:13px">Apple Standard EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2025 Sudokuru · Sudoku, mastered · All rights reserved</footer>
+    </div>
+  </div>
+
+
 </div>
 
 <script>
-  function switchApp(app) {
-    const nav = document.getElementById('mainNav');
-    document.getElementById('wordo-panel').classList.remove('active');
-    document.getElementById('zap-panel').classList.remove('active');
-    document.getElementById('poker-panel').classList.remove('active');
-    nav.classList.remove('on-zap', 'on-poker');
+// ── PATH-BASED ROUTER ──────────────────────────────────────────────
+// Routes:
+//   /              → wordo support
+//   /wordo         → wordo support
+//   /zap           → zap support
+//   /zap/privacy   → zap privacy
+//   /zap/terms     → zap terms
+//   /poker         → poker support
+//   /poker/privacy → poker privacy
 
-    if (app === 'wordo') {
-      document.getElementById('wordo-panel').classList.add('active');
-      document.body.style.background = '#f5f0e8';
-      document.body.style.color = '#2b1d0e';
-    } else if (app === 'zap') {
-      document.getElementById('zap-panel').classList.add('active');
-      nav.classList.add('on-zap');
-      document.body.style.background = '#0a0e1a';
-      document.body.style.color = '#fff';
-    } else {
-      document.getElementById('poker-panel').classList.add('active');
-      nav.classList.add('on-poker');
-      document.body.style.background = '#0d0d0d';
-      document.body.style.color = '#fff';
-    }
+const TAB_MAP = {
+  zap:   ['support', 'privacy', 'terms'],
+  poker: ['support', 'privacy'],
+  poko:  ['support', 'whats-new', 'privacy'],
+  sudokuru: ['support', 'privacy'],
+};
+
+function parsePath(pathname) {
+  const parts = pathname.replace(/^\//, '').split('/').filter(Boolean);
+  const app   = parts[0] || 'wordo';
+  const tab   = parts[1] || 'support';
+  const validApps = ['wordo', 'zap', 'poker', 'poko', 'sudokuru'];
+  const validApp  = validApps.includes(app) ? app : 'wordo';
+  const tabs      = TAB_MAP[validApp] || ['support'];
+  const validTab  = tabs.includes(tab) ? tab : 'support';
+  return { app: validApp, tab: validTab };
+}
+
+function buildPath(app, tab) {
+  if (app === 'wordo') return '/';
+  if (!tab || tab === 'support') return '/' + app;
+  return '/' + app + '/' + tab;
+}
+
+// Low-level switchers — no history side effects
+function _switchApp(app) {
+  const nav = document.getElementById('mainNav');
+  ['wordo', 'zap', 'poker', 'poko', 'sudokuru'].forEach(a =>
+    document.getElementById(a + '-panel').classList.remove('active'));
+  nav.classList.remove('on-zap', 'on-poker', 'on-poko', 'on-sudokuru');
+  document.getElementById(app + '-panel').classList.add('active');
+  if (app === 'zap') {
+    nav.classList.add('on-zap');
+    document.body.style.background = '#0a0e1a';
+    document.body.style.color = '#fff';
+  } else if (app === 'poker') {
+    nav.classList.add('on-poker');
+    document.body.style.background = '#0d0d0d';
+    document.body.style.color = '#fff';
+  } else if (app === 'poko') {
+    nav.classList.add('on-poko');
+    document.body.style.background = '#0f0f14';
+    document.body.style.color = '#fff';
+  } else if (app === 'sudokuru') {
+    nav.classList.add('on-sudokuru');
+    document.body.style.background = '#0c0f1a';
+    document.body.style.color = '#fff';
+  } else {
+    document.body.style.background = '#f5f0e8';
+    document.body.style.color = '#2b1d0e';
   }
+}
 
-  function switchZapTab(tab) {
-    const btns = document.querySelectorAll('.zap-subnav-btn');
-    btns[0].classList.toggle('active', tab === 'support');
-    btns[1].classList.toggle('active', tab === 'privacy');
-    btns[2].classList.toggle('active', tab === 'terms');
-    document.getElementById('zap-support').classList.toggle('active', tab === 'support');
-    document.getElementById('zap-privacy').classList.toggle('active', tab === 'privacy');
-    document.getElementById('zap-terms').classList.toggle('active', tab === 'terms');
-  }
+function _switchZapTab(tab) {
+  const btns = document.querySelectorAll('.zap-subnav-btn');
+  const tabs  = ['support', 'privacy', 'terms'];
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+  tabs.forEach(t =>
+    document.getElementById('zap-' + t).classList.toggle('active', t === tab));
+}
 
-  function switchPokerTab(tab) {
-    const btns = document.querySelectorAll('.poker-subnav-btn');
-    btns.forEach((b, i) => {
-      b.classList.toggle('active', (i === 0 && tab === 'support') || (i === 1 && tab === 'privacy'));
-    });
-    document.getElementById('poker-support').classList.toggle('active', tab === 'support');
-    document.getElementById('poker-privacy').classList.toggle('active', tab === 'privacy');
-  }
+function _switchPokerTab(tab) {
+  const btns = document.querySelectorAll('.poker-subnav-btn');
+  const tabs  = ['support', 'privacy'];
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+  tabs.forEach(t =>
+    document.getElementById('poker-' + t).classList.toggle('active', t === tab));
+}
 
-  function setupForm(formId, successId) {
-    document.getElementById(formId).addEventListener('submit', function(e) {
-      e.preventDefault();
-      const btn = this.querySelector('.send-btn');
-      const msg = document.getElementById(successId);
+// Safe wrappers — history API blocked in sandboxed iframes, so never crash
+function safePush(state, path) {
+  try { history.pushState(state, '', path); } catch(e) {}
+}
+function safeReplace(state, path) {
+  try { history.replaceState(state, '', path); } catch(e) {}
+}
 
-      // Collect fields
-      const nameEl    = this.querySelector('input[type="text"]');
-      const emailEl   = this.querySelector('input[type="email"]');
-      const topicEl   = this.querySelector('select');
-      const messageEl = this.querySelector('textarea');
+function _switchSudokuruTab(tab) {
+  const btns = document.querySelectorAll('.su-subnav-btn');
+  const tabs  = ['support', 'privacy'];
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+  tabs.forEach(t =>
+    document.getElementById('sudokuru-' + t).classList.toggle('active', t === tab));
+}
 
-      const name    = nameEl    ? nameEl.value.trim()    : '';
-      const email   = emailEl   ? emailEl.value.trim()   : '';
-      const topic   = topicEl   ? topicEl.value.trim()   : '';
-      const message = messageEl ? messageEl.value.trim() : '';
+function _switchPokoTab(tab) {
+  const btns = document.querySelectorAll('.poko-subnav-btn');
+  const tabs  = ['support', 'whats-new', 'privacy'];
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+  tabs.forEach(t =>
+    document.getElementById('poko-' + t).classList.toggle('active', t === tab));
+}
 
-      const subject = encodeURIComponent('[Zap / App Support] ' + topic);
-      const body    = encodeURIComponent(
-        'Name: ' + name + '\n' +
-        'Email: ' + email + '\n' +
-        'Topic: ' + topic + '\n\n' +
-        message
-      );
+// Public API — updates URL and view
+function navigate(app, tab) {
+  tab = tab || 'support';
+  safePush({ app, tab }, buildPath(app, tab));
+  _switchApp(app);
+  if (app === 'zap')   _switchZapTab(tab);
+  if (app === 'poker') _switchPokerTab(tab);
+  if (app === 'poko')  _switchPokoTab(tab);
+  if (app === 'sudokuru') _switchSudokuruTab(tab);
+  window.scrollTo(0, 0);
+}
 
-      btn.textContent = 'SENDING…';
-      btn.disabled = true;
+// Exposed to onclick attributes
+function switchApp(app)      { navigate(app, 'support'); }
+function switchZapTab(tab)   { navigate('zap',   tab); }
+function switchPokerTab(tab) { navigate('poker', tab); }
+function switchPokoTab(tab)  { navigate('poko',  tab); }
+function switchSudokuruTab(tab) { navigate('sudokuru', tab); }
 
-      // Open mail client
-      window.location.href = 'mailto:ptonygd@gmail.com?subject=' + subject + '&body=' + body;
+// Back/forward
+window.addEventListener('popstate', function(e) {
+  const state = e.state || parsePath(location.pathname);
+  _switchApp(state.app);
+  if (state.app === 'zap')   _switchZapTab(state.tab);
+  if (state.app === 'poker') _switchPokerTab(state.tab);
+  if (state.app === 'poko')  _switchPokoTab(state.tab);
+  if (state.app === 'sudokuru') _switchSudokuruTab(state.tab);
+});
 
-      setTimeout(() => {
-        btn.style.display = 'none';
-        msg.style.display = 'block';
-      }, 800);
-    });
-  }
+// Forms
+function setupForm(formId, successId) {
+  document.getElementById(formId).addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn     = this.querySelector('.send-btn');
+    const msg     = document.getElementById(successId);
+    const name    = (this.querySelector('input[type="text"]')  || {}).value || '';
+    const email   = (this.querySelector('input[type="email"]') || {}).value || '';
+    const topic   = (this.querySelector('select')              || {}).value || '';
+    const message = (this.querySelector('textarea')            || {}).value || '';
+    const subject = encodeURIComponent('[App Support] ' + topic);
+    const body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nTopic: ' + topic + '\n\n' + message);
+    btn.textContent = 'SENDING…';
+    btn.disabled = true;
+    window.location.href = 'mailto:ptonygd@gmail.com?subject=' + subject + '&body=' + body;
+    setTimeout(() => { btn.style.display = 'none'; msg.style.display = 'block'; }, 800);
+  });
+}
+setupForm('wordoForm', 'wordoSuccess');
+setupForm('zapForm',   'zapSuccess');
+setupForm('pokerForm', 'pokerSuccess');
+setupForm('pokoForm',  'pokoSuccess');
+setupForm('sudokuruForm', 'sudokuruSuccess');
 
-  setupForm('wordoForm', 'wordoSuccess');
-  setupForm('zapForm', 'zapSuccess');
-  setupForm('pokerForm', 'pokerSuccess');
-
-  // URL param routing
-  function readParams() {
-    const params = new URLSearchParams(window.location.search);
-    const app = params.get('app') || 'wordo';
-    const tab = params.get('tab') || 'support';
-    if (['wordo', 'zap', 'poker'].includes(app)) switchApp(app);
-    if (app === 'zap' && ['support', 'privacy', 'terms'].includes(tab)) switchZapTab(tab);
-    if (app === 'poker' && ['support', 'privacy'].includes(tab)) switchPokerTab(tab);
-  }
-
-  const _switchApp = switchApp;
-  switchApp = function(app) {
-    _switchApp(app);
-    const params = new URLSearchParams(window.location.search);
-    params.set('app', app);
-    params.delete('tab');
-    history.replaceState(null, '', '?' + params.toString());
-  };
-
-  const _switchZapTab = switchZapTab;
-  switchZapTab = function(tab) {
-    _switchZapTab(tab);
-    const params = new URLSearchParams(window.location.search);
-    params.set('tab', tab);
-    history.replaceState(null, '', '?' + params.toString());
-  };
-
-  const _switchPokerTab = switchPokerTab;
-  switchPokerTab = function(tab) {
-    _switchPokerTab(tab);
-    const params = new URLSearchParams(window.location.search);
-    params.set('tab', tab);
-    history.replaceState(null, '', '?' + params.toString());
-  };
-
-  readParams();
+// Initial load — honour URL path
+(function() {
+  const { app, tab } = parsePath(location.pathname);
+  safeReplace({ app, tab }, buildPath(app, tab));
+  _switchApp(app);
+  if (app === 'zap')   _switchZapTab(tab);
+  if (app === 'poker') _switchPokerTab(tab);
+  if (app === 'poko')  _switchPokoTab(tab);
+  if (app === 'sudokuru') _switchSudokuruTab(tab);
+})();
 </script>
 </body>
 </html>
