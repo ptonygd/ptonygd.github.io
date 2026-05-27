@@ -1357,12 +1357,8 @@ const TAB_MAP = {
   sudokuru: ['support', 'privacy'],
 };
 
-// Detect base path — e.g. /poko on GitHub Pages, empty on a custom domain
-const BASE = (function() {
-  var b = window.location.pathname.split('/');
-  return (b[1] && b[1] !== '' && !['wordo','zap','poker','poko','sudokuru'].includes(b[1]))
-    ? '/' + b[1] : '';
-})();
+// No base prefix — this is a user GitHub Pages site served from root
+const BASE = '';
 
 function parsePath(pathname) {
   // Strip base prefix before parsing app/tab segments
