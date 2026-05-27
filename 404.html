@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // GitHub Pages SPA redirect trick
+    // Converts /poko/zap/privacy → /?p=/zap/privacy then support.html reads it back
+    var seg = window.location.pathname.replace('/poko', '') || '/';
+    var query = window.location.search;
+    var hash  = window.location.hash;
+    window.location.replace(
+      '/poko/?p=' + encodeURIComponent(seg) + (query ? '&' + query.slice(1) : '') + hash
+    );
+  </script>
+</head>
+<body></body>
+</html>
