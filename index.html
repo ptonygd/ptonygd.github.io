@@ -641,13 +641,6 @@
       .zap-logo-text .zap-line2 { font-size: 34px; }
     }
   </style>
-  <script>
-    // Redirect the Video Poker Mania URL straight to the authorized-sellers file.
-    // Runs in <head> before render so there is no flash of the support page.
-    if (new URLSearchParams(location.search).get('app') === 'poker') {
-      window.location.replace('/app-ads.txt');
-    }
-  </script>
 </head>
 <body>
 <div class="page">
