@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Support — POKO, Wordo, Zap Remote & Video Poker Mania</title>
+  <title>Support — POKO, Wordo, Zap Remote, Video Poker Mania, Sudokuru & War of the Art One</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -48,6 +48,15 @@
       --vp-border:  rgba(201,168,76,0.3);
       --vp-shadow:  rgba(201,168,76,0.2);
       --vp-text:    rgba(255,255,255,0.75);
+      --wa-bg:       #150a0e;
+      --wa-crimson:  #c1272d;
+      --wa-crimson2: #e84855;
+      --wa-gold:     #d4a843;
+      --wa-gold2:    #f2d272;
+      --wa-card:     rgba(255,255,255,0.04);
+      --wa-border:   rgba(212,168,67,0.22);
+      --wa-text:     rgba(255,255,255,0.75);
+      --wa-shadow:   rgba(212,168,67,0.2);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -199,6 +208,29 @@
     nav.on-sudokuru .nav-btn.poko .nav-dot { background: var(--grey); }
     .nav-btn.poko .nav-dot     { background: var(--pk-yellow); }
     .nav-btn.sudokuru .nav-dot { background: var(--su-accent2); }
+    /* WAR OF THE ART nav */
+    .nav-btn.warofart { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.warofart:hover { border-color: var(--wa-gold); color: var(--wa-gold); }
+    .nav-btn.warofart .nav-dot { background: var(--wa-gold); }
+    nav.on-warofart .nav-btn.warofart {
+      background: linear-gradient(135deg, var(--wa-crimson), var(--wa-gold));
+      color: #fff; border-color: var(--wa-gold);
+      box-shadow: 0 0 14px rgba(193,39,45,0.4);
+    }
+    nav.on-warofart .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
+    nav.on-warofart .nav-btn.zap,
+    nav.on-warofart .nav-btn.poker,
+    nav.on-warofart .nav-btn.poko,
+    nav.on-warofart .nav-btn.sudokuru { color: var(--grey); border-color: var(--border); }
+    nav.on-warofart .nav-btn.wordo .nav-dot,
+    nav.on-warofart .nav-btn.zap .nav-dot,
+    nav.on-warofart .nav-btn.poker .nav-dot,
+    nav.on-warofart .nav-btn.poko .nav-dot,
+    nav.on-warofart .nav-btn.sudokuru .nav-dot { background: var(--grey); }
+    nav.on-zap .nav-btn.warofart .nav-dot,
+    nav.on-poker .nav-btn.warofart .nav-dot,
+    nav.on-poko .nav-btn.warofart .nav-dot,
+    nav.on-sudokuru .nav-btn.warofart .nav-dot { background: var(--grey); }
     .panel { display: none; }
     .panel.active { display: block; }
 
@@ -629,6 +661,87 @@
     #sudokuru-panel .as-badge { box-shadow: 0 4px 20px rgba(108,99,255,.2); border-color: rgba(108,99,255,.25); }
     #sudokuru-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(108,99,255,.4); }
 
+    /* WAR OF THE ART ONE */
+    #warofart-panel { background: var(--wa-bg); min-height: 100vh; position: relative; overflow: hidden; }
+    #warofart-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 65% 55% at 12% 4%, rgba(193,39,45,.22) 0%, transparent 58%),
+        radial-gradient(ellipse 55% 45% at 88% 92%, rgba(212,168,67,.14) 0%, transparent 58%),
+        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(232,72,85,.05) 0%, transparent 72%);
+      pointer-events: none; z-index: 0;
+    }
+    #warofart-panel::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: repeating-linear-gradient(45deg, rgba(212,168,67,.018) 0px, rgba(212,168,67,.018) 1px, transparent 1px, transparent 9px);
+      pointer-events: none; z-index: 0;
+    }
+    #warofart-panel .page { position: relative; z-index: 1; }
+    #warofart-panel header { padding: 32px 24px 24px; text-align: center; }
+    .warofart-logo { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    .wa-cards { display: flex; align-items: flex-end; }
+    .wa-card {
+      width: 34px; height: 48px; border-radius: 6px;
+      background: linear-gradient(155deg, #2a0f15 0%, #1c0a0e 100%);
+      border: 1.5px solid var(--wa-gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--wa-gold2);
+      box-shadow: 0 3px 12px rgba(0,0,0,.55), inset 0 0 8px rgba(212,168,67,.12);
+      animation: waFan 0.5s both; position: relative;
+    }
+    .wa-card:nth-child(1){ animation-delay:.05s; transform: rotate(-16deg) translateY(6px); margin-right:-12px; z-index:1; }
+    .wa-card:nth-child(2){ animation-delay:.12s; transform: rotate(-8deg) translateY(1px); margin-right:-12px; z-index:2; }
+    .wa-card:nth-child(3){ animation-delay:.19s; transform: rotate(0deg) translateY(-3px); z-index:3;
+      border-color: var(--wa-gold2); box-shadow: 0 4px 16px rgba(193,39,45,.5), inset 0 0 10px rgba(212,168,67,.2); }
+    .wa-card:nth-child(4){ animation-delay:.26s; transform: rotate(8deg) translateY(1px); margin-left:-12px; z-index:2; }
+    .wa-card:nth-child(5){ animation-delay:.33s; transform: rotate(16deg) translateY(6px); margin-left:-12px; z-index:1; }
+    @keyframes waFan { from { opacity: 0; transform: translateY(-26px) rotate(0deg); } to { opacity: 1; } }
+    .wa-logo-text { text-align: left; }
+    .wa-logo-text .wa-line1 { font-family: 'Playfair Display', serif; font-size: 13px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--wa-gold); opacity: 0.75; line-height: 1; }
+    .wa-logo-text .wa-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 0.05em; line-height: 1; background: linear-gradient(135deg, var(--wa-gold2) 0%, var(--wa-crimson2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .wa-logo-text .wa-line3 { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 0.18em; line-height: 1; color: #fff; }
+    #warofart-panel header > p { font-size: 15px; color: rgba(255,255,255,.35); font-weight: 500; }
+    .warofart-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; animation: fadeDown 0.5s 0.2s both; }
+    .warofart-subnav-btn { padding: 8px 22px; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--wa-border); background: transparent; color: rgba(255,255,255,.4); letter-spacing: 0.02em; transition: all .2s; }
+    .warofart-subnav-btn.active { background: rgba(193,39,45,.15); color: var(--wa-gold2); border-color: var(--wa-gold); box-shadow: 0 0 12px rgba(193,39,45,.2); }
+    .warofart-subnav-btn:hover:not(.active) { border-color: rgba(212,168,67,.5); color: rgba(212,168,67,.75); }
+    .warofart-subpanel { display: none; }
+    .warofart-subpanel.active { display: block; }
+    #warofart-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #warofart-panel section { background: var(--wa-card); border: 1.5px solid var(--wa-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(212,168,67,.06), 0 8px 32px rgba(0,0,0,.5); backdrop-filter: blur(10px); animation: fadeUp 0.5s both; }
+    #warofart-panel section:nth-child(1){animation-delay:.35s}
+    #warofart-panel section:nth-child(2){animation-delay:.45s}
+    #warofart-panel section:nth-child(3){animation-delay:.55s}
+    #warofart-panel section:nth-child(4){animation-delay:.65s}
+    #warofart-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    #warofart-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: var(--wa-gold2); }
+    .wa-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #warofart-panel p, #warofart-panel li { font-size: 15px; line-height: 1.65; color: var(--wa-text); }
+    #warofart-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #warofart-panel li::before { content: '✦ '; color: var(--wa-gold); font-size: 11px; }
+    #warofart-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #warofart-panel label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(212,168,67,.5); margin-bottom: 4px; display: block; }
+    #warofart-panel input, #warofart-panel textarea, #warofart-panel select { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(212,168,67,.2); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #fff; background: rgba(255,255,255,.04); outline: none; transition: border-color .2s, box-shadow .2s; }
+    #warofart-panel select option { background: #1c0a0e; }
+    #warofart-panel input::placeholder, #warofart-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #warofart-panel input:focus, #warofart-panel textarea:focus, #warofart-panel select:focus { border-color: var(--wa-gold); box-shadow: 0 0 0 3px rgba(212,168,67,.15); background: rgba(255,255,255,.06); }
+    #warofart-panel textarea { resize: vertical; min-height: 110px; }
+    #warofart-panel .send-btn { background: linear-gradient(135deg, var(--wa-crimson), var(--wa-crimson2)); color: #fff; border: none; border-radius: 10px; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px rgba(193,39,45,.3); transition: transform .1s, opacity .1s; }
+    #warofart-panel .send-btn:hover  { transform: translateY(-1px); opacity: .92; }
+    #warofart-panel .send-btn:active { transform: translateY(1px); }
+    #warofart-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(193,39,45,.12); border-radius: 10px; border: 1px solid rgba(232,72,85,.35); color: var(--wa-gold2); font-weight: 600; font-size: 15px; }
+    #warofart-panel details { border-bottom: 1px solid rgba(212,168,67,.12); padding: 12px 0; }
+    #warofart-panel details:last-child { border-bottom: none; }
+    #warofart-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,.85); }
+    #warofart-panel summary::after { content: '+'; font-size: 20px; color: rgba(212,168,67,.4); transition: transform .2s; }
+    #warofart-panel details[open] summary::after { transform: rotate(45deg); }
+    #warofart-panel details p { margin-top: 10px; }
+    .wa-credit { background: rgba(212,168,67,.07); border: 1px solid rgba(212,168,67,.2); border-radius: 10px; padding: 14px 16px; margin-top: 4px; }
+    .wa-credit p { font-size: 13px; color: rgba(255,255,255,.6); line-height: 1.6; }
+    #warofart-panel footer { text-align: center; padding: 12px 24px 32px; font-size: 13px; color: rgba(255,255,255,.2); animation: fadeUp 0.5s 0.75s both; }
+    #warofart-panel .as-badge { box-shadow: 0 4px 20px rgba(212,168,67,.2); border-color: rgba(212,168,67,.25); }
+    #warofart-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(212,168,67,.4); }
+
     @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
     @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
@@ -660,6 +773,9 @@
     </button>
     <button class="nav-btn sudokuru" onclick="switchApp('sudokuru')">
       <span class="nav-dot"></span> Sudokuru
+    </button>
+    <button class="nav-btn warofart" onclick="switchApp('warofart')">
+      <span class="nav-dot"></span> War of the Art One
     </button>
   </nav>
 
@@ -1336,6 +1452,156 @@
     </div>
   </div>
 
+  <!-- WAR OF THE ART ONE -->
+  <div class="panel" id="warofart-panel">
+    <div class="page">
+      <header>
+        <div class="warofart-logo">
+          <div class="wa-cards">
+            <div class="wa-card">🐘</div>
+            <div class="wa-card">⚔</div>
+            <div class="wa-card">✦</div>
+            <div class="wa-card">⚔</div>
+            <div class="wa-card">🐘</div>
+          </div>
+          <div class="wa-logo-text">
+            <div class="wa-line1">Card Battle</div>
+            <div class="wa-line2">WAR OF THE ART</div>
+            <div class="wa-line3">ONE</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="warofart-subnav">
+        <button class="warofart-subnav-btn active" onclick="switchWarofartTab('support')">Support</button>
+        <button class="warofart-subnav-btn" onclick="switchWarofartTab('privacy')">Privacy</button>
+      </div>
+
+      <main>
+        <!-- SUPPORT -->
+        <div class="warofart-subpanel active" id="warofart-support">
+          <section>
+            <div class="section-header"><div class="wa-icon-tile" style="background:rgba(193,39,45,.12)">✉️</div><h2>Contact Us</h2></div>
+            <form id="warofartForm">
+              <div><label for="wa-name">Your Name</label><input type="text" id="wa-name" placeholder="Tony" required /></div>
+              <div><label for="wa-email">Email Address</label><input type="email" id="wa-email" placeholder="you@example.com" required /></div>
+              <div><label for="wa-topic">Topic</label>
+                <select id="wa-topic">
+                  <option>Bug or crash report</option>
+                  <option>Card / deck issue</option>
+                  <option>Battle / matchmaking issue</option>
+                  <option>iCloud sync issue</option>
+                  <option>In-app purchase issue</option>
+                  <option>Game Center / leaderboard</option>
+                  <option>Feature request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label for="wa-message">Message</label><textarea id="wa-message" placeholder="Describe your issue — include your device model and iOS version if relevant…" required></textarea></div>
+              <button type="submit" class="send-btn">⚔ SEND MESSAGE</button>
+              <div class="success-msg" id="warofartSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wa-icon-tile" style="background:rgba(212,168,67,.1)">💡</div><h2>FAQ</h2></div>
+            <details>
+              <summary>My collection or progress disappeared after reinstalling</summary>
+              <p>Your cards, decks, and progress are backed up via iCloud. Make sure you're signed into the same Apple ID and that iCloud is enabled in Settings → [Your Name] → iCloud → War of the Art One. Progress should restore automatically on first launch.</p>
+            </details>
+            <details>
+              <summary>In-app purchase didn't unlock</summary>
+              <p>Tap Settings → Restore Purchases inside the app. Make sure you're signed into the same Apple ID used at purchase. If the content still doesn't appear, contact us with your transaction date and Apple Order ID.</p>
+            </details>
+            <details>
+              <summary>Game Center leaderboard isn't showing</summary>
+              <p>Go to Settings → Game Center and make sure you're signed in. Leaderboards and achievements require an active Game Center account to display.</p>
+            </details>
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, restart, and try again. If the crash repeats, contact us with your device model, iOS version, and exactly what you were doing when it crashed.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wa-icon-tile" style="background:rgba(232,72,85,.12)">🎴</div><h2>How to Play</h2></div>
+            <ul>
+              <li>Build a deck from your card collection before each battle</li>
+              <li>Play cards strategically each turn to outmaneuver your opponent</li>
+              <li>Win battles to earn rewards and expand your collection</li>
+              <li>Climb the Game Center leaderboard as you rack up wins</li>
+              <li>Sync across devices automatically via iCloud</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wa-icon-tile" style="background:rgba(212,168,67,.08)">📱</div><h2>App Info</h2></div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Bundle ID: com.tonygd.warofart</li>
+              <li>Platform: iOS 16.0 and later</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+            <div class="wa-credit">
+              <p>Original artwork from the <strong style="color:var(--wa-gold2)">Mahaganapati</strong> collection, used under license. All rights reserved by the respective artist.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="warofart-subpanel" id="warofart-privacy">
+          <section>
+            <div class="section-header"><div class="wa-icon-tile" style="background:rgba(193,39,45,.12)">🔐</div><h2>Privacy Policy</h2></div>
+            <p style="color:rgba(212,168,67,.5);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;margin-bottom:16px">Last updated: June 20, 2026</p>
+            <p>War of the Art One ("the App", "we", "us") is a single-player card battle game. We collect no personal data. Everything stays on your device or in your private iCloud storage. We never see it.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wa-icon-tile" style="background:rgba(212,168,67,.1)">📦</div><h2>What We Store Locally</h2></div>
+            <p>The following lives only on your device and in your private iCloud Key-Value Store — never on our servers:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span style="display:inline-block;background:rgba(193,39,45,.12);border:1px solid rgba(212,168,67,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(212,168,67,.85);margin:2px">Card collection</span>
+              <span style="display:inline-block;background:rgba(193,39,45,.12);border:1px solid rgba(212,168,67,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(212,168,67,.85);margin:2px">Decks</span>
+              <span style="display:inline-block;background:rgba(193,39,45,.12);border:1px solid rgba(212,168,67,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(212,168,67,.85);margin:2px">Battle progress</span>
+              <span style="display:inline-block;background:rgba(193,39,45,.12);border:1px solid rgba(212,168,67,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(212,168,67,.85);margin:2px">Achievement progress</span>
+              <span style="display:inline-block;background:rgba(193,39,45,.12);border:1px solid rgba(212,168,67,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(212,168,67,.85);margin:2px">Purchase status</span>
+              <span style="display:inline-block;background:rgba(193,39,45,.12);border:1px solid rgba(212,168,67,.25);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;color:rgba(212,168,67,.85);margin:2px">App preferences</span>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wa-icon-tile" style="background:rgba(232,72,85,.12)">🔗</div><h2>Third-Party Services</h2></div>
+            <ul>
+              <li><strong style="color:rgba(255,255,255,.85)">Apple StoreKit</strong> — in-app purchases. We never see your payment details.</li>
+              <li><strong style="color:rgba(255,255,255,.85)">Apple Game Center</strong> — leaderboards &amp; achievements. Apple shares your alias only if you're signed in.</li>
+              <li><strong style="color:rgba(255,255,255,.85)">Apple iCloud KV</strong> — collection &amp; progress sync. Stored privately in your own iCloud account.</li>
+            </ul>
+            <p style="margin-top:14px">No analytics, no ad networks, no third-party trackers.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wa-icon-tile" style="background:rgba(212,168,67,.08)">📝</div><h2>Changes &amp; Contact</h2></div>
+            <p>We may update this policy as we add features. Material changes will be noted by updating the date above.</p>
+            <p style="margin-top:10px">Questions? Use the Support tab to reach us directly.</p>
+            <p style="margin-top:10px">Terms of Use: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" style="color:rgba(212,168,67,.7);font-size:13px">Apple Standard EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2026 War of the Art One · All rights reserved</footer>
+    </div>
+  </div>
+
 
 </div>
 
@@ -1348,13 +1614,14 @@ const TAB_MAP = {
   poker:    ['support', 'privacy'],
   poko:     ['support', 'whats-new', 'privacy'],
   sudokuru: ['support', 'privacy'],
+  warofart: ['support', 'privacy'],
 };
 
 function parseQuery() {
   const p    = new URLSearchParams(location.search);
   const app  = p.get('app')  || 'wordo';
   const page = p.get('page') || 'support';
-  const validApps = ['wordo', 'zap', 'poker', 'poko', 'sudokuru'];
+  const validApps = ['wordo', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
   const validApp  = validApps.includes(app) ? app : 'wordo';
   const tabs      = TAB_MAP[validApp] || ['support'];
   const validPage = tabs.includes(page) ? page : 'support';
@@ -1370,9 +1637,9 @@ function buildQuery(app, page) {
 // Low-level switchers — no history side effects
 function _switchApp(app) {
   const nav = document.getElementById('mainNav');
-  ['wordo', 'zap', 'poker', 'poko', 'sudokuru'].forEach(a =>
+  ['wordo', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'].forEach(a =>
     document.getElementById(a + '-panel').classList.remove('active'));
-  nav.classList.remove('on-zap', 'on-poker', 'on-poko', 'on-sudokuru');
+  nav.classList.remove('on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
   document.getElementById(app + '-panel').classList.add('active');
   if (app === 'zap') {
     nav.classList.add('on-zap');
@@ -1389,6 +1656,10 @@ function _switchApp(app) {
   } else if (app === 'sudokuru') {
     nav.classList.add('on-sudokuru');
     document.body.style.background = '#0c0f1a';
+    document.body.style.color = '#fff';
+  } else if (app === 'warofart') {
+    nav.classList.add('on-warofart');
+    document.body.style.background = '#150a0e';
     document.body.style.color = '#fff';
   } else {
     document.body.style.background = '#f5f0e8';
@@ -1428,6 +1699,14 @@ function _switchSudokuruTab(page) {
     document.getElementById('sudokuru-' + t).classList.toggle('active', t === page));
 }
 
+function _switchWarofartTab(page) {
+  const btns = document.querySelectorAll('.warofart-subnav-btn');
+  const tabs  = ['support', 'privacy'];
+  btns.forEach((b, i) => b.classList.toggle('active', tabs[i] === page));
+  tabs.forEach(t =>
+    document.getElementById('warofart-' + t).classList.toggle('active', t === page));
+}
+
 // Safe history wrapper — blocked in sandboxed iframes, never crash
 function safePush(state, url) {
   try { history.pushState(state, '', url); } catch(e) {}
@@ -1442,6 +1721,7 @@ function navigate(app, page) {
   if (app === 'poker')    _switchPokerTab(page);
   if (app === 'poko')     _switchPokoTab(page);
   if (app === 'sudokuru') _switchSudokuruTab(page);
+  if (app === 'warofart') _switchWarofartTab(page);
   window.scrollTo(0, 0);
 }
 
@@ -1450,6 +1730,7 @@ function switchZapTab(page)     { navigate('zap',      page); }
 function switchPokerTab(page)   { navigate('poker',    page); }
 function switchPokoTab(page)    { navigate('poko',     page); }
 function switchSudokuruTab(page){ navigate('sudokuru', page); }
+function switchWarofartTab(page){ navigate('warofart', page); }
 
 // Back/forward
 window.addEventListener('popstate', function(e) {
@@ -1459,6 +1740,7 @@ window.addEventListener('popstate', function(e) {
   if (state.app === 'poker')    _switchPokerTab(state.page);
   if (state.app === 'poko')     _switchPokoTab(state.page);
   if (state.app === 'sudokuru') _switchSudokuruTab(state.page);
+  if (state.app === 'warofart') _switchWarofartTab(state.page);
 });
 
 // Forms
@@ -1484,6 +1766,7 @@ setupForm('zapForm',      'zapSuccess');
 setupForm('pokerForm',    'pokerSuccess');
 setupForm('pokoForm',     'pokoSuccess');
 setupForm('sudokuruForm', 'sudokuruSuccess');
+setupForm('warofartForm', 'warofartSuccess');
 
 // Initial load
 (function() {
@@ -1493,6 +1776,7 @@ setupForm('sudokuruForm', 'sudokuruSuccess');
   if (app === 'poker')    _switchPokerTab(page);
   if (app === 'poko')     _switchPokoTab(page);
   if (app === 'sudokuru') _switchSudokuruTab(page);
+  if (app === 'warofart') _switchWarofartTab(page);
 })();</script>
 </body>
 </html>
