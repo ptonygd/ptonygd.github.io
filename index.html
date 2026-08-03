@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Support — Tony Fitter, POKO, Wordo, Zap Remote, Video Poker Mania, Sudokuru &amp; War of the Art One</title>
+  <title>Support — Tony Fitter, Airplane Games, POKO, Wordo, Zap Remote, Video Poker Mania, Sudokuru &amp; War of the Art One</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -70,6 +70,19 @@
       --tf-orange2:   #e36921;
       --tf-violet:    #7c5cfb;
       --tf-shadow:    rgba(31,28,25,0.10);
+      /* AIRPLANE GAMES — daylight above the clouds. The third light panel,
+         but sky rather than cream. Space Mono does the departure-board work:
+         category eyebrows, detail chips, the flight-data footer. */
+      --ag-sky:      #e9f2fb;
+      --ag-surface:  #ffffff;
+      --ag-ink:      #10233d;
+      --ag-ink2:     #46607d;
+      --ag-border:   #c8dced;
+      --ag-blue:     #1f6fd0;
+      --ag-blue2:    #14539f;
+      --ag-sunset:   #f4813f;
+      --ag-mint:     #16a37b;
+      --ag-shadow:   rgba(16,35,61,0.10);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -269,6 +282,18 @@
     nav.on-poko .nav-btn.tonyfitter .nav-dot,
     nav.on-sudokuru .nav-btn.tonyfitter .nav-dot,
     nav.on-warofart .nav-btn.tonyfitter .nav-dot { background: var(--grey); }
+    /* AIRPLANE GAMES nav */
+    .nav-btn.airplane { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.airplane:hover { border-color: var(--ag-blue); color: var(--ag-blue); }
+    .nav-btn.airplane .nav-dot { background: var(--ag-blue); }
+    nav.on-airplane .nav-btn.airplane {
+      background: linear-gradient(135deg, var(--ag-blue2), var(--ag-blue));
+      color: #fff; border-color: var(--ag-blue);
+      box-shadow: 0 3px 12px rgba(31,111,208,0.28);
+    }
+    nav.on-airplane .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
+    nav.on-airplane .nav-btn:not(.airplane) .nav-dot { background: var(--grey); }
+    nav[class*="on-"]:not(.on-airplane) .nav-btn.airplane .nav-dot { background: var(--grey); }
     .panel { display: none; }
     .panel.active { display: block; }
 
@@ -925,18 +950,161 @@
     .tf-table td a:hover { text-decoration: underline; }
     #tonyfitter-panel footer { text-align: center; padding: 12px 24px 32px; font-size: 13px; color: rgba(31,28,25,.32); animation: fadeUp 0.5s 0.75s both; }
 
+    /* AIRPLANE GAMES — the view out of the window at cruising altitude.
+       Everything is quiet except the manifest, which is the one place
+       the panel is allowed to be loud. */
+    #airplane-panel { background: var(--ag-sky); min-height: 100vh; position: relative; overflow: hidden; }
+    #airplane-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(31,111,208,.10) 0%, transparent 42%),
+        radial-gradient(ellipse 70% 40% at 85% 4%, rgba(244,129,63,.13) 0%, transparent 62%),
+        radial-gradient(ellipse 90% 45% at 50% 100%, rgba(255,255,255,.9) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    #airplane-panel .page { position: relative; z-index: 1; }
+    #airplane-panel header { padding: 32px 24px 24px; text-align: center; }
+    .airplane-logo { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    /* Signature: a cabin window with weather in it. */
+    .ag-window {
+      width: 58px; height: 74px; border-radius: 29px / 34px;
+      background: linear-gradient(180deg, #7fb4ea 0%, #b9d9f4 58%, #f6cba4 100%);
+      border: 3px solid #fff; position: relative; overflow: hidden; flex-shrink: 0;
+      box-shadow: 0 0 0 2px var(--ag-border), 0 6px 18px rgba(16,35,61,.22);
+    }
+    .ag-cloud {
+      position: absolute; height: 7px; border-radius: 4px;
+      background: rgba(255,255,255,.92); animation: agDrift 11s linear infinite;
+    }
+    .ag-cloud.c1 { width: 26px; top: 26px; left: -30px; }
+    .ag-cloud.c2 { width: 16px; top: 42px; left: -20px; animation-delay: 4.4s; animation-duration: 14s; }
+    .ag-cloud.c3 { width: 20px; top: 55px; left: -24px; animation-delay: 8s; animation-duration: 16s; opacity: .75; }
+    @keyframes agDrift { from { transform: translateX(0); } to { transform: translateX(92px); } }
+    .ag-window-glare {
+      position: absolute; inset: 0;
+      background: linear-gradient(118deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 46%);
+    }
+    .ag-logo-text { text-align: left; }
+    .ag-logo-text .ag-line1 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ag-blue); opacity: .8; line-height: 1; }
+    .ag-logo-text .ag-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 0.05em; line-height: 1; color: var(--ag-ink); }
+    .ag-logo-text .ag-line3 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(16,35,61,.42); line-height: 1.5; }
+    #airplane-panel header > p { font-size: 15px; color: rgba(16,35,61,.45); font-weight: 500; }
+    /* Light-panel App Store badge */
+    #airplane-panel .as-badge { box-shadow: 0 4px 18px rgba(16,35,61,.22); }
+    #airplane-panel .as-badge:hover { box-shadow: 0 8px 26px rgba(31,111,208,.3); }
+    #airplane-panel .as-badge.coming-soon { background: rgba(16,35,61,.05); border-color: rgba(16,35,61,.14); box-shadow: none; }
+    #airplane-panel .as-badge.coming-soon svg { opacity: 1; }
+    #airplane-panel .as-badge.coming-soon svg path { fill: rgba(16,35,61,.4); }
+    #airplane-panel .as-badge.coming-soon .as-badge-sub  { color: rgba(16,35,61,.45); }
+    #airplane-panel .as-badge.coming-soon .as-badge-main { color: rgba(16,35,61,.6); }
+    .ag-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; flex-wrap: wrap; animation: fadeDown 0.5s 0.2s both; }
+    .ag-subnav-btn { padding: 8px 22px; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--ag-border); background: transparent; color: rgba(16,35,61,.45); transition: all .2s; }
+    .ag-subnav-btn.active { background: var(--ag-ink); color: #fff; border-color: var(--ag-ink); box-shadow: 0 3px 10px rgba(16,35,61,.2); }
+    .ag-subnav-btn:hover:not(.active) { border-color: var(--ag-blue); color: var(--ag-blue); }
+    .ag-subpanel { display: none; }
+    .ag-subpanel.active { display: block; }
+    #airplane-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #airplane-panel section {
+      background: var(--ag-surface); border: 1.5px solid var(--ag-border); border-radius: 22px;
+      padding: 28px; margin-bottom: 16px;
+      box-shadow: 0 2px 0 var(--ag-border), 0 6px 24px var(--ag-shadow);
+      animation: fadeUp 0.5s both;
+    }
+    #airplane-panel section:nth-child(1){animation-delay:.35s}
+    #airplane-panel section:nth-child(2){animation-delay:.45s}
+    #airplane-panel section:nth-child(3){animation-delay:.55s}
+    #airplane-panel section:nth-child(4){animation-delay:.65s}
+    #airplane-panel section:nth-child(5){animation-delay:.72s}
+    #airplane-panel section:nth-child(6){animation-delay:.79s}
+    #airplane-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    #airplane-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: var(--ag-ink); }
+    .ag-icon-tile { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #airplane-panel p, #airplane-panel li { font-size: 15px; line-height: 1.7; color: var(--ag-ink2); }
+    #airplane-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #airplane-panel li::before { content: '✈ '; color: var(--ag-blue); font-size: 12px; }
+    #airplane-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #airplane-panel label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(16,35,61,.45); margin-bottom: 4px; display: block; }
+    #airplane-panel input, #airplane-panel textarea, #airplane-panel select {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--ag-border);
+      border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--ag-ink); background: #f5faff; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    #airplane-panel select option { background: #fff; }
+    #airplane-panel input::placeholder, #airplane-panel textarea::placeholder { color: rgba(16,35,61,.3); }
+    #airplane-panel input:focus, #airplane-panel textarea:focus, #airplane-panel select:focus {
+      border-color: var(--ag-blue); box-shadow: 0 0 0 3px rgba(31,111,208,.14); background: #fff;
+    }
+    #airplane-panel textarea { resize: vertical; min-height: 110px; }
+    #airplane-panel .send-btn {
+      background: linear-gradient(135deg, var(--ag-blue), var(--ag-blue2));
+      color: #fff; border: none; border-radius: 12px; padding: 15px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em;
+      cursor: pointer; box-shadow: 0 3px 0 rgba(20,83,159,.45), 0 6px 20px rgba(31,111,208,.22);
+      transition: transform .1s, box-shadow .1s, opacity .1s;
+    }
+    #airplane-panel .send-btn:hover  { transform: translateY(-1px); opacity: .94; box-shadow: 0 4px 0 rgba(20,83,159,.45), 0 8px 26px rgba(31,111,208,.3); }
+    #airplane-panel .send-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(20,83,159,.45); }
+    #airplane-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(22,163,123,.09); border-radius: 12px; border: 1px solid rgba(22,163,123,.3); color: #0f7a5c; font-weight: 600; font-size: 15px; }
+    #airplane-panel details { border-bottom: 1px solid var(--ag-border); padding: 12px 0; }
+    #airplane-panel details:last-child { border-bottom: none; }
+    #airplane-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--ag-ink); }
+    #airplane-panel summary::after { content: '+'; font-size: 20px; color: rgba(16,35,61,.32); transition: transform .2s; flex-shrink: 0; }
+    #airplane-panel details[open] summary::after { transform: rotate(45deg); }
+    #airplane-panel details p { margin-top: 10px; }
+    /* The manifest — the one loud thing on the panel. */
+    .ag-group { margin-top: 22px; }
+    .ag-group:first-of-type { margin-top: 4px; }
+    .ag-group-label {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--ag-blue);
+      margin-bottom: 4px;
+    }
+    .ag-group-label::after { content: ''; flex: 1; height: 1px; background: var(--ag-border); }
+    .ag-game { display: flex; gap: 12px; align-items: baseline; padding: 11px 0; border-bottom: 1px dashed var(--ag-border); }
+    .ag-game:last-child { border-bottom: none; }
+    .ag-game-name { font-weight: 600; font-size: 15px; color: var(--ag-ink); flex-shrink: 0; }
+    .ag-game-note { font-size: 14px; color: var(--ag-ink2); line-height: 1.5; }
+    .ag-detail {
+      font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .04em;
+      color: var(--ag-sunset); border: 1px solid rgba(244,129,63,.35);
+      background: rgba(244,129,63,.08); border-radius: 5px; padding: 2px 7px;
+      white-space: nowrap; margin-left: auto; flex-shrink: 0; align-self: center;
+    }
+    .ag-chip { display: inline-block; background: rgba(31,111,208,.07); border: 1px solid rgba(31,111,208,.22); border-radius: 7px; padding: 3px 9px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--ag-blue); letter-spacing: 0.02em; margin: 2px; }
+    .ag-chip.mint { background: rgba(22,163,123,.09); border-color: rgba(22,163,123,.28); color: #0f7a5c; }
+    .ag-callout { background: rgba(22,163,123,.08); border: 1px solid rgba(22,163,123,.26); border-radius: 14px; padding: 14px 16px; margin-top: 12px; }
+    .ag-callout p { font-size: 14px; color: #0f7a5c; line-height: 1.6; }
+    #airplane-panel .ag-not-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    #airplane-panel .ag-not-item { display: flex; align-items: center; gap: 8px; background: #f5faff; border: 1px solid var(--ag-border); border-radius: 10px; padding: 8px 12px; font-size: 13px; color: rgba(16,35,61,.6); }
+    #airplane-panel .ag-not-item::before { content: '✕'; color: #c0392b; opacity: .55; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .ag-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .ag-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(16,35,61,.45); padding: 8px 10px; border-bottom: 1.5px solid var(--ag-border); text-align: left; }
+    .ag-table td { font-size: 14px; color: var(--ag-ink2); padding: 10px; border-bottom: 1px solid var(--ag-border); vertical-align: top; line-height: 1.5; }
+    .ag-table tr:last-child td { border-bottom: none; }
+    .ag-table td a { color: var(--ag-blue); text-decoration: none; font-size: 12px; word-break: break-all; }
+    .ag-table td a:hover { text-decoration: underline; }
+    #airplane-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(16,35,61,.35); letter-spacing: .03em; animation: fadeUp 0.5s 0.75s both; }
+
     @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
     @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 
+    @media (prefers-reduced-motion: reduce) {
+      .ag-cloud { animation: none; }
+    }
+
     @media (max-width: 480px) {
       .not-collected-grid { grid-template-columns: 1fr; }
       #tonyfitter-panel .tf-not-grid { grid-template-columns: 1fr; }
+      #airplane-panel .ag-not-grid { grid-template-columns: 1fr; }
       .poker-logo-text .title-line2, .poker-logo-text .title-line3 { font-size: 30px; }
       .privacy-table { font-size: 13px; }
       .privacy-table td a { font-size: 11px; }
       .zap-logo-text .zap-line2 { font-size: 34px; }
       .tf-logo-text .tf-line2 { font-size: 36px; }
+      .ag-logo-text .ag-line2 { font-size: 34px; }
     }
   </style>
 </head>
@@ -949,6 +1117,9 @@
     </button>
     <button class="nav-btn tonyfitter" onclick="switchApp('tonyfitter')">
       <span class="nav-dot"></span> Tony Fitter
+    </button>
+    <button class="nav-btn airplane" onclick="switchApp('airplane')">
+      <span class="nav-dot"></span> Airplane Games
     </button>
     <button class="nav-btn zap" onclick="switchApp('zap')">
       <span class="nav-dot"></span> Zap Remote
@@ -1466,6 +1637,352 @@
 
       </main>
       <footer>© 2026 Tony Fitter · Train, recover, repeat · Not medical advice · All rights reserved</footer>
+    </div>
+  </div>
+
+  <!-- AIRPLANE GAMES -->
+  <div class="panel" id="airplane-panel">
+    <div class="page">
+      <header>
+        <div class="airplane-logo">
+          <div class="ag-window">
+            <div class="ag-cloud c1"></div>
+            <div class="ag-cloud c2"></div>
+            <div class="ag-cloud c3"></div>
+            <div class="ag-window-glare"></div>
+          </div>
+          <div class="ag-logo-text">
+            <div class="ag-line1">Twenty Games</div>
+            <div class="ag-line2">AIRPLANE GAMES</div>
+            <div class="ag-line3">OFFLINE PLAY</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="ag-subnav">
+        <button class="ag-subnav-btn active" onclick="switchAirplaneTab('support')">Support</button>
+        <button class="ag-subnav-btn" onclick="switchAirplaneTab('games')">The Games</button>
+        <button class="ag-subnav-btn" onclick="switchAirplaneTab('privacy')">Privacy</button>
+      </div>
+
+      <main>
+        <!-- SUPPORT -->
+        <div class="ag-subpanel active" id="airplane-support">
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(31,111,208,.09)">✉️</div><h2>Contact Us</h2></div>
+            <form id="airplaneForm">
+              <div><label for="ag-name">Your Name</label><input type="text" id="ag-name" placeholder="Tony" required /></div>
+              <div><label for="ag-email">Email Address</label><input type="email" id="ag-email" placeholder="you@example.com" required /></div>
+              <div><label for="ag-topic">Topic</label>
+                <select id="ag-topic">
+                  <option>A specific game — bug or wrong rule</option>
+                  <option>Saved board or progress lost</option>
+                  <option>iCloud sync between devices</option>
+                  <option>Daily Challenge or streak</option>
+                  <option>Game of the Day</option>
+                  <option>Achievements, XP or levels</option>
+                  <option>Game Center leaderboards</option>
+                  <option>Ads</option>
+                  <option>Accessibility or VoiceOver</option>
+                  <option>Language or translation</option>
+                  <option>Bug or crash report</option>
+                  <option>Feature or new game request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label for="ag-message">Message</label><textarea id="ag-message" placeholder="Tell us which game, what you expected, and what happened instead — plus your device model and iOS version…" required></textarea></div>
+              <button type="submit" class="send-btn">SEND MESSAGE</button>
+              <div class="success-msg" id="airplaneSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(244,129,63,.11)">💡</div><h2>FAQ</h2></div>
+
+            <details>
+              <summary>Do I really need a connection for anything?</summary>
+              <p>No. All twenty games, every puzzle, the Game of the Day, the Daily Challenge, achievements and your stats work with the radio off. Sudoku puzzles are generated on your device rather than downloaded, so there's no pack to run out of.</p>
+              <p>Two things need a signal when you want them: iCloud sync, which catches up the next time you're online, and Game Center leaderboards. Neither blocks play.</p>
+            </details>
+
+            <details>
+              <summary>Will ads interrupt me mid-game?</summary>
+              <p>No. Ads never appear during a game, never sit over a board, and don't appear at all when you're offline — there's nothing to fetch. They show on the hub and between sessions when you have a connection, and no game is ever locked behind one.</p>
+            </details>
+
+            <details>
+              <summary>My half-finished game vanished</summary>
+              <p>Saved boards live on the home screen under Continue. Each game keeps its own, so a paused Spider hand and a paused Chess position both wait for you. Starting a new game in the same title replaces that title's saved board — if you want to keep a position, finish it or leave it be.</p>
+            </details>
+
+            <details>
+              <summary>My progress didn't come back after reinstalling</summary>
+              <p>Turn on Settings → iCloud Sync inside the app before you reinstall, and sign into the same Apple ID afterwards — levels, XP, streaks, achievements and best times merge back on first launch.</p>
+              <p>Without iCloud sync switched on, progress lives only on the device, and deleting the app removes it. There's no account to recover it from, by design.</p>
+            </details>
+
+            <details>
+              <summary>My iPad and iPhone are showing different progress</summary>
+              <p>Sync catches up when the app launches with a connection, not continuously. Open the app on the second device while online. Both devices need the same Apple ID, iCloud Drive on, and iCloud Sync switched on in the app itself.</p>
+              <p>Best times and high scores keep the better of the two rather than the more recent, so nothing you've earned gets overwritten by an older device.</p>
+            </details>
+
+            <details>
+              <summary>My Daily Challenge streak reset</summary>
+              <p>The Daily Challenge rolls over at midnight in your device's local time zone. Flying across time zones can shift that boundary — a challenge finished on the plane may land in a different day than you expect. If a streak dropped despite finishing on time, contact us with the date and the time zones you were moving between.</p>
+            </details>
+
+            <details>
+              <summary>The Chess engine is too easy, or too hard</summary>
+              <p>Three levels, changed from the Chess settings before a game or between games. The rule set is complete either way — castling, en passant, promotion, stalemate and threefold repetition are all handled — so a draw claim is real, not a bug.</p>
+              <p>Undo is unlimited, including against the engine.</p>
+            </details>
+
+            <details>
+              <summary>Game Center leaderboards aren't showing</summary>
+              <p>Game Center is off until you switch it on, so nothing is submitted by default. Turn it on in Settings inside the app, then check Settings → Game Center on your device to make sure you're signed in. Leaderboards need a connection; your local best times don't.</p>
+            </details>
+
+            <details>
+              <summary>How do I get to my favourite games faster?</summary>
+              <p>Long-press any game on the hub to pin it to the top. You can also search from your iPhone home screen — the games are indexed in Spotlight, so typing "Yahtzee" takes you straight in.</p>
+            </details>
+
+            <details>
+              <summary>Can I make the boards easier to see?</summary>
+              <p>Settings has a colour-blind palette, a high-contrast mode, and full Reduce Motion support. Every square, card and tile is labelled for VoiceOver, so the whole collection is playable without sight of the screen.</p>
+            </details>
+
+            <details>
+              <summary>The app is in the wrong language</summary>
+              <p>Airplane Games follows your iPhone's language and supports English, French, Spanish, German and Japanese. Change it per app in Settings → Airplane Games → Language. If a translation reads oddly, tell us the exact string and the language — we'd rather fix it than leave it.</p>
+            </details>
+
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, reopen, and check the hub — your saved board should still be waiting. If the crash repeats, contact us with your device model, iOS version, which game you were in, and what you were doing. There's no crash reporter, so your description is genuinely all we have to go on.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(31,111,208,.09)">🎯</div><h2>Quick Tips</h2></div>
+            <ul>
+              <li>Switch on airplane mode before you take off — the games don't change, and the battery lasts the flight</li>
+              <li>Long-press a game on the hub to pin it to the top</li>
+              <li>The Daily Challenge builds its own streak, separate from the Game of the Day</li>
+              <li>Turn on auto-pencil in Sudoku to skip the bookkeeping and get to the deductions</li>
+              <li>Minesweeper's question-mark mode is for the squares you want to come back to</li>
+              <li>Search a game by name from your home screen and land straight in it</li>
+              <li>Turn on iCloud Sync before you switch phones, not after</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(244,129,63,.11)">📱</div><h2>App Info</h2></div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Bundle ID: com.tonygd.airplanegames</li>
+              <li>Platform: iOS 16.0 and later</li>
+              <li>Twenty games, all fully playable offline</li>
+              <li>English, French, Spanish, German and Japanese</li>
+              <li>No account, no sign-in, no analytics, no crash reporting</li>
+              <li>iCloud sync optional · Game Center optional and off by default</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+            <div class="ag-callout">
+              <p><strong>Free, with ads that stay out of the way.</strong> No game, level or difficulty is locked behind a purchase or an ad.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- THE GAMES -->
+        <div class="ag-subpanel" id="airplane-games">
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(31,111,208,.09)">🗂️</div><h2>The Twenty</h2></div>
+            <p>Every game explains itself — how-to-play rules for all twenty, one tap away.</p>
+
+            <div class="ag-group">
+              <div class="ag-group-label">Card classics</div>
+              <div class="ag-game"><span class="ag-game-name">Klondike Solitaire</span><span class="ag-game-note">the timeless one</span></div>
+              <div class="ag-game"><span class="ag-game-name">Spider Solitaire</span><span class="ag-game-note">ten columns of strategy</span></div>
+              <div class="ag-game"><span class="ag-game-name">FreeCell</span><span class="ag-game-note">every card in plain sight</span></div>
+            </div>
+
+            <div class="ag-group">
+              <div class="ag-group-label">Board masters</div>
+              <div class="ag-game"><span class="ag-game-name">Chess</span><span class="ag-game-note">complete rules, full undo</span><span class="ag-detail">3 levels</span></div>
+              <div class="ag-game"><span class="ag-game-name">Checkers</span><span class="ag-game-note">walnut board, 3D pieces</span><span class="ag-detail">jump hints</span></div>
+              <div class="ag-game"><span class="ag-game-name">Reversi</span><span class="ag-game-note">watch the captures flip</span></div>
+              <div class="ag-game"><span class="ag-game-name">Backgammon</span><span class="ag-game-note">with the doubling cube</span></div>
+              <div class="ag-game"><span class="ag-game-name">Mancala</span><span class="ag-game-note">built-in rules tutorial</span></div>
+            </div>
+
+            <div class="ag-group">
+              <div class="ag-group-label">Brain teasers</div>
+              <div class="ag-game"><span class="ag-game-name">Sudoku</span><span class="ag-game-note">generated with exactly one solution, auto-pencil</span><span class="ag-detail">4 tiers</span></div>
+              <div class="ag-game"><span class="ag-game-name">Minesweeper</span><span class="ag-game-note">flag, question-mark and reveal modes</span></div>
+              <div class="ag-game"><span class="ag-game-name">2048</span><span class="ag-game-note">smooth slides and merge sparkles</span></div>
+            </div>
+
+            <div class="ag-group">
+              <div class="ag-group-label">Two-player favourites</div>
+              <div class="ag-game"><span class="ag-game-name">Connect Four</span><span class="ag-game-note">real gravity-drop discs</span></div>
+              <div class="ag-game"><span class="ag-game-name">Tic-Tac-Toe</span><span class="ag-game-note">Easy, Medium and Impossible</span></div>
+            </div>
+
+            <div class="ag-group">
+              <div class="ag-group-label">Words, luck and memory</div>
+              <div class="ag-game"><span class="ag-game-name">Word Search</span><span class="ag-game-note">find them in any direction</span></div>
+              <div class="ag-game"><span class="ag-game-name">Crossword</span><span class="ag-game-note">clues across and down</span></div>
+              <div class="ag-game"><span class="ag-game-name">Hangman</span><span class="ag-game-note">one letter at a time</span></div>
+              <div class="ag-game"><span class="ag-game-name">Yahtzee</span><span class="ag-game-note">five dice, thirteen boxes</span></div>
+              <div class="ag-game"><span class="ag-game-name">Memory Match</span><span class="ag-game-note">3D flips, timer and best time</span></div>
+              <div class="ag-game"><span class="ag-game-name">Mahjong Solitaire</span><span class="ag-game-note">quiet and endlessly replayable</span></div>
+              <div class="ag-game"><span class="ag-game-name">Jigsaw Puzzle</span><span class="ag-game-note">pick your grid</span><span class="ag-detail">3×3 – 7×7</span></div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(244,129,63,.11)">🧭</div><h2>Designed for the Journey</h2></div>
+            <ul>
+              <li>A new Game of the Day each morning, plus a Daily Challenge with its own streak</li>
+              <li>Pick up where you left off — saved boards wait on the home screen</li>
+              <li>Fifteen achievements across bronze, silver and gold</li>
+              <li>XP, levels, streaks, and best scores and times for every game</li>
+              <li>Long-press to pin your favourites to the top</li>
+              <li>A hub theme that follows the time of day, or pick your own</li>
+              <li>Spotlight search — find a game from your home screen and jump straight in</li>
+              <li>Optional iCloud sync keeps progress in step across your devices</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(22,163,123,.11)">♿</div><h2>Accessibility</h2></div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px;">
+              <span class="ag-chip mint">Full VoiceOver</span>
+              <span class="ag-chip mint">Colour-blind palette</span>
+              <span class="ag-chip mint">High contrast</span>
+              <span class="ag-chip mint">Reduce Motion</span>
+              <span class="ag-chip mint">Sound &amp; haptics toggles</span>
+            </div>
+            <p>Every square, card and tile is labelled, so all twenty games can be played by ear as well as by eye.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(31,111,208,.09)">🌐</div><h2>Languages</h2></div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+              <span class="ag-chip">English</span>
+              <span class="ag-chip">Français</span>
+              <span class="ag-chip">Español</span>
+              <span class="ag-chip">Deutsch</span>
+              <span class="ag-chip">日本語</span>
+            </div>
+          </section>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="ag-subpanel" id="airplane-privacy">
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(31,111,208,.09)">🔐</div><h2>Privacy Policy</h2></div>
+            <p style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:rgba(16,35,61,.42);margin-bottom:16px">Last updated: August 3, 2026</p>
+            <p>Airplane Games ("the App", "we", "us") is a collection of twenty offline games made by Pathom Sriaroonthip. There is no account, no sign-in, and no server of ours anywhere in the picture. Your scores, levels and achievements are computed and stored on your device, and optionally mirrored to your own private iCloud storage. We never see them.</p>
+            <p style="margin-top:10px">The one exception is advertising, which is handled by Google on our behalf and covered in full below.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(22,163,123,.11)">📦</div><h2>What Stays on Your Device</h2></div>
+            <p>The following lives in the App's own storage, and — only if you switch on iCloud Sync — in your private iCloud account. It is never sent to us:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span class="ag-chip">Saved boards</span>
+              <span class="ag-chip">High scores</span>
+              <span class="ag-chip">Best times</span>
+              <span class="ag-chip">XP &amp; level</span>
+              <span class="ag-chip">Daily streak</span>
+              <span class="ag-chip">Achievements</span>
+              <span class="ag-chip">Pinned games</span>
+              <span class="ag-chip">Theme</span>
+              <span class="ag-chip">Sound &amp; haptics</span>
+              <span class="ag-chip">Accessibility settings</span>
+            </div>
+            <p>Delete all of it by uninstalling the App. Nothing is retained anywhere else, because nothing was ever sent anywhere else.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(244,129,63,.11)">📣</div><h2>Advertising</h2></div>
+            <p>The App is free and supported by banner advertisements supplied by <strong>Google AdMob</strong>. Ads appear on the hub and between sessions, and only when you have a connection. They never appear during a game, never sit over a board, and don't appear at all offline.</p>
+            <p style="margin-top:10px">To serve those ads, Google's SDK may access your device's advertising identifier (IDFA) and coarse technical information such as device model, OS version and general location derived from IP address. Whether that identifier is used for personalised advertising depends on your answer to the App Tracking Transparency prompt and, in applicable regions, the Google-provided consent form shown on first launch.</p>
+            <ul style="margin-top:12px">
+              <li><strong>If you allow tracking:</strong> ads may be personalised using your advertising identifier.</li>
+              <li><strong>If you decline:</strong> ads still appear, but are not personalised.</li>
+              <li><strong>Either way:</strong> no game data — no scores, no boards, no streaks — is ever passed to Google or any ad network.</li>
+            </ul>
+            <p style="margin-top:12px">Change your mind at any time in Settings → Privacy &amp; Security → Tracking.</p>
+            <p style="margin-top:10px">Google's handling of this data is governed by their own policy: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener" style="color:var(--ag-blue)">policies.google.com/technologies/ads</a></p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(31,111,208,.09)">🔗</div><h2>Third-Party Services</h2></div>
+            <table class="ag-table">
+              <thead><tr><th>Service</th><th>Purpose</th><th>Policy</th></tr></thead>
+              <tbody>
+                <tr><td>Apple iCloud</td><td>Your own private progress sync</td><td><a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">apple.com/legal/privacy</a></td></tr>
+                <tr><td>Apple Game Center</td><td>Leaderboards — optional, off by default</td><td><a href="https://www.apple.com/legal/privacy/data/en/game-center/" target="_blank" rel="noopener">apple.com/…/game-center</a></td></tr>
+                <tr><td>Google AdMob</td><td>Banner advertising</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+                <tr><td>Google UMP</td><td>GDPR / CCPA consent prompt</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+              </tbody>
+            </table>
+            <p style="margin-top:14px">There is no analytics SDK, no crash reporter, no attribution SDK, and no Airplane Games server of any kind.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(31,111,208,.09)">🚫</div><h2>What We Never Collect</h2></div>
+            <div class="ag-not-grid">
+              <div class="ag-not-item">Your name or email</div>
+              <div class="ag-not-item">Phone or address</div>
+              <div class="ag-not-item">Precise location</div>
+              <div class="ag-not-item">Photos or contacts</div>
+              <div class="ag-not-item">Microphone or camera</div>
+              <div class="ag-not-item">Payment details</div>
+              <div class="ag-not-item">Browsing history</div>
+              <div class="ag-not-item">Usage or gameplay analytics</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(244,129,63,.11)">⚙️</div><h2>Your Choices &amp; Data Deletion</h2></div>
+            <ul>
+              <li><strong>Ad tracking:</strong> Settings → Privacy &amp; Security → Tracking</li>
+              <li><strong>iCloud sync:</strong> Settings → iCloud Sync, inside the App</li>
+              <li><strong>Game Center:</strong> off until you switch it on, inside the App</li>
+              <li><strong>Delete everything:</strong> uninstall the App. Nothing is retained server-side, because nothing was ever sent there.</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(22,163,123,.11)">👶</div><h2>Children</h2></div>
+            <p>Airplane Games is suitable for all ages and we do not knowingly collect information from anyone under 13. Because the App has no account system and collects no personal information, there is nothing for a child to hand over.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ag-icon-tile" style="background:rgba(31,111,208,.09)">📝</div><h2>Changes &amp; Contact</h2></div>
+            <p>We may update this policy as the App gains games and features. Material changes will be noted by updating the date above.</p>
+            <p style="margin-top:10px">Questions? Use the Support tab to reach us directly.</p>
+            <p style="margin-top:10px">Terms of Use: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener" style="color:var(--ag-blue);font-size:13px">Apple Standard EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2026 Airplane Games · Twenty games, no signal required · All rights reserved</footer>
     </div>
   </div>
 
@@ -2227,12 +2744,13 @@
 
 <script>
 // ── QUERY PARAM ROUTER ─────────────────────────────────────────────
-// URLs: ?app=zap  ?app=zap&page=privacy  ?app=tonyfitter&page=privacy
+// URLs: ?app=zap  ?app=zap&page=privacy  ?app=airplane&page=games
 
-const APPS = ['wordo', 'tonyfitter', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
+const APPS = ['wordo', 'tonyfitter', 'airplane', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
 
 const TAB_MAP = {
   tonyfitter: ['support', 'whats-new', 'privacy'],
+  airplane:   ['support', 'games', 'privacy'],
   zap:        ['support', 'privacy', 'terms'],
   poker:      ['support', 'privacy'],
   poko:       ['support', 'whats-new', 'privacy'],
@@ -2240,11 +2758,12 @@ const TAB_MAP = {
   warofart:   ['support', 'privacy'],
 };
 
-// Panel background + text colour when an app is selected. Wordo and Tony
-// Fitter are the light ones; everything else is dark.
+// Panel background + text colour when an app is selected. Wordo, Tony
+// Fitter and Airplane Games are the light ones; everything else is dark.
 const APP_CHROME = {
   wordo:      { bg: '#f5f0e8', fg: '#2b1d0e' },
   tonyfitter: { bg: '#f3efe6', fg: '#1f1c19' },
+  airplane:   { bg: '#e9f2fb', fg: '#10233d' },
   zap:        { bg: '#0a0e1a', fg: '#fff' },
   poker:      { bg: '#0d0d0d', fg: '#fff' },
   poko:       { bg: '#0f0f14', fg: '#fff' },
@@ -2272,7 +2791,7 @@ function buildQuery(app, page) {
 function _switchApp(app) {
   const nav = document.getElementById('mainNav');
   APPS.forEach(a => document.getElementById(a + '-panel').classList.remove('active'));
-  nav.classList.remove('on-tonyfitter', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
+  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
   document.getElementById(app + '-panel').classList.add('active');
   if (app !== 'wordo') nav.classList.add('on-' + app);
   const chrome = APP_CHROME[app] || APP_CHROME.wordo;
@@ -2292,6 +2811,7 @@ function _switchTab(app, btnSelector, page) {
 
 const TAB_BTN_SELECTOR = {
   tonyfitter: '.tf-subnav-btn',
+  airplane:   '.ag-subnav-btn',
   zap:        '.zap-subnav-btn',
   poker:      '.poker-subnav-btn',
   poko:       '.poko-subnav-btn',
@@ -2320,6 +2840,7 @@ function navigate(app, page) {
 
 function switchApp(app)           { navigate(app, 'support'); }
 function switchTonyfitterTab(page){ navigate('tonyfitter', page); }
+function switchAirplaneTab(page)  { navigate('airplane',   page); }
 function switchZapTab(page)       { navigate('zap',        page); }
 function switchPokerTab(page)     { navigate('poker',      page); }
 function switchPokoTab(page)      { navigate('poko',       page); }
@@ -2355,6 +2876,7 @@ function setupForm(formId, successId) {
 }
 setupForm('wordoForm',      'wordoSuccess');
 setupForm('tonyfitterForm', 'tonyfitterSuccess');
+setupForm('airplaneForm',   'airplaneSuccess');
 setupForm('zapForm',        'zapSuccess');
 setupForm('pokerForm',      'pokerSuccess');
 setupForm('pokoForm',       'pokoSuccess');
