@@ -1220,6 +1220,34 @@
     .ae-table td a:hover { color: var(--ae-mint2); }
     #adsearning-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .03em; animation: fadeUp 0.5s 0.75s both; }
 
+    /* The top nav is retired — app switching now lives in the footer
+       breadcrumb. The element stays in the DOM because _switchApp still
+       drives its on-<app> class; only its rendering is suppressed. */
+    nav#mainNav { display: none; }
+
+    /* Footer breadcrumb. Everything is drawn in currentColor, so it
+       inherits each panel's own foreground and works on the light
+       panels and the dark ones without a per-app rule. */
+    .app-crumbs {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+      gap: 2px; max-width: 640px; margin: 0 auto;
+      padding: 18px 16px 44px; position: relative; z-index: 5;
+    }
+    .app-crumbs::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 56px; height: 1px; background: currentColor; opacity: .16;
+    }
+    .crumb {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .03em;
+      color: currentColor; opacity: .32; padding: 5px 9px; border-radius: 6px;
+      transition: opacity .18s;
+    }
+    .crumb:hover  { opacity: .75; }
+    .crumb:focus-visible { outline: 1.5px solid currentColor; outline-offset: 1px; opacity: .75; }
+    .crumb.on { opacity: .85; font-weight: 700; cursor: default; }
+    .crumb.on::before { content: '●'; font-size: 6px; vertical-align: middle; margin-right: 6px; }
+
     @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
     @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
@@ -3234,6 +3262,17 @@
     </div>
   </div>
 
+  <div class="app-crumbs" id="appCrumbs">
+    <button class="crumb" data-app="wordo"      onclick="switchApp('wordo')">Wordo</button>
+    <button class="crumb" data-app="tonyfitter" onclick="switchApp('tonyfitter')">Tony Fitter</button>
+    <button class="crumb" data-app="airplane"   onclick="switchApp('airplane')">Airplane Games</button>
+    <button class="crumb" data-app="adsearning" onclick="switchApp('adsearning')">Ads Earning</button>
+    <button class="crumb" data-app="zap"        onclick="switchApp('zap')">Zap Remote</button>
+    <button class="crumb" data-app="poker"      onclick="switchApp('poker')">Video Poker Mania</button>
+    <button class="crumb" data-app="poko"       onclick="switchApp('poko')">POKO</button>
+    <button class="crumb" data-app="sudokuru"   onclick="switchApp('sudokuru')">Sudokuru</button>
+    <button class="crumb" data-app="warofart"   onclick="switchApp('warofart')">War of the Art One</button>
+  </div>
 
 </div>
 
@@ -3294,6 +3333,8 @@ function _switchApp(app) {
   const chrome = APP_CHROME[app] || APP_CHROME.wordo;
   document.body.style.background = chrome.bg;
   document.body.style.color      = chrome.fg;
+  document.querySelectorAll('.crumb').forEach(c =>
+    c.classList.toggle('on', c.dataset.app === app));
 }
 
 // Generic tab switcher — every app's sub-panels follow the same
