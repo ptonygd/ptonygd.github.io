@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Support — Tony Fitter, Airplane Games, POKO, Wordo, Zap Remote, Video Poker Mania, Sudokuru &amp; War of the Art One</title>
+  <title>Support — Tony Fitter, Airplane Games, Ads Earning, POKO, Wordo, Zap Remote, Video Poker Mania, Sudokuru &amp; War of the Art One</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -83,6 +83,18 @@
       --ag-sunset:   #f4813f;
       --ag-mint:     #16a37b;
       --ag-shadow:   rgba(16,35,61,0.10);
+      /* ADS EARNING — a reporting terminal. Graphite with a green cast,
+         mint for money in, amber for money still owed, coral for a
+         period that fell. Space Mono carries every figure. */
+      --ae-bg:       #0a1310;
+      --ae-mint:     #2fd08a;
+      --ae-mint2:    #6ee7b7;
+      --ae-amber:    #ffb545;
+      --ae-down:     #ff6b6b;
+      --ae-border:   rgba(47,208,138,0.16);
+      --ae-card:     rgba(255,255,255,0.04);
+      --ae-text:     rgba(255,255,255,0.72);
+      --ae-shadow:   rgba(47,208,138,0.2);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -294,6 +306,18 @@
     nav.on-airplane .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
     nav.on-airplane .nav-btn:not(.airplane) .nav-dot { background: var(--grey); }
     nav[class*="on-"]:not(.on-airplane) .nav-btn.airplane .nav-dot { background: var(--grey); }
+    /* ADS EARNING nav */
+    .nav-btn.adsearning { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.adsearning:hover { border-color: var(--ae-mint); color: var(--ae-mint); }
+    .nav-btn.adsearning .nav-dot { background: var(--ae-mint); }
+    nav.on-adsearning .nav-btn.adsearning {
+      background: linear-gradient(135deg, #17845a, var(--ae-mint));
+      color: #06120d; border-color: var(--ae-mint);
+      box-shadow: 0 0 14px rgba(47,208,138,0.35);
+    }
+    nav.on-adsearning .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
+    nav.on-adsearning .nav-btn:not(.adsearning) .nav-dot { background: var(--grey); }
+    nav[class*="on-"]:not(.on-adsearning) .nav-btn.adsearning .nav-dot { background: var(--grey); }
     .panel { display: none; }
     .panel.active { display: block; }
 
@@ -1087,15 +1111,128 @@
     .ag-table td a:hover { text-decoration: underline; }
     #airplane-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(16,35,61,.35); letter-spacing: .03em; animation: fadeUp 0.5s 0.75s both; }
 
+    /* ADS EARNING — a reporting terminal, not a dashboard mock-up.
+       Numbers are set in mono throughout; the ledger is the loud part. */
+    #adsearning-panel { background: var(--ae-bg); min-height: 100vh; position: relative; overflow: hidden; }
+    #adsearning-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 62% 50% at 12% 2%, rgba(47,208,138,.16) 0%, transparent 58%),
+        radial-gradient(ellipse 55% 45% at 90% 94%, rgba(255,181,69,.09) 0%, transparent 58%),
+        radial-gradient(ellipse 80% 65% at 50% 50%, rgba(0,0,0,.5) 0%, transparent 75%);
+      pointer-events: none; z-index: 0;
+    }
+    #adsearning-panel::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(47,208,138,.035) 1px, transparent 1px);
+      background-size: 100% 26px;
+      pointer-events: none; z-index: 0;
+    }
+    #adsearning-panel .page { position: relative; z-index: 1; }
+    #adsearning-panel header { padding: 32px 24px 24px; text-align: center; }
+    .adsearning-logo { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    /* Signature: seven days of earnings, today highlighted, with the
+       delta against the matching earlier period — the app's whole thesis. */
+    .ae-spark { display: flex; align-items: flex-end; gap: 3px; height: 58px; width: 66px; flex-shrink: 0; }
+    .ae-bar { flex: 1; border-radius: 2px 2px 0 0; background: rgba(47,208,138,.28); transform-origin: bottom; animation: aeRise .55s cubic-bezier(.2,.8,.3,1) both; }
+    .ae-bar:nth-child(1){ height: 38%; animation-delay: .10s }
+    .ae-bar:nth-child(2){ height: 54%; animation-delay: .16s }
+    .ae-bar:nth-child(3){ height: 43%; animation-delay: .22s }
+    .ae-bar:nth-child(4){ height: 67%; animation-delay: .28s }
+    .ae-bar:nth-child(5){ height: 59%; animation-delay: .34s }
+    .ae-bar:nth-child(6){ height: 80%; animation-delay: .40s }
+    .ae-bar:nth-child(7){
+      height: 100%; animation-delay: .46s;
+      background: linear-gradient(180deg, var(--ae-mint2), var(--ae-mint));
+      box-shadow: 0 0 12px rgba(47,208,138,.45);
+    }
+    @keyframes aeRise { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+    .ae-logo-text { text-align: left; }
+    .ae-logo-text .ae-line1 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ae-mint); opacity: .75; line-height: 1; }
+    .ae-logo-text .ae-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 0.05em; line-height: 1; background: linear-gradient(135deg, #fff 25%, var(--ae-mint2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .ae-logo-text .ae-line3 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: rgba(255,255,255,.32); line-height: 1.5; }
+    #adsearning-panel header > p { font-size: 15px; color: rgba(255,255,255,.35); font-weight: 500; }
+    #adsearning-panel .as-badge { box-shadow: 0 4px 20px rgba(47,208,138,.15); border-color: rgba(47,208,138,.22); }
+    #adsearning-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(47,208,138,.35); }
+    .ae-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; flex-wrap: wrap; animation: fadeDown 0.5s 0.2s both; }
+    .ae-subnav-btn { padding: 8px 22px; border-radius: 50px; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; cursor: pointer; border: 1.5px solid var(--ae-border); background: transparent; color: rgba(255,255,255,.35); letter-spacing: 0.08em; transition: all .2s; text-transform: uppercase; }
+    .ae-subnav-btn.active { background: rgba(47,208,138,.12); color: var(--ae-mint2); border-color: var(--ae-mint); box-shadow: 0 0 12px rgba(47,208,138,.18); }
+    .ae-subnav-btn:hover:not(.active) { border-color: rgba(47,208,138,.45); color: rgba(47,208,138,.7); }
+    .ae-subpanel { display: none; }
+    .ae-subpanel.active { display: block; }
+    #adsearning-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #adsearning-panel section { background: var(--ae-card); border: 1.5px solid var(--ae-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(47,208,138,.04), 0 8px 32px rgba(0,0,0,.45); backdrop-filter: blur(10px); animation: fadeUp 0.5s both; }
+    #adsearning-panel section:nth-child(1){animation-delay:.35s}
+    #adsearning-panel section:nth-child(2){animation-delay:.45s}
+    #adsearning-panel section:nth-child(3){animation-delay:.55s}
+    #adsearning-panel section:nth-child(4){animation-delay:.65s}
+    #adsearning-panel section:nth-child(5){animation-delay:.72s}
+    #adsearning-panel section:nth-child(6){animation-delay:.79s}
+    #adsearning-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    #adsearning-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: var(--ae-mint2); }
+    .ae-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #adsearning-panel p, #adsearning-panel li { font-size: 15px; line-height: 1.68; color: var(--ae-text); }
+    #adsearning-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #adsearning-panel li::before { content: '▸ '; color: var(--ae-mint); font-weight: 700; font-size: 12px; }
+    #adsearning-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #adsearning-panel label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(47,208,138,.5); margin-bottom: 4px; display: block; }
+    #adsearning-panel input, #adsearning-panel textarea, #adsearning-panel select { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(47,208,138,.16); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #fff; background: rgba(47,208,138,.04); outline: none; transition: border-color .2s, box-shadow .2s; }
+    #adsearning-panel select option { background: #0a1310; }
+    #adsearning-panel input::placeholder, #adsearning-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #adsearning-panel input:focus, #adsearning-panel textarea:focus, #adsearning-panel select:focus { border-color: var(--ae-mint); box-shadow: 0 0 0 3px rgba(47,208,138,.12); background: rgba(47,208,138,.06); }
+    #adsearning-panel textarea { resize: vertical; min-height: 110px; }
+    #adsearning-panel .send-btn { background: linear-gradient(135deg, #17845a, var(--ae-mint)); color: #06120d; border: none; border-radius: 10px; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; font-weight: 900; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px var(--ae-shadow); transition: transform .1s, opacity .1s; }
+    #adsearning-panel .send-btn:hover  { transform: translateY(-1px); opacity: .92; }
+    #adsearning-panel .send-btn:active { transform: translateY(1px); }
+    #adsearning-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(47,208,138,.1); border-radius: 10px; border: 1px solid rgba(47,208,138,.32); color: var(--ae-mint2); font-weight: 600; font-size: 15px; }
+    #adsearning-panel details { border-bottom: 1px solid rgba(47,208,138,.1); padding: 12px 0; }
+    #adsearning-panel details:last-child { border-bottom: none; }
+    #adsearning-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; color: rgba(255,255,255,.85); }
+    #adsearning-panel summary::after { content: '+'; font-size: 20px; color: rgba(47,208,138,.38); transition: transform .2s; flex-shrink: 0; }
+    #adsearning-panel details[open] summary::after { transform: rotate(45deg); }
+    #adsearning-panel details p { margin-top: 10px; }
+    /* The metric ledger — mono, right-aligned, reads like a report. */
+    .ae-metric { display: flex; flex-direction: column; gap: 3px; padding: 13px 0; border-bottom: 1px solid rgba(47,208,138,.1); }
+    .ae-metric:last-child { border-bottom: none; }
+    .ae-metric-top { display: flex; align-items: baseline; gap: 10px; }
+    .ae-metric-name { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--ae-mint2); letter-spacing: .02em; }
+    .ae-metric-unit { font-family: 'Space Mono', monospace; font-size: 10px; color: rgba(255,255,255,.3); margin-left: auto; white-space: nowrap; letter-spacing: .04em; }
+    .ae-metric-desc { font-size: 14px; line-height: 1.6; color: var(--ae-text); }
+    .ae-range-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .ae-range { background: rgba(47,208,138,.07); border: 1px solid rgba(47,208,138,.18); border-radius: 10px; padding: 11px 13px; }
+    .ae-range-name { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; color: var(--ae-mint2); margin-bottom: 3px; }
+    .ae-range-vs { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.45; }
+    .ae-chip { display: inline-block; background: rgba(47,208,138,.1); border: 1px solid rgba(47,208,138,.24); border-radius: 6px; padding: 2px 8px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(110,231,183,.85); letter-spacing: 0.03em; margin: 2px; }
+    .ae-chip.amber { background: rgba(255,181,69,.09); border-color: rgba(255,181,69,.28); color: rgba(255,181,69,.9); }
+    .ae-scope { background: rgba(47,208,138,.07); border: 1px solid rgba(47,208,138,.22); border-radius: 12px; padding: 14px 16px; margin-top: 12px; }
+    .ae-scope p { font-size: 14px; color: rgba(110,231,183,.85); line-height: 1.62; }
+    .ae-scope code { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ae-mint2); background: rgba(47,208,138,.1); padding: 1px 6px; border-radius: 4px; word-break: break-all; }
+    .ae-warn { background: rgba(255,181,69,.07); border: 1px solid rgba(255,181,69,.24); border-radius: 12px; padding: 14px 16px; margin-top: 12px; }
+    .ae-warn p { font-size: 14px; color: rgba(255,181,69,.88); line-height: 1.62; }
+    #adsearning-panel .ae-not-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    #adsearning-panel .ae-not-item { display: flex; align-items: center; gap: 8px; background: rgba(255,107,107,.06); border: 1px solid rgba(255,107,107,.16); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: rgba(255,255,255,.5); }
+    #adsearning-panel .ae-not-item::before { content: '✕'; color: var(--ae-down); opacity: .7; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .ae-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .ae-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(47,208,138,.55); padding: 8px 10px; border-bottom: 1px solid rgba(47,208,138,.2); text-align: left; }
+    .ae-table td { font-size: 14px; color: var(--ae-text); padding: 10px; border-bottom: 1px solid rgba(255,255,255,.05); vertical-align: top; line-height: 1.5; }
+    .ae-table tr:last-child td { border-bottom: none; }
+    .ae-table td a { color: rgba(110,231,183,.75); text-decoration: none; font-size: 12px; word-break: break-all; }
+    .ae-table td a:hover { color: var(--ae-mint2); }
+    #adsearning-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .03em; animation: fadeUp 0.5s 0.75s both; }
+
     @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
     @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 
     @media (prefers-reduced-motion: reduce) {
       .ag-cloud { animation: none; }
+      .ae-bar   { animation: none; }
     }
 
     @media (max-width: 480px) {
+      #adsearning-panel .ae-not-grid { grid-template-columns: 1fr; }
+      .ae-range-grid { grid-template-columns: 1fr; }
+      .ae-logo-text .ae-line2 { font-size: 34px; }
       .not-collected-grid { grid-template-columns: 1fr; }
       #tonyfitter-panel .tf-not-grid { grid-template-columns: 1fr; }
       #airplane-panel .ag-not-grid { grid-template-columns: 1fr; }
@@ -1120,6 +1257,9 @@
     </button>
     <button class="nav-btn airplane" onclick="switchApp('airplane')">
       <span class="nav-dot"></span> Airplane Games
+    </button>
+    <button class="nav-btn adsearning" onclick="switchApp('adsearning')">
+      <span class="nav-dot"></span> Ads Earning
     </button>
     <button class="nav-btn zap" onclick="switchApp('zap')">
       <span class="nav-dot"></span> Zap Remote
@@ -1986,6 +2126,361 @@
     </div>
   </div>
 
+  <!-- ADS EARNING -->
+  <div class="panel" id="adsearning-panel">
+    <div class="page">
+      <header>
+        <div class="adsearning-logo">
+          <div class="ae-spark">
+            <div class="ae-bar"></div>
+            <div class="ae-bar"></div>
+            <div class="ae-bar"></div>
+            <div class="ae-bar"></div>
+            <div class="ae-bar"></div>
+            <div class="ae-bar"></div>
+            <div class="ae-bar"></div>
+          </div>
+          <div class="ae-logo-text">
+            <div class="ae-line1">AdMob &amp; AdSense</div>
+            <div class="ae-line2">ADS EARNING</div>
+            <div class="ae-line3">READ-ONLY · ON DEVICE</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="ae-subnav">
+        <button class="ae-subnav-btn active" onclick="switchAdsearningTab('support')">Support</button>
+        <button class="ae-subnav-btn" onclick="switchAdsearningTab('metrics')">Metrics</button>
+        <button class="ae-subnav-btn" onclick="switchAdsearningTab('privacy')">Privacy</button>
+      </div>
+
+      <main>
+        <!-- SUPPORT -->
+        <div class="ae-subpanel active" id="adsearning-support">
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.12)">✉️</div><h2>Contact Us</h2></div>
+            <form id="adsearningForm">
+              <div><label for="ae-name">Your Name</label><input type="text" id="ae-name" placeholder="Tony" required /></div>
+              <div><label for="ae-email">Email Address</label><input type="email" id="ae-email" placeholder="you@example.com" required /></div>
+              <div><label for="ae-topic">Topic</label>
+                <select id="ae-topic">
+                  <option>Google sign-in or permissions</option>
+                  <option>AdMob account not showing</option>
+                  <option>AdSense account not showing</option>
+                  <option>Numbers don't match my Google dashboard</option>
+                  <option>Today's earnings look wrong</option>
+                  <option>Chart or date range</option>
+                  <option>Breakdowns (app, country, ad unit)</option>
+                  <option>Unpaid earnings or payout threshold</option>
+                  <option>Home-screen widget</option>
+                  <option>Currency or time zone</option>
+                  <option>Bug or crash report</option>
+                  <option>Feature request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label for="ae-message">Message</label><textarea id="ae-message" placeholder="Describe your issue — include your device model, iOS version, and whether it's AdMob or AdSense…" required></textarea></div>
+              <button type="submit" class="send-btn">SEND MESSAGE</button>
+              <div class="success-msg" id="adsearningSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(255,181,69,.1)">💡</div><h2>FAQ</h2></div>
+
+            <details>
+              <summary>My numbers don't match what I see in AdMob or AdSense</summary>
+              <p>Almost always time zone. Google reports against your account's reporting time zone, not your phone's — so if you're in Bangkok and your account reports in America/Los_Angeles, "today" is a different window in each place. Ads Earning uses your account's time zone so the totals reconcile, which means the day can roll over at an hour that feels odd locally.</p>
+              <p>The other cause is finalisation. Today and yesterday are estimates and get revised — invalid traffic gets stripped out over the following days. A figure that drops slightly after 48 hours hasn't gone missing; it's been finalised.</p>
+            </details>
+
+            <details>
+              <summary>Today shows zero, or far less than expected</summary>
+              <p>Google's reporting runs behind live traffic — usually a couple of hours, occasionally longer. Early in your account's day there may genuinely be nothing reported yet. Pull to refresh later rather than treating an empty morning as a fault.</p>
+            </details>
+
+            <details>
+              <summary>Sign-in fails, or the permission screen won't complete</summary>
+              <p>Ads Earning asks only for read-only reporting access. If the screen closes without returning, check that you're picking the Google account that actually owns the publisher account — a personal account with no AdMob or AdSense attached will authorise fine and then show nothing.</p>
+              <p>If you previously denied a permission, Google remembers. Remove Ads Earning at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener" style="color:var(--ae-mint2)">myaccount.google.com/permissions</a> and sign in again to get a fresh prompt.</p>
+            </details>
+
+            <details>
+              <summary>Only one of AdMob or AdSense is showing</summary>
+              <p>They're separate products with separate publisher accounts. Ads Earning shows whichever the signed-in Google account has access to — if you only hold AdMob, only AdMob appears, and page views and page RPM stay hidden because AdMob doesn't report them.</p>
+            </details>
+
+            <details>
+              <summary>Can it change anything in my Google account?</summary>
+              <p>No. The permissions granted are read-only reporting scopes. There is no write access, so the App cannot create, edit, pause or delete an ad unit, change a payment setting, or alter anything at all in AdMob or AdSense. It can only read the same numbers you'd read yourself.</p>
+            </details>
+
+            <details>
+              <summary>The widget is showing yesterday's number</summary>
+              <p>iOS decides when widgets refresh and rations those refreshes to protect battery — the widget requests an update regularly but the system may defer it. Opening the app forces a fresh read and the widget catches up.</p>
+              <p>If it's stuck for a long stretch, check Settings → General → Background App Refresh is on and that Low Power Mode isn't active. Low Power Mode suspends widget updates almost entirely.</p>
+            </details>
+
+            <details>
+              <summary>Which currency are the figures in?</summary>
+              <p>Whatever currency your Google publisher account reports in. The App doesn't convert — converting would introduce a rate that doesn't match your actual payment, and the point is that the number matches what Google will pay you.</p>
+            </details>
+
+            <details>
+              <summary>My unpaid balance doesn't match the payout progress</summary>
+              <p>Unpaid earnings accumulate against the payment threshold set on your Google account, and only finalised earnings count toward it. The current month's estimate is shown alongside but isn't part of the balance until Google closes the month.</p>
+              <p>Payment thresholds and schedules are set entirely by Google. The App only reads and displays them.</p>
+            </details>
+
+            <details>
+              <summary>How do I sign out or revoke access?</summary>
+              <p>Sign out inside the App and the stored token is deleted from the iOS Keychain immediately. To revoke the grant on Google's side as well, remove Ads Earning at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener" style="color:var(--ae-mint2)">myaccount.google.com/permissions</a>. Deleting the App does both by removing the Keychain entry along with it.</p>
+            </details>
+
+            <details>
+              <summary>Can I add more than one Google account?</summary>
+              <p>Sign out and back in with the other account to switch. Each sign-in replaces the stored token rather than accumulating them, so only one publisher account is loaded at a time.</p>
+            </details>
+
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, reopen, and try again. If the crash repeats, contact us with your device model, iOS version, whether it's an AdMob or AdSense account, and which screen or date range you were on. There's no crash reporter, so your description is all we have to work from.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.1)">🎯</div><h2>Quick Tips</h2></div>
+            <ul>
+              <li>Drag along the chart to read any single day rather than eyeballing the shape</li>
+              <li>Every range carries its own comparison — this month is measured against the same days last month, not the whole of it</li>
+              <li>Check the country and format breakdowns before changing an ad unit; the drop is often one market, not the unit</li>
+              <li>Match rate falling while requests hold steady usually means fill, not demand</li>
+              <li>Treat today and yesterday as estimates — compare finalised days when you're making a decision</li>
+              <li>Add the widget to skip opening the app for the one number you check most</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(255,181,69,.1)">📱</div><h2>App Info</h2></div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Bundle ID: com.ptonygd.adsearning</li>
+              <li>Platform: iOS 16.0 and later</li>
+              <li>Category: Business · Finance</li>
+              <li>Age rating: 4+ · Free</li>
+              <li>Requires a Google account with an AdMob or AdSense publisher account</li>
+              <li>Read-only: no write access to your Google account, ever</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+            <div class="ae-warn">
+              <p><strong>Not affiliated with Google.</strong> Ads Earning is an independent app and is not affiliated with, endorsed by or sponsored by Google, Google AdSense or Google AdMob. Those names are trademarks of Google LLC.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- METRICS -->
+        <div class="ae-subpanel" id="adsearning-metrics">
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.12)">📊</div><h2>What Each Figure Means</h2></div>
+            <p>Every metric here comes straight from Google's reporting API. Nothing is computed, estimated or smoothed by the App.</p>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Requests</span><span class="ae-metric-unit">count</span></div>
+              <div class="ae-metric-desc">How many times your app or site asked for an ad. The top of the funnel — every other number below is a fraction of this one.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Matched requests</span><span class="ae-metric-unit">count</span></div>
+              <div class="ae-metric-desc">Requests that came back with an ad. The gap between this and requests is unfilled inventory.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Match rate</span><span class="ae-metric-unit">%</span></div>
+              <div class="ae-metric-desc">Matched requests as a share of requests. A low rate points at demand or targeting, not at your traffic.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Impressions</span><span class="ae-metric-unit">count</span></div>
+              <div class="ae-metric-desc">Ads actually shown. Lower than matched requests, because an ad can be returned and never rendered — the user leaves the screen first.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Impression CTR</span><span class="ae-metric-unit">%</span></div>
+              <div class="ae-metric-desc">Clicks divided by impressions. Measured against ads seen, not ads requested.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Clicks</span><span class="ae-metric-unit">count</span></div>
+              <div class="ae-metric-desc">Ad clicks Google counted as valid. Invalid clicks are filtered out, sometimes days later.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Cost per click</span><span class="ae-metric-unit">currency</span></div>
+              <div class="ae-metric-desc">Average earnings per click. Swings with advertiser demand and the mix of countries your traffic came from.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Observed eCPM</span><span class="ae-metric-unit">currency / 1,000</span></div>
+              <div class="ae-metric-desc">Earnings per thousand impressions actually served. The number to compare between ad units, formats and countries — it's already normalised for volume.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Page views</span><span class="ae-metric-unit">AdSense only</span></div>
+              <div class="ae-metric-desc">Pages that carried at least one ad unit, counted once per page rather than per unit.</div>
+            </div>
+
+            <div class="ae-metric">
+              <div class="ae-metric-top"><span class="ae-metric-name">Page RPM</span><span class="ae-metric-unit">AdSense only</span></div>
+              <div class="ae-metric-desc">Earnings per thousand page views. Reads as the value of traffic itself, where eCPM reads as the value of an ad slot.</div>
+            </div>
+
+            <div class="ae-warn">
+              <p><strong>Today and yesterday are estimates.</strong> Google revises recent figures as invalid traffic is filtered. A day only settles once it's finalised — expect small downward corrections, not errors.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.1)">📅</div><h2>Date Ranges &amp; Comparisons</h2></div>
+            <p>Each range is shown with its change against the matching earlier period — like for like, so a partial period is never compared against a whole one.</p>
+            <div class="ae-range-grid">
+              <div class="ae-range"><div class="ae-range-name">Today so far</div><div class="ae-range-vs">vs the same hours yesterday</div></div>
+              <div class="ae-range"><div class="ae-range-name">Yesterday</div><div class="ae-range-vs">vs the day before</div></div>
+              <div class="ae-range"><div class="ae-range-name">Last 7 days</div><div class="ae-range-vs">vs the 7 days before that</div></div>
+              <div class="ae-range"><div class="ae-range-name">This month</div><div class="ae-range-vs">vs the same days last month</div></div>
+              <div class="ae-range"><div class="ae-range-name">Last month</div><div class="ae-range-vs">vs the month before</div></div>
+              <div class="ae-range"><div class="ae-range-name">Lifetime</div><div class="ae-range-vs">no comparison — it's the total</div></div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(255,181,69,.1)">🗂️</div><h2>Breakdowns</h2></div>
+            <p>Any range can be split along these dimensions, so a change can be traced to where it actually happened:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span class="ae-chip">App</span>
+              <span class="ae-chip">Site</span>
+              <span class="ae-chip">Ad unit</span>
+              <span class="ae-chip">Country</span>
+              <span class="ae-chip">Format</span>
+              <span class="ae-chip">Platform</span>
+            </div>
+            <p>Plus a day-by-day chart you can drag across to read any single day's figures rather than estimating them from the curve.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.1)">💰</div><h2>Payouts</h2></div>
+            <ul>
+              <li>Unpaid earnings — finalised earnings not yet paid out</li>
+              <li>Your last payout, with its date and amount</li>
+              <li>Progress toward the payment threshold set on your Google account</li>
+            </ul>
+            <div class="ae-warn">
+              <p>Thresholds, payment schedules and holds are set entirely by Google. Ads Earning reads and displays them; it cannot change or trigger a payment.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="ae-subpanel" id="adsearning-privacy">
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.12)">🔐</div><h2>Privacy Policy</h2></div>
+            <p style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:rgba(47,208,138,.45);margin-bottom:16px">Last updated: August 3, 2026</p>
+            <p>Ads Earning ("the App", "we", "us") is an earnings viewer for AdMob and AdSense publishers, made by Pathom Sriaroonthip. We do not run a server. Your device talks directly to Google's reporting APIs, and your earnings data is never routed through, copied to or stored on any infrastructure of ours — because there isn't any.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.1)">🔑</div><h2>Google Sign-In &amp; Permissions</h2></div>
+            <p>Signing in grants the App <strong>read-only</strong> reporting access to your Google publisher accounts. Google issues an OAuth token that is stored in the <strong>iOS Keychain</strong> on your device and used to request reports directly from Google.</p>
+            <div class="ae-scope">
+              <p>The scopes requested are read-only by definition:</p>
+              <p style="margin-top:8px"><code>adsense.readonly</code> &nbsp; <code>admob.readonly</code></p>
+              <p style="margin-top:10px">There is no write scope. The App cannot create, modify, pause or delete anything in your Google account, cannot change payment settings, and cannot access Gmail, Drive, Contacts or any other Google service.</p>
+            </div>
+            <p style="margin-top:12px">Sign out inside the App to delete the token from the Keychain. To revoke the grant on Google's side, remove Ads Earning at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener" style="color:var(--ae-mint2)">myaccount.google.com/permissions</a>.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(255,181,69,.1)">📦</div><h2>What Stays on Your Device</h2></div>
+            <p>The following lives on your device only. None of it is transmitted to us:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span class="ae-chip">OAuth token (Keychain)</span>
+              <span class="ae-chip">Cached report figures</span>
+              <span class="ae-chip">Selected date range</span>
+              <span class="ae-chip">Selected breakdown</span>
+              <span class="ae-chip">Theme preference</span>
+              <span class="ae-chip">Widget snapshot</span>
+            </div>
+            <p>Cached figures exist so the App can show something the moment it opens and so the widget has a number to display. Delete the App and all of it goes with it.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.1)">🔗</div><h2>Third-Party Services</h2></div>
+            <table class="ae-table">
+              <thead><tr><th>Service</th><th>Purpose</th><th>Policy</th></tr></thead>
+              <tbody>
+                <tr><td>Google Sign-In</td><td>Authorises read-only reporting access</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+                <tr><td>AdMob API</td><td>Reads your AdMob reports</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+                <tr><td>AdSense Management API</td><td>Reads your AdSense reports</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+                <tr><td>Apple Keychain</td><td>Stores the token on device</td><td><a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">apple.com/legal/privacy</a></td></tr>
+              </tbody>
+            </table>
+            <p style="margin-top:14px">No analytics SDK, no crash reporter, no attribution SDK, no advertising SDK, and no Ads Earning server of any kind.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.1)">🚫</div><h2>What We Never Collect</h2></div>
+            <div class="ae-not-grid">
+              <div class="ae-not-item">Your earnings data</div>
+              <div class="ae-not-item">Your Google password</div>
+              <div class="ae-not-item">Your name or email</div>
+              <div class="ae-not-item">Location of any kind</div>
+              <div class="ae-not-item">Photos or contacts</div>
+              <div class="ae-not-item">Payment or bank details</div>
+              <div class="ae-not-item">Usage analytics</div>
+              <div class="ae-not-item">Advertising identifiers</div>
+            </div>
+            <div class="ae-scope">
+              <p>Your revenue figures are commercially sensitive, and we treat them that way: they are fetched by your device, displayed on your device, and cached on your device. We never see them.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(255,181,69,.1)">⚙️</div><h2>Your Choices &amp; Data Deletion</h2></div>
+            <ul>
+              <li><strong>Sign out:</strong> deletes the stored token from the Keychain immediately</li>
+              <li><strong>Revoke on Google's side:</strong> myaccount.google.com/permissions → Ads Earning → Remove access</li>
+              <li><strong>Clear the cache:</strong> signing out clears cached figures and the widget snapshot</li>
+              <li><strong>Delete everything:</strong> uninstall the App. Nothing is retained server-side, because nothing was ever sent there.</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.1)">👶</div><h2>Children</h2></div>
+            <p>Ads Earning is a business tool intended for publishers operating a Google AdMob or AdSense account, which requires an account holder of legal age. We do not knowingly collect information from anyone under 13.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="ae-icon-tile" style="background:rgba(47,208,138,.1)">📝</div><h2>Changes &amp; Contact</h2></div>
+            <p>We may update this policy as the App gains features. Material changes will be noted by updating the date above.</p>
+            <p style="margin-top:10px">Questions? Use the Support tab to reach us directly.</p>
+            <p style="margin-top:10px">Terms of Use: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener" style="color:var(--ae-mint2);font-size:13px">Apple Standard EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2026 Ads Earning · Read-only · Not affiliated with Google · All rights reserved</footer>
+    </div>
+  </div>
+
   <!-- ZAP -->
   <div class="panel" id="zap-panel">
     <div class="page">
@@ -2744,13 +3239,14 @@
 
 <script>
 // ── QUERY PARAM ROUTER ─────────────────────────────────────────────
-// URLs: ?app=zap  ?app=zap&page=privacy  ?app=airplane&page=games
+// URLs: ?app=zap  ?app=zap&page=privacy  ?app=adsearning&page=metrics
 
-const APPS = ['wordo', 'tonyfitter', 'airplane', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
+const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
 
 const TAB_MAP = {
   tonyfitter: ['support', 'whats-new', 'privacy'],
   airplane:   ['support', 'games', 'privacy'],
+  adsearning: ['support', 'metrics', 'privacy'],
   zap:        ['support', 'privacy', 'terms'],
   poker:      ['support', 'privacy'],
   poko:       ['support', 'whats-new', 'privacy'],
@@ -2764,6 +3260,7 @@ const APP_CHROME = {
   wordo:      { bg: '#f5f0e8', fg: '#2b1d0e' },
   tonyfitter: { bg: '#f3efe6', fg: '#1f1c19' },
   airplane:   { bg: '#e9f2fb', fg: '#10233d' },
+  adsearning: { bg: '#0a1310', fg: '#fff' },
   zap:        { bg: '#0a0e1a', fg: '#fff' },
   poker:      { bg: '#0d0d0d', fg: '#fff' },
   poko:       { bg: '#0f0f14', fg: '#fff' },
@@ -2791,7 +3288,7 @@ function buildQuery(app, page) {
 function _switchApp(app) {
   const nav = document.getElementById('mainNav');
   APPS.forEach(a => document.getElementById(a + '-panel').classList.remove('active'));
-  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
+  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
   document.getElementById(app + '-panel').classList.add('active');
   if (app !== 'wordo') nav.classList.add('on-' + app);
   const chrome = APP_CHROME[app] || APP_CHROME.wordo;
@@ -2812,6 +3309,7 @@ function _switchTab(app, btnSelector, page) {
 const TAB_BTN_SELECTOR = {
   tonyfitter: '.tf-subnav-btn',
   airplane:   '.ag-subnav-btn',
+  adsearning: '.ae-subnav-btn',
   zap:        '.zap-subnav-btn',
   poker:      '.poker-subnav-btn',
   poko:       '.poko-subnav-btn',
@@ -2841,6 +3339,7 @@ function navigate(app, page) {
 function switchApp(app)           { navigate(app, 'support'); }
 function switchTonyfitterTab(page){ navigate('tonyfitter', page); }
 function switchAirplaneTab(page)  { navigate('airplane',   page); }
+function switchAdsearningTab(page){ navigate('adsearning', page); }
 function switchZapTab(page)       { navigate('zap',        page); }
 function switchPokerTab(page)     { navigate('poker',      page); }
 function switchPokoTab(page)      { navigate('poko',       page); }
@@ -2877,6 +3376,7 @@ function setupForm(formId, successId) {
 setupForm('wordoForm',      'wordoSuccess');
 setupForm('tonyfitterForm', 'tonyfitterSuccess');
 setupForm('airplaneForm',   'airplaneSuccess');
+setupForm('adsearningForm', 'adsearningSuccess');
 setupForm('zapForm',        'zapSuccess');
 setupForm('pokerForm',      'pokerSuccess');
 setupForm('pokoForm',       'pokoSuccess');
