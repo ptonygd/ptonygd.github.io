@@ -95,6 +95,19 @@
       --ae-card:     rgba(255,255,255,0.04);
       --ae-text:     rgba(255,255,255,0.72);
       --ae-shadow:   rgba(47,208,138,0.2);
+      /* BITCOIN PLACES — a night map. Cool slate ground, bitcoin orange
+         for the pin, amber for Lightning, teal for a verified listing,
+         coral reserved for the ATM warnings so they read as warnings. */
+      --bp-bg:       #0e1519;
+      --bp-orange:   #f7931a;
+      --bp-orange2:  #ffb457;
+      --bp-amber:    #ffd166;
+      --bp-teal:     #3fa9a0;
+      --bp-warn:     #ff6b5a;
+      --bp-border:   rgba(247,147,26,0.18);
+      --bp-card:     rgba(255,255,255,0.04);
+      --bp-text:     rgba(255,255,255,0.72);
+      --bp-shadow:   rgba(247,147,26,0.22);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -318,6 +331,18 @@
     nav.on-adsearning .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
     nav.on-adsearning .nav-btn:not(.adsearning) .nav-dot { background: var(--grey); }
     nav[class*="on-"]:not(.on-adsearning) .nav-btn.adsearning .nav-dot { background: var(--grey); }
+    /* BITCOIN PLACES nav */
+    .nav-btn.bitcoinplaces { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.bitcoinplaces:hover { border-color: var(--bp-orange); color: var(--bp-orange); }
+    .nav-btn.bitcoinplaces .nav-dot { background: var(--bp-orange); }
+    nav.on-bitcoinplaces .nav-btn.bitcoinplaces {
+      background: linear-gradient(135deg, #d97a0c, var(--bp-orange));
+      color: #1a1206; border-color: var(--bp-orange);
+      box-shadow: 0 0 14px rgba(247,147,26,0.35);
+    }
+    nav.on-bitcoinplaces .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
+    nav.on-bitcoinplaces .nav-btn:not(.bitcoinplaces) .nav-dot { background: var(--grey); }
+    nav[class*="on-"]:not(.on-bitcoinplaces) .nav-btn.bitcoinplaces .nav-dot { background: var(--grey); }
     .panel { display: none; }
     .panel.active { display: block; }
 
@@ -1248,6 +1273,129 @@
     .crumb.on { opacity: .85; font-weight: 700; cursor: default; }
     .crumb.on::before { content: '●'; font-size: 6px; vertical-align: middle; margin-right: 6px; }
 
+    /* BITCOIN PLACES — a night map. The ground is a faint street lattice
+       rather than a grid or dot field, so it reads as cartography and not
+       as another dark dashboard. */
+    #bitcoinplaces-panel { background: var(--bp-bg); min-height: 100vh; position: relative; overflow: hidden; }
+    #bitcoinplaces-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 48% at 14% 2%, rgba(247,147,26,.16) 0%, transparent 58%),
+        radial-gradient(ellipse 55% 45% at 88% 94%, rgba(63,169,160,.13) 0%, transparent 58%),
+        radial-gradient(ellipse 85% 65% at 50% 50%, rgba(0,0,0,.45) 0%, transparent 75%);
+      pointer-events: none; z-index: 0;
+    }
+    #bitcoinplaces-panel::after {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(28deg, rgba(255,255,255,.022) 0 1px, transparent 1px 46px),
+        repeating-linear-gradient(-52deg, rgba(255,255,255,.018) 0 1px, transparent 1px 62px);
+      pointer-events: none; z-index: 0;
+    }
+    #bitcoinplaces-panel .page { position: relative; z-index: 1; }
+    #bitcoinplaces-panel header { padding: 32px 24px 24px; text-align: center; }
+    .bitcoinplaces-logo { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    /* A dropped pin with a ₿ in it, and the accuracy ring pulsing under it. */
+    .bp-pin { width: 62px; height: 74px; position: relative; flex-shrink: 0; }
+    .bp-pin-head {
+      position: absolute; top: 2px; left: 50%; width: 46px; height: 46px;
+      margin-left: -23px; border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      background: linear-gradient(135deg, var(--bp-orange2), var(--bp-orange));
+      box-shadow: 0 6px 18px rgba(0,0,0,.5), 0 0 22px rgba(247,147,26,.35);
+    }
+    .bp-pin-glyph {
+      position: absolute; top: 2px; left: 50%; width: 46px; height: 46px;
+      margin-left: -23px; display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: #1a1206;
+      letter-spacing: 0; line-height: 1;
+    }
+    .bp-pin-ring {
+      position: absolute; bottom: 4px; left: 50%; width: 42px; height: 14px;
+      margin-left: -21px; border-radius: 50%;
+      border: 1.5px solid rgba(63,169,160,.55);
+      animation: bpPing 2.8s ease-out infinite;
+    }
+    @keyframes bpPing {
+      0%   { transform: scale(.5); opacity: 0; }
+      35%  { opacity: .9; }
+      100% { transform: scale(1.35); opacity: 0; }
+    }
+    .bp-logo-text { text-align: left; }
+    .bp-logo-text .bp-line1 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--bp-orange); opacity: .8; line-height: 1; }
+    .bp-logo-text .bp-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 0.05em; line-height: 1; background: linear-gradient(135deg, #fff 25%, var(--bp-orange2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bp-logo-text .bp-line3 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: rgba(255,255,255,.32); line-height: 1.5; }
+    #bitcoinplaces-panel header > p { font-size: 15px; color: rgba(255,255,255,.35); font-weight: 500; }
+    #bitcoinplaces-panel .as-badge { box-shadow: 0 4px 20px rgba(247,147,26,.16); border-color: rgba(247,147,26,.22); }
+    #bitcoinplaces-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(247,147,26,.35); }
+    .bp-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; flex-wrap: wrap; animation: fadeDown 0.5s 0.2s both; }
+    .bp-subnav-btn { padding: 8px 20px; border-radius: 50px; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; cursor: pointer; border: 1.5px solid var(--bp-border); background: transparent; color: rgba(255,255,255,.35); letter-spacing: 0.08em; transition: all .2s; text-transform: uppercase; }
+    .bp-subnav-btn.active { background: rgba(247,147,26,.12); color: var(--bp-orange2); border-color: var(--bp-orange); box-shadow: 0 0 12px rgba(247,147,26,.2); }
+    .bp-subnav-btn:hover:not(.active) { border-color: rgba(247,147,26,.45); color: rgba(247,147,26,.75); }
+    .bp-subpanel { display: none; }
+    .bp-subpanel.active { display: block; }
+    #bitcoinplaces-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #bitcoinplaces-panel section { background: var(--bp-card); border: 1.5px solid var(--bp-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(247,147,26,.04), 0 8px 32px rgba(0,0,0,.45); backdrop-filter: blur(10px); animation: fadeUp 0.5s both; }
+    #bitcoinplaces-panel section:nth-child(1){animation-delay:.35s}
+    #bitcoinplaces-panel section:nth-child(2){animation-delay:.45s}
+    #bitcoinplaces-panel section:nth-child(3){animation-delay:.55s}
+    #bitcoinplaces-panel section:nth-child(4){animation-delay:.65s}
+    #bitcoinplaces-panel section:nth-child(5){animation-delay:.72s}
+    #bitcoinplaces-panel section:nth-child(6){animation-delay:.79s}
+    #bitcoinplaces-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    #bitcoinplaces-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: var(--bp-orange2); }
+    .bp-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #bitcoinplaces-panel p, #bitcoinplaces-panel li { font-size: 15px; line-height: 1.68; color: var(--bp-text); }
+    #bitcoinplaces-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #bitcoinplaces-panel li::before { content: '◈ '; color: var(--bp-orange); font-size: 11px; }
+    #bitcoinplaces-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #bitcoinplaces-panel label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,147,26,.5); margin-bottom: 4px; display: block; }
+    #bitcoinplaces-panel input, #bitcoinplaces-panel textarea, #bitcoinplaces-panel select { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(247,147,26,.16); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #fff; background: rgba(247,147,26,.04); outline: none; transition: border-color .2s, box-shadow .2s; }
+    #bitcoinplaces-panel select option { background: #0e1519; }
+    #bitcoinplaces-panel input::placeholder, #bitcoinplaces-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #bitcoinplaces-panel input:focus, #bitcoinplaces-panel textarea:focus, #bitcoinplaces-panel select:focus { border-color: var(--bp-orange); box-shadow: 0 0 0 3px rgba(247,147,26,.12); background: rgba(247,147,26,.06); }
+    #bitcoinplaces-panel textarea { resize: vertical; min-height: 110px; }
+    #bitcoinplaces-panel .send-btn { background: linear-gradient(135deg, var(--bp-orange), #d97a0c); color: #1a1206; border: none; border-radius: 10px; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; font-weight: 900; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px var(--bp-shadow); transition: transform .1s, opacity .1s; }
+    #bitcoinplaces-panel .send-btn:hover  { transform: translateY(-1px); opacity: .92; }
+    #bitcoinplaces-panel .send-btn:active { transform: translateY(1px); }
+    #bitcoinplaces-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(247,147,26,.1); border-radius: 10px; border: 1px solid rgba(247,147,26,.32); color: var(--bp-orange2); font-weight: 600; font-size: 15px; }
+    #bitcoinplaces-panel details { border-bottom: 1px solid rgba(247,147,26,.1); padding: 12px 0; }
+    #bitcoinplaces-panel details:last-child { border-bottom: none; }
+    #bitcoinplaces-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; color: rgba(255,255,255,.85); }
+    #bitcoinplaces-panel summary::after { content: '+'; font-size: 20px; color: rgba(247,147,26,.38); transition: transform .2s; flex-shrink: 0; }
+    #bitcoinplaces-panel details[open] summary::after { transform: rotate(45deg); }
+    #bitcoinplaces-panel details p { margin-top: 10px; }
+    /* Category and payment-method rows */
+    .bp-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .bp-cat { display: flex; align-items: center; gap: 9px; background: rgba(247,147,26,.06); border: 1px solid rgba(247,147,26,.16); border-radius: 10px; padding: 9px 12px; font-size: 14px; color: rgba(255,255,255,.72); }
+    .bp-cat-icon { font-size: 15px; flex-shrink: 0; }
+    .bp-pay { display: flex; flex-direction: column; gap: 4px; padding: 13px 0; border-bottom: 1px solid rgba(247,147,26,.1); }
+    .bp-pay:last-child { border-bottom: none; }
+    .bp-pay-name { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--bp-amber); letter-spacing: .02em; }
+    .bp-pay-desc { font-size: 14px; line-height: 1.6; color: var(--bp-text); }
+    .bp-chip { display: inline-block; background: rgba(247,147,26,.09); border: 1px solid rgba(247,147,26,.24); border-radius: 6px; padding: 2px 8px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,180,87,.88); letter-spacing: 0.03em; margin: 2px; }
+    .bp-chip.teal { background: rgba(63,169,160,.1); border-color: rgba(63,169,160,.3); color: rgba(93,199,190,.9); }
+    /* Warnings — coral, and only ever used for genuine risk. */
+    .bp-alert { background: rgba(255,107,90,.09); border: 1px solid rgba(255,107,90,.3); border-radius: 12px; padding: 16px 18px; margin-top: 12px; }
+    .bp-alert p { font-size: 14px; color: rgba(255,150,136,.92); line-height: 1.65; }
+    .bp-alert p + p { margin-top: 10px; }
+    .bp-alert strong { color: #ffb0a4; }
+    .bp-rule { background: rgba(255,107,90,.07); border-left: 2px solid var(--bp-warn); border-radius: 0 10px 10px 0; padding: 12px 14px; margin-top: 10px; }
+    .bp-rule p { font-size: 14px; color: rgba(255,255,255,.75); line-height: 1.6; }
+    .bp-note { background: rgba(63,169,160,.08); border: 1px solid rgba(63,169,160,.24); border-radius: 12px; padding: 14px 16px; margin-top: 12px; }
+    .bp-note p { font-size: 14px; color: rgba(120,208,200,.9); line-height: 1.62; }
+    .bp-note a { color: rgba(150,220,212,.95); }
+    #bitcoinplaces-panel .bp-not-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    #bitcoinplaces-panel .bp-not-item { display: flex; align-items: center; gap: 8px; background: rgba(255,107,90,.06); border: 1px solid rgba(255,107,90,.15); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: rgba(255,255,255,.5); }
+    #bitcoinplaces-panel .bp-not-item::before { content: '✕'; color: var(--bp-warn); opacity: .75; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .bp-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .bp-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,147,26,.55); padding: 8px 10px; border-bottom: 1px solid rgba(247,147,26,.2); text-align: left; }
+    .bp-table td { font-size: 14px; color: var(--bp-text); padding: 10px; border-bottom: 1px solid rgba(255,255,255,.05); vertical-align: top; line-height: 1.5; }
+    .bp-table tr:last-child td { border-bottom: none; }
+    .bp-table td a { color: rgba(255,180,87,.78); text-decoration: none; font-size: 12px; word-break: break-all; }
+    .bp-table td a:hover { color: var(--bp-orange2); }
+    #bitcoinplaces-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .03em; animation: fadeUp 0.5s 0.75s both; }
+
     @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
     @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
@@ -1255,9 +1403,13 @@
     @media (prefers-reduced-motion: reduce) {
       .ag-cloud { animation: none; }
       .ae-bar   { animation: none; }
+      .bp-pin-ring { animation: none; opacity: .35; }
     }
 
     @media (max-width: 480px) {
+      #bitcoinplaces-panel .bp-not-grid { grid-template-columns: 1fr; }
+      .bp-cat-grid { grid-template-columns: 1fr; }
+      .bp-logo-text .bp-line2 { font-size: 33px; }
       #adsearning-panel .ae-not-grid { grid-template-columns: 1fr; }
       .ae-range-grid { grid-template-columns: 1fr; }
       .ae-logo-text .ae-line2 { font-size: 34px; }
@@ -1288,6 +1440,9 @@
     </button>
     <button class="nav-btn adsearning" onclick="switchApp('adsearning')">
       <span class="nav-dot"></span> Ads Earning
+    </button>
+    <button class="nav-btn bitcoinplaces" onclick="switchApp('bitcoinplaces')">
+      <span class="nav-dot"></span> Bitcoin Places
     </button>
     <button class="nav-btn zap" onclick="switchApp('zap')">
       <span class="nav-dot"></span> Zap Remote
@@ -2509,6 +2664,370 @@
     </div>
   </div>
 
+  <!-- BITCOIN PLACES -->
+  <div class="panel" id="bitcoinplaces-panel">
+    <div class="page">
+      <header>
+        <div class="bitcoinplaces-logo">
+          <div class="bp-pin">
+            <div class="bp-pin-head"></div>
+            <div class="bp-pin-glyph">₿</div>
+            <div class="bp-pin-ring"></div>
+          </div>
+          <div class="bp-logo-text">
+            <div class="bp-line1">Merchants &amp; ATMs</div>
+            <div class="bp-line2">BITCOIN PLACES</div>
+            <div class="bp-line3">FIND · VERIFY · GO</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="bp-subnav">
+        <button class="bp-subnav-btn active" onclick="switchBitcoinplacesTab('support')">Support</button>
+        <button class="bp-subnav-btn" onclick="switchBitcoinplacesTab('directory')">Directory</button>
+        <button class="bp-subnav-btn" onclick="switchBitcoinplacesTab('safety')">Safety</button>
+        <button class="bp-subnav-btn" onclick="switchBitcoinplacesTab('privacy')">Privacy</button>
+      </div>
+
+      <main>
+        <!-- SUPPORT -->
+        <div class="bp-subpanel active" id="bitcoinplaces-support">
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.12)">✉️</div><h2>Contact Us</h2></div>
+            <form id="bitcoinplacesForm">
+              <div><label for="bp-name">Your Name</label><input type="text" id="bp-name" placeholder="Tony" required /></div>
+              <div><label for="bp-email">Email Address</label><input type="email" id="bp-email" placeholder="you@example.com" required /></div>
+              <div><label for="bp-topic">Topic</label>
+                <select id="bp-topic">
+                  <option>A listing is wrong or closed</option>
+                  <option>A place is missing</option>
+                  <option>ATM information is wrong</option>
+                  <option>Opening hours or "Open now"</option>
+                  <option>"Near me" or location permission</option>
+                  <option>Map, clustering or search</option>
+                  <option>Passport (saved places)</option>
+                  <option>Offline behaviour</option>
+                  <option>Directions not opening</option>
+                  <option>Bug or crash report</option>
+                  <option>Feature request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label for="bp-message">Message</label><textarea id="bp-message" placeholder="Include the place name and city if it's about a listing, plus your device model and iOS version…" required></textarea></div>
+              <button type="submit" class="send-btn">SEND MESSAGE</button>
+              <div class="success-msg" id="bitcoinplacesSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(255,209,102,.11)">💡</div><h2>FAQ</h2></div>
+
+            <details>
+              <summary>I went somewhere listed and they don't take bitcoin</summary>
+              <p>Listings are community-sourced from BTC Map and OpenStreetMap, so they reflect what a contributor last recorded — which may be months old, and merchants change their minds. Check the verification date on the place before you travel; a listing verified recently is a much better bet than one that hasn't been touched in a year.</p>
+              <p>The fix belongs upstream. Correcting it at <a href="https://btcmap.org" target="_blank" rel="noopener" style="color:var(--bp-orange2)">btcmap.org</a> updates the data for every app that uses it, not just this one. Tell us as well if you'd like, but the upstream edit is what actually helps the next traveller.</p>
+            </details>
+
+            <details>
+              <summary>How do I add a place that's missing?</summary>
+              <p>Add it to BTC Map. Bitcoin Places doesn't hold its own copy of the directory — it reads the shared open dataset — so there's no in-app submission that would go anywhere useful. Contributing upstream puts your place in front of everyone using that data.</p>
+            </details>
+
+            <details>
+              <summary>"Near me" isn't sorting anything</summary>
+              <p>It needs location permission. Check Settings → Privacy &amp; Security → Location Services → Bitcoin Places, and make sure Precise Location is on — with it off, iOS supplies a coarse area and distance sorting gets vague.</p>
+              <p>Your location is used on your device to sort the list. It isn't uploaded, and the directory works fine without it if you'd rather browse by search or map.</p>
+            </details>
+
+            <details>
+              <summary>"Open now" says open but the place is shut</summary>
+              <p>Opening hours come from OpenStreetMap and are only as current as the last contributor made them. The status is computed in the venue's own local time, which is the right behaviour when you're travelling, but it can't know about public holidays, seasonal closures, or a sign on the door saying back in an hour.</p>
+              <p>Treat it as a strong hint, not a guarantee — particularly for anywhere you'd be annoyed to arrive at and find closed.</p>
+            </details>
+
+            <details>
+              <summary>Does it work without a connection?</summary>
+              <p>Yes, once an area has loaded. Places you've already browsed, your Passport and the map region stay available offline — useful when you land somewhere without a local SIM.</p>
+              <p>What needs a connection: pulling in an area you haven't loaded yet, and refreshing verification dates. Directions hand off to Apple Maps, which has its own offline behaviour.</p>
+            </details>
+
+            <details>
+              <summary>My saved places disappeared after reinstalling</summary>
+              <p>Your Passport is stored on your device and nowhere else — there's no account, so there's no server copy to restore from. Deleting the app removes it.</p>
+              <p>That's the trade for having no sign-up and no data leaving your phone, but it does mean a reinstall or a new phone starts empty.</p>
+            </details>
+
+            <details>
+              <summary>What's the difference between on-chain, Lightning and Lightning contactless?</summary>
+              <p>See the Directory tab — each payment method is explained there, along with what to expect at the counter.</p>
+            </details>
+
+            <details>
+              <summary>Can I pay through the app?</summary>
+              <p>No. Bitcoin Places is a directory and nothing more. It doesn't process payments, hold funds, connect to a wallet, or take part in any transaction — it tells you where to go, and you pay with whatever wallet you already use.</p>
+            </details>
+
+            <details>
+              <summary>The map is slow in a busy city</summary>
+              <p>Dense areas are clustered so the map stays readable; zoom in to break a cluster apart. If it's genuinely sluggish rather than just crowded, tell us the city and zoom level and we'll take a look.</p>
+            </details>
+
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, reopen, and try again. If the crash repeats, contact us with your device model, iOS version, and roughly where on the map you were — crashes tied to a specific area usually point at one malformed listing, and knowing the region is what lets us find it.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(63,169,160,.12)">🎯</div><h2>Quick Tips</h2></div>
+            <ul>
+              <li>Check the verification date before travelling — recently verified beats highly rated here</li>
+              <li>Load the area you're heading to while you still have signal, then it's there when you land</li>
+              <li>Save places to your Passport before a trip rather than searching on arrival</li>
+              <li>Zoom in to split a cluster instead of tapping it repeatedly</li>
+              <li>Message ahead for anywhere you're making a special journey for — a listing is a record, not a promise</li>
+              <li>Lightning contactless is the fastest counter experience where a venue supports it</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.1)">📱</div><h2>App Info</h2></div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Bundle ID: com.ptonygd.bitcoinplaces</li>
+              <li>Platform: iOS 16.0 and later</li>
+              <li>Directory only — no payments, no funds, no wallet connection</li>
+              <li>No account, no sign-up, no tracking</li>
+              <li>Data from BTC Map and OpenStreetMap contributors (ODbL)</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+            <div class="bp-note">
+              <p>Bitcoin Places is an independent directory. Listing a merchant is not an endorsement of that merchant, and we have no relationship with the venues or ATM operators shown.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- DIRECTORY -->
+        <div class="bp-subpanel" id="bitcoinplaces-directory">
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.12)">🗂️</div><h2>Categories</h2></div>
+            <p>Tens of thousands of bitcoin-accepting places worldwide, browsable by what you're actually looking for:</p>
+            <div class="bp-cat-grid">
+              <div class="bp-cat"><span class="bp-cat-icon">🍽️</span> Restaurants</div>
+              <div class="bp-cat"><span class="bp-cat-icon">☕</span> Cafés</div>
+              <div class="bp-cat"><span class="bp-cat-icon">🍸</span> Bars</div>
+              <div class="bp-cat"><span class="bp-cat-icon">🛍️</span> Shops</div>
+              <div class="bp-cat"><span class="bp-cat-icon">🛒</span> Groceries</div>
+              <div class="bp-cat"><span class="bp-cat-icon">⛽</span> Fuel &amp; charging</div>
+              <div class="bp-cat"><span class="bp-cat-icon">🏨</span> Lodging</div>
+              <div class="bp-cat"><span class="bp-cat-icon">🔧</span> Services</div>
+              <div class="bp-cat"><span class="bp-cat-icon">🏧</span> Bitcoin ATMs</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(255,209,102,.11)">⚡</div><h2>Payment Methods</h2></div>
+            <p>Each listing shows what the venue accepts, where that's been recorded:</p>
+
+            <div class="bp-pay">
+              <div class="bp-pay-name">On-chain</div>
+              <div class="bp-pay-desc">A normal bitcoin transaction settled on the blockchain. Fees vary with network demand and confirmation isn't instant, so it suits larger amounts more than a coffee.</div>
+            </div>
+
+            <div class="bp-pay">
+              <div class="bp-pay-name">Lightning</div>
+              <div class="bp-pay-desc">Near-instant, very low fee, paid by scanning an invoice QR code. This is what most merchants mean day to day.</div>
+            </div>
+
+            <div class="bp-pay">
+              <div class="bp-pay-name">Lightning contactless</div>
+              <div class="bp-pay-desc">Tap to pay with a Lightning-enabled card or your phone — no QR to scan. The quickest option at a busy counter, but only where the venue has the hardware.</div>
+            </div>
+
+            <div class="bp-note">
+              <p>Recorded methods come from the shared dataset and can lag reality. A venue listed as on-chain only may well have added Lightning since.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(63,169,160,.12)">✅</div><h2>Verification</h2></div>
+            <p>Community members re-check places and record the date they did. Bitcoin Places surfaces what's been verified recently, because in a directory like this recency is the single most useful signal about whether a listing is still true.</p>
+            <p style="margin-top:10px">A place with no recent verification isn't necessarily wrong — it may simply be somewhere nobody has been lately. Weight it accordingly, especially if you're making a trip for it.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
+              <span class="bp-chip teal">Recently verified</span>
+              <span class="bp-chip">Hours</span>
+              <span class="bp-chip">Address</span>
+              <span class="bp-chip">Phone</span>
+              <span class="bp-chip">Website</span>
+              <span class="bp-chip">Payment methods</span>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.1)">🗺️</div><h2>Data &amp; Attribution</h2></div>
+            <p>The directory is open data, not ours. It comes from <strong>BTC Map</strong> and <strong>OpenStreetMap</strong> contributors, licensed under the <strong>Open Database License (ODbL)</strong>.</p>
+            <p style="margin-top:10px">That means the corrections you make upstream benefit every project using the same data, and it means we can't quietly fix a listing on our end — nor should we.</p>
+            <table class="bp-table">
+              <thead><tr><th>Source</th><th>Provides</th><th>Link</th></tr></thead>
+              <tbody>
+                <tr><td>BTC Map</td><td>Bitcoin-accepting places, verification dates</td><td><a href="https://btcmap.org" target="_blank" rel="noopener">btcmap.org</a></td></tr>
+                <tr><td>OpenStreetMap</td><td>Underlying place data, hours, contact details</td><td><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">openstreetmap.org/copyright</a></td></tr>
+                <tr><td>ODbL 1.0</td><td>The licence both are shared under</td><td><a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener">opendatacommons.org/…/odbl</a></td></tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+
+        <!-- SAFETY -->
+        <div class="bp-subpanel" id="bitcoinplaces-safety">
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(255,107,90,.13)">🏧</div><h2>Before You Use a Bitcoin ATM</h2></div>
+            <p>Bitcoin ATMs are convenient and legal, and they are also the single most common way people get defrauded out of cash they can't get back. Two facts matter more than anything else on this screen:</p>
+            <div class="bp-alert">
+              <p><strong>Fees are typically high.</strong> Operator margins on bitcoin ATMs are routinely far above what you'd pay at an exchange. Check the rate and fee shown on the machine before you commit, not after.</p>
+              <p><strong>Transactions are irreversible.</strong> Once bitcoin leaves the machine there is no chargeback, no reversal, and no support line that can undo it. Unlike a card payment, nobody can claw it back for you.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(255,107,90,.13)">🛑</div><h2>The One Rule</h2></div>
+            <div class="bp-rule">
+              <p><strong style="color:#ffb0a4">Never put cash into a bitcoin ATM because someone told you to.</strong> Not a phone call, not a text, not an email, not someone you've only met online. If another person is directing you to a machine, you are being robbed — the fact that they sound calm, official or kind is the technique, not a reassurance.</p>
+            </div>
+            <p style="margin-top:14px">Scammers reach people by impersonating something trustworthy. The story varies; the instruction never does.</p>
+            <ul style="margin-top:12px">
+              <li>Police, a court, immigration or a tax office claiming you owe money or face arrest</li>
+              <li>Your bank's "fraud team" saying your account is compromised and funds must be moved to a safe wallet</li>
+              <li>A utility, delivery firm or government agency demanding immediate payment</li>
+              <li>Tech support who found a problem on your computer</li>
+              <li>A romantic interest, or a friend on a hacked account, with an emergency</li>
+              <li>An investment or job opportunity that needs a deposit first</li>
+            </ul>
+            <div class="bp-alert" style="margin-top:16px">
+              <p>No government agency, bank, court or utility on earth will ever ask you to pay in bitcoin. There is no such thing as a safe wallet they need you to move money to. Anyone saying otherwise is stealing from you, however plausible they sound.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(63,169,160,.12)">🧭</div><h2>If You're Being Pressured</h2></div>
+            <ul>
+              <li>Stop. Urgency is manufactured — nothing genuine collapses because you took an hour</li>
+              <li>Hang up and call the organisation back on a number you looked up yourself, never one you were given</li>
+              <li>Tell someone you trust before you send anything, out loud. Scripts like this fall apart the moment they're said to a second person</li>
+              <li>If you've already sent funds, contact your local police and the ATM operator immediately — recovery is unlikely, but reporting it matters and you are not the first</li>
+            </ul>
+            <div class="bp-note">
+              <p>Being taken in by one of these says nothing about your intelligence. They are professionally built, they target everyone, and the people running them do this full time.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.1)">📋</div><h2>What This App Is</h2></div>
+            <p>Bitcoin Places is a directory. It shows where machines and merchants are recorded to be. It does not:</p>
+            <div class="bp-not-grid">
+              <div class="bp-not-item">Process payments</div>
+              <div class="bp-not-item">Hold or move funds</div>
+              <div class="bp-not-item">Connect to a wallet</div>
+              <div class="bp-not-item">Set or see ATM fees</div>
+              <div class="bp-not-item">Vouch for any operator</div>
+              <div class="bp-not-item">Offer financial advice</div>
+            </div>
+            <p style="margin-top:14px">Listings are community-sourced and may be incomplete or out of date. Always verify a place is operational before travelling to it.</p>
+          </section>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="bp-subpanel" id="bitcoinplaces-privacy">
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.12)">🔐</div><h2>Privacy Policy</h2></div>
+            <p style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:rgba(247,147,26,.45);margin-bottom:16px">Last updated: August 3, 2026</p>
+            <p>Bitcoin Places ("the App", "we", "us") is a directory of bitcoin-accepting merchants and ATMs, made by Pathom Sriaroonthip. There is no account and no sign-up. We do not run a server that holds anything about you.</p>
+            <p style="margin-top:10px">Where you go and what you look for is, we think, nobody's business but yours — including ours.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(63,169,160,.12)">📍</div><h2>Location</h2></div>
+            <p>If you grant location access, the App uses your position <strong>on your device</strong> to sort places by distance and to centre the map. That is the whole of it.</p>
+            <div class="bp-note">
+              <p>Your location is never uploaded, never sent to us, never attached to a request, and never shared with anyone. It is read, used to compute distances on your phone, and discarded. We could not tell you where a single user has been, because we never receive it.</p>
+              <p>Revoke access any time in Settings → Privacy &amp; Security → Location Services → Bitcoin Places. The directory keeps working; it simply stops sorting by distance.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(255,209,102,.11)">📦</div><h2>What Stays on Your Device</h2></div>
+            <p>The following lives on your device only, and is never transmitted to us:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span class="bp-chip">Passport (saved places)</span>
+              <span class="bp-chip">Cached listings</span>
+              <span class="bp-chip">Last map region</span>
+              <span class="bp-chip">Category filters</span>
+              <span class="bp-chip">Recent searches</span>
+              <span class="bp-chip">App preferences</span>
+            </div>
+            <p>Delete the App and all of it goes with it. There is no account to close and nothing retained elsewhere.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.1)">🔗</div><h2>Third-Party Services</h2></div>
+            <table class="bp-table">
+              <thead><tr><th>Service</th><th>Purpose</th><th>Policy</th></tr></thead>
+              <tbody>
+                <tr><td>BTC Map</td><td>Directory data — no personal data sent</td><td><a href="https://btcmap.org" target="_blank" rel="noopener">btcmap.org</a></td></tr>
+                <tr><td>OpenStreetMap</td><td>Place details and hours — no personal data sent</td><td><a href="https://osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">osmfoundation.org/…/Privacy_Policy</a></td></tr>
+                <tr><td>Apple MapKit</td><td>Map rendering</td><td><a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">apple.com/legal/privacy</a></td></tr>
+                <tr><td>Apple Maps</td><td>Directions, when you tap through</td><td><a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">apple.com/legal/privacy</a></td></tr>
+              </tbody>
+            </table>
+            <p style="margin-top:14px">No analytics SDK, no crash reporter, no attribution SDK, and no tracking of any kind.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.1)">🚫</div><h2>What We Never Collect</h2></div>
+            <div class="bp-not-grid">
+              <div class="bp-not-item">Your location</div>
+              <div class="bp-not-item">Places you searched</div>
+              <div class="bp-not-item">Places you saved</div>
+              <div class="bp-not-item">Your name or email</div>
+              <div class="bp-not-item">Wallet or payment data</div>
+              <div class="bp-not-item">Advertising identifiers</div>
+              <div class="bp-not-item">Photos or contacts</div>
+              <div class="bp-not-item">Usage analytics</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(255,209,102,.11)">⚙️</div><h2>Your Choices &amp; Data Deletion</h2></div>
+            <ul>
+              <li><strong>Location:</strong> Settings → Privacy &amp; Security → Location Services → Bitcoin Places</li>
+              <li><strong>Clear your Passport:</strong> remove saved places inside the App at any time</li>
+              <li><strong>Delete everything:</strong> uninstall the App. Nothing is retained server-side, because nothing was ever sent there.</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="bp-icon-tile" style="background:rgba(247,147,26,.1)">📝</div><h2>Changes &amp; Contact</h2></div>
+            <p>We may update this policy as the App gains features. Material changes will be noted by updating the date above.</p>
+            <p style="margin-top:10px">Questions? Use the Support tab to reach us directly.</p>
+            <p style="margin-top:10px">Terms of Use: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener" style="color:var(--bp-orange2);font-size:13px">Apple Standard EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2026 Bitcoin Places · A directory, not a payment service · Data © BTC Map &amp; OpenStreetMap contributors (ODbL)</footer>
+    </div>
+  </div>
+
   <!-- ZAP -->
   <div class="panel" id="zap-panel">
     <div class="page">
@@ -3267,6 +3786,7 @@
     <button class="crumb" data-app="tonyfitter" onclick="switchApp('tonyfitter')">Tony Fitter</button>
     <button class="crumb" data-app="airplane"   onclick="switchApp('airplane')">Airplane Games</button>
     <button class="crumb" data-app="adsearning" onclick="switchApp('adsearning')">Ads Earning</button>
+    <button class="crumb" data-app="bitcoinplaces" onclick="switchApp('bitcoinplaces')">Bitcoin Places</button>
     <button class="crumb" data-app="zap"        onclick="switchApp('zap')">Zap Remote</button>
     <button class="crumb" data-app="poker"      onclick="switchApp('poker')">Video Poker Mania</button>
     <button class="crumb" data-app="poko"       onclick="switchApp('poko')">POKO</button>
@@ -3280,12 +3800,13 @@
 // ── QUERY PARAM ROUTER ─────────────────────────────────────────────
 // URLs: ?app=zap  ?app=zap&page=privacy  ?app=adsearning&page=metrics
 
-const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
+const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'bitcoinplaces', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
 
 const TAB_MAP = {
   tonyfitter: ['support', 'whats-new', 'privacy'],
   airplane:   ['support', 'games', 'privacy'],
   adsearning: ['support', 'metrics', 'privacy'],
+  bitcoinplaces: ['support', 'directory', 'safety', 'privacy'],
   zap:        ['support', 'privacy', 'terms'],
   poker:      ['support', 'privacy'],
   poko:       ['support', 'whats-new', 'privacy'],
@@ -3300,6 +3821,7 @@ const APP_CHROME = {
   tonyfitter: { bg: '#f3efe6', fg: '#1f1c19' },
   airplane:   { bg: '#e9f2fb', fg: '#10233d' },
   adsearning: { bg: '#0a1310', fg: '#fff' },
+  bitcoinplaces: { bg: '#0e1519', fg: '#fff' },
   zap:        { bg: '#0a0e1a', fg: '#fff' },
   poker:      { bg: '#0d0d0d', fg: '#fff' },
   poko:       { bg: '#0f0f14', fg: '#fff' },
@@ -3327,7 +3849,7 @@ function buildQuery(app, page) {
 function _switchApp(app) {
   const nav = document.getElementById('mainNav');
   APPS.forEach(a => document.getElementById(a + '-panel').classList.remove('active'));
-  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
+  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-bitcoinplaces', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
   document.getElementById(app + '-panel').classList.add('active');
   if (app !== 'wordo') nav.classList.add('on-' + app);
   const chrome = APP_CHROME[app] || APP_CHROME.wordo;
@@ -3351,6 +3873,7 @@ const TAB_BTN_SELECTOR = {
   tonyfitter: '.tf-subnav-btn',
   airplane:   '.ag-subnav-btn',
   adsearning: '.ae-subnav-btn',
+  bitcoinplaces: '.bp-subnav-btn',
   zap:        '.zap-subnav-btn',
   poker:      '.poker-subnav-btn',
   poko:       '.poko-subnav-btn',
@@ -3381,6 +3904,7 @@ function switchApp(app)           { navigate(app, 'support'); }
 function switchTonyfitterTab(page){ navigate('tonyfitter', page); }
 function switchAirplaneTab(page)  { navigate('airplane',   page); }
 function switchAdsearningTab(page){ navigate('adsearning', page); }
+function switchBitcoinplacesTab(page){ navigate('bitcoinplaces', page); }
 function switchZapTab(page)       { navigate('zap',        page); }
 function switchPokerTab(page)     { navigate('poker',      page); }
 function switchPokoTab(page)      { navigate('poko',       page); }
@@ -3418,6 +3942,7 @@ setupForm('wordoForm',      'wordoSuccess');
 setupForm('tonyfitterForm', 'tonyfitterSuccess');
 setupForm('airplaneForm',   'airplaneSuccess');
 setupForm('adsearningForm', 'adsearningSuccess');
+setupForm('bitcoinplacesForm', 'bitcoinplacesSuccess');
 setupForm('zapForm',        'zapSuccess');
 setupForm('pokerForm',      'pokerSuccess');
 setupForm('pokoForm',       'pokoSuccess');
