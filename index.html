@@ -108,6 +108,20 @@
       --bp-card:     rgba(255,255,255,0.04);
       --bp-text:     rgba(255,255,255,0.72);
       --bp-shadow:   rgba(247,147,26,0.22);
+      /* 不動産電卓 — 和紙に墨と朱。The only panel whose primary language is
+         Japanese, so Bebas Neue is dropped here entirely and headings run
+         in a gothic stack that actually renders kana and kanji. */
+      --re-paper:    #efeee6;
+      --re-surface:  #ffffff;
+      --re-sumi:     #1c1a17;
+      --re-sumi2:    #55504a;
+      --re-border:   #dcd7c9;
+      --re-shu:      #c8452e;
+      --re-shu2:     #a83621;
+      --re-ai:       #2c4a7c;
+      --re-gold:     #a8863c;
+      --re-shadow:   rgba(28,26,23,0.10);
+      --re-jp: 'DM Sans', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP', system-ui, sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -343,6 +357,17 @@
     nav.on-bitcoinplaces .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
     nav.on-bitcoinplaces .nav-btn:not(.bitcoinplaces) .nav-dot { background: var(--grey); }
     nav[class*="on-"]:not(.on-bitcoinplaces) .nav-btn.bitcoinplaces .nav-dot { background: var(--grey); }
+    /* 不動産電卓 nav */
+    .nav-btn.realestate { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.realestate:hover { border-color: var(--re-shu); color: var(--re-shu); }
+    .nav-btn.realestate .nav-dot { background: var(--re-shu); }
+    nav.on-realestate .nav-btn.realestate {
+      background: var(--re-shu); color: #fff; border-color: var(--re-shu);
+      box-shadow: 0 3px 12px rgba(200,69,46,0.3);
+    }
+    nav.on-realestate .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
+    nav.on-realestate .nav-btn:not(.realestate) .nav-dot { background: var(--grey); }
+    nav[class*="on-"]:not(.on-realestate) .nav-btn.realestate .nav-dot { background: var(--grey); }
     .panel { display: none; }
     .panel.active { display: block; }
 
@@ -1264,7 +1289,7 @@
     }
     .crumb {
       background: none; border: none; cursor: pointer;
-      font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .03em;
+      font-family: 'Space Mono', 'Hiragino Sans', 'Yu Gothic', monospace; font-size: 11px; letter-spacing: .03em;
       color: currentColor; opacity: .32; padding: 5px 9px; border-radius: 6px;
       transition: opacity .18s;
     }
@@ -1396,6 +1421,141 @@
     .bp-table td a:hover { color: var(--bp-orange2); }
     #bitcoinplaces-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .03em; animation: fadeUp 0.5s 0.75s both; }
 
+    /* 不動産電卓 — paper, sumi ink and a vermillion seal. Ruled hairlines
+       stand in for a 帳面; the seal is the only saturated thing on screen. */
+    #realestate-panel { background: var(--re-paper); min-height: 100vh; position: relative; overflow: hidden; }
+    #realestate-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 58% 42% at 10% 2%, rgba(200,69,46,.06) 0%, transparent 56%),
+        radial-gradient(ellipse 55% 45% at 92% 96%, rgba(44,74,124,.07) 0%, transparent 56%);
+      pointer-events: none; z-index: 0;
+    }
+    #realestate-panel::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: repeating-linear-gradient(180deg, rgba(28,26,23,.035) 0 1px, transparent 1px 30px);
+      pointer-events: none; z-index: 0;
+    }
+    #realestate-panel .page { position: relative; z-index: 1; }
+    #realestate-panel header { padding: 32px 24px 24px; text-align: center; }
+    .realestate-logo { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    /* 落款 — a seal, tilted the way one actually lands on paper. */
+    .re-seal {
+      width: 60px; height: 60px; flex-shrink: 0;
+      border: 3px solid var(--re-shu); border-radius: 8px;
+      background: var(--re-shu);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--re-jp); font-size: 30px; font-weight: 700; color: var(--re-paper);
+      transform: rotate(-4deg);
+      box-shadow: 0 4px 14px rgba(200,69,46,.28);
+      line-height: 1;
+    }
+    .re-logo-text { text-align: left; }
+    .re-logo-text .re-line1 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--re-shu); opacity: .85; line-height: 1; }
+    .re-logo-text .re-line2 { font-family: var(--re-jp); font-size: 34px; font-weight: 700; letter-spacing: 0.08em; line-height: 1.15; color: var(--re-sumi); }
+    .re-logo-text .re-line3 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(28,26,23,.4); line-height: 1.5; }
+    #realestate-panel header > p { font-family: var(--re-jp); font-size: 15px; color: rgba(28,26,23,.45); font-weight: 500; }
+    #realestate-panel .as-badge { box-shadow: 0 4px 18px rgba(28,26,23,.2); }
+    #realestate-panel .as-badge:hover { box-shadow: 0 8px 26px rgba(200,69,46,.28); }
+    #realestate-panel .as-badge.coming-soon { background: rgba(28,26,23,.05); border-color: rgba(28,26,23,.14); box-shadow: none; }
+    #realestate-panel .as-badge.coming-soon svg { opacity: 1; }
+    #realestate-panel .as-badge.coming-soon svg path { fill: rgba(28,26,23,.4); }
+    #realestate-panel .as-badge.coming-soon .as-badge-sub  { color: rgba(28,26,23,.45); }
+    #realestate-panel .as-badge.coming-soon .as-badge-main { color: rgba(28,26,23,.6); }
+    .re-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; flex-wrap: wrap; animation: fadeDown 0.5s 0.2s both; }
+    .re-subnav-btn { padding: 8px 20px; border-radius: 50px; font-family: var(--re-jp); font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--re-border); background: transparent; color: rgba(28,26,23,.45); transition: all .2s; }
+    .re-subnav-btn.active { background: var(--re-sumi); color: var(--re-paper); border-color: var(--re-sumi); box-shadow: 0 3px 10px rgba(28,26,23,.2); }
+    .re-subnav-btn:hover:not(.active) { border-color: var(--re-shu); color: var(--re-shu); }
+    .re-subpanel { display: none; }
+    .re-subpanel.active { display: block; }
+    #realestate-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #realestate-panel section {
+      background: var(--re-surface); border: 1.5px solid var(--re-border); border-radius: 14px;
+      padding: 28px; margin-bottom: 16px;
+      box-shadow: 0 2px 0 var(--re-border), 0 6px 24px var(--re-shadow);
+      animation: fadeUp 0.5s both;
+    }
+    #realestate-panel section:nth-child(1){animation-delay:.35s}
+    #realestate-panel section:nth-child(2){animation-delay:.45s}
+    #realestate-panel section:nth-child(3){animation-delay:.55s}
+    #realestate-panel section:nth-child(4){animation-delay:.65s}
+    #realestate-panel section:nth-child(5){animation-delay:.72s}
+    #realestate-panel section:nth-child(6){animation-delay:.79s}
+    #realestate-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    /* Bebas can't render kana, so headings run in the gothic stack. */
+    #realestate-panel h2 { font-family: var(--re-jp); font-size: 18px; font-weight: 700; letter-spacing: 0.03em; color: var(--re-sumi); }
+    #realestate-panel h2 .re-en { display: block; font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: rgba(28,26,23,.35); margin-top: 3px; }
+    .re-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #realestate-panel p, #realestate-panel li { font-family: var(--re-jp); font-size: 15px; line-height: 1.85; color: var(--re-sumi2); }
+    #realestate-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #realestate-panel li::before { content: '・'; color: var(--re-shu); font-weight: 700; }
+    #realestate-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #realestate-panel label { font-family: var(--re-jp); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: rgba(28,26,23,.5); margin-bottom: 4px; display: block; }
+    #realestate-panel label .re-en { font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: rgba(28,26,23,.3); margin-left: 6px; }
+    #realestate-panel input, #realestate-panel textarea, #realestate-panel select {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--re-border);
+      border-radius: 8px; font-family: var(--re-jp); font-size: 15px;
+      color: var(--re-sumi); background: #faf9f4; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    #realestate-panel select option { background: #fff; }
+    #realestate-panel input::placeholder, #realestate-panel textarea::placeholder { color: rgba(28,26,23,.3); }
+    #realestate-panel input:focus, #realestate-panel textarea:focus, #realestate-panel select:focus {
+      border-color: var(--re-shu); box-shadow: 0 0 0 3px rgba(200,69,46,.12); background: #fff;
+    }
+    #realestate-panel textarea { resize: vertical; min-height: 110px; }
+    #realestate-panel .send-btn {
+      background: linear-gradient(135deg, var(--re-shu), var(--re-shu2));
+      color: #fff; border: none; border-radius: 8px; padding: 15px;
+      font-family: var(--re-jp); font-size: 16px; font-weight: 700; letter-spacing: 0.08em;
+      cursor: pointer; box-shadow: 0 3px 0 rgba(168,54,33,.5), 0 6px 20px rgba(200,69,46,.22);
+      transition: transform .1s, box-shadow .1s, opacity .1s;
+    }
+    #realestate-panel .send-btn:hover  { transform: translateY(-1px); opacity: .94; }
+    #realestate-panel .send-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(168,54,33,.5); }
+    #realestate-panel .success-msg { display: none; text-align: center; padding: 16px; font-family: var(--re-jp); background: rgba(200,69,46,.07); border-radius: 8px; border: 1px solid rgba(200,69,46,.25); color: var(--re-shu2); font-weight: 600; font-size: 15px; }
+    #realestate-panel details { border-bottom: 1px solid var(--re-border); padding: 13px 0; }
+    #realestate-panel details:last-child { border-bottom: none; }
+    #realestate-panel summary { font-family: var(--re-jp); font-weight: 600; font-size: 15px; line-height: 1.6; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--re-sumi); }
+    #realestate-panel summary::after { content: '+'; font-size: 20px; color: rgba(28,26,23,.32); transition: transform .2s; flex-shrink: 0; }
+    #realestate-panel details[open] summary::after { transform: rotate(45deg); }
+    #realestate-panel details p { margin-top: 10px; }
+    /* Calculator index rows */
+    .re-calc { display: flex; flex-direction: column; gap: 4px; padding: 13px 0; border-bottom: 1px solid var(--re-border); }
+    .re-calc:last-child { border-bottom: none; }
+    .re-calc-name { font-family: var(--re-jp); font-weight: 700; font-size: 15px; color: var(--re-sumi); }
+    .re-calc-desc { font-family: var(--re-jp); font-size: 14px; line-height: 1.75; color: var(--re-sumi2); }
+    .re-formula {
+      font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.7;
+      color: var(--re-ai); background: rgba(44,74,124,.06);
+      border: 1px solid rgba(44,74,124,.18); border-radius: 6px;
+      padding: 8px 11px; margin-top: 7px; overflow-x: auto; white-space: nowrap;
+    }
+    .re-chip { display: inline-block; background: rgba(44,74,124,.07); border: 1px solid rgba(44,74,124,.2); border-radius: 6px; padding: 3px 9px; font-family: var(--re-jp); font-size: 12px; color: var(--re-ai); margin: 2px; }
+    .re-chip.shu { background: rgba(200,69,46,.07); border-color: rgba(200,69,46,.22); color: var(--re-shu2); }
+    /* 免責 — the disclaimer carries real weight in this app, so it gets
+       the seal colour and a rule rather than being another grey box. */
+    .re-disclaimer {
+      background: rgba(200,69,46,.05); border: 1px solid rgba(200,69,46,.22);
+      border-left: 3px solid var(--re-shu); border-radius: 0 12px 12px 0;
+      padding: 16px 18px; margin-top: 12px;
+    }
+    .re-disclaimer p { font-family: var(--re-jp); font-size: 14px; color: #8f3421; line-height: 1.8; }
+    .re-disclaimer p + p { margin-top: 10px; }
+    .re-note { background: rgba(44,74,124,.05); border: 1px solid rgba(44,74,124,.18); border-radius: 12px; padding: 15px 17px; margin-top: 12px; }
+    .re-note p { font-family: var(--re-jp); font-size: 14px; color: #2b4468; line-height: 1.8; }
+    #realestate-panel .re-not-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    #realestate-panel .re-not-item { display: flex; align-items: center; gap: 8px; font-family: var(--re-jp); background: #faf9f4; border: 1px solid var(--re-border); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: rgba(28,26,23,.55); }
+    #realestate-panel .re-not-item::before { content: '✕'; color: var(--re-shu); opacity: .6; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .re-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .re-table th { font-family: var(--re-jp); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: rgba(28,26,23,.5); padding: 8px 10px; border-bottom: 1.5px solid var(--re-border); text-align: left; }
+    .re-table td { font-family: var(--re-jp); font-size: 14px; color: var(--re-sumi2); padding: 10px; border-bottom: 1px solid var(--re-border); vertical-align: top; line-height: 1.7; }
+    .re-table td.num { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--re-sumi); white-space: nowrap; }
+    .re-table tr:last-child td { border-bottom: none; }
+    .re-table td a { color: var(--re-ai); text-decoration: none; font-size: 12px; word-break: break-all; }
+    .re-table td a:hover { text-decoration: underline; }
+    #realestate-panel footer { font-family: var(--re-jp); text-align: center; padding: 12px 24px 32px; font-size: 12px; color: rgba(28,26,23,.35); line-height: 1.7; animation: fadeUp 0.5s 0.75s both; }
+
     @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
     @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
@@ -1407,6 +1567,8 @@
     }
 
     @media (max-width: 480px) {
+      #realestate-panel .re-not-grid { grid-template-columns: 1fr; }
+      .re-logo-text .re-line2 { font-size: 27px; }
       #bitcoinplaces-panel .bp-not-grid { grid-template-columns: 1fr; }
       .bp-cat-grid { grid-template-columns: 1fr; }
       .bp-logo-text .bp-line2 { font-size: 33px; }
@@ -1443,6 +1605,9 @@
     </button>
     <button class="nav-btn bitcoinplaces" onclick="switchApp('bitcoinplaces')">
       <span class="nav-dot"></span> Bitcoin Places
+    </button>
+    <button class="nav-btn realestate" onclick="switchApp('realestate')">
+      <span class="nav-dot"></span> 不動産電卓
     </button>
     <button class="nav-btn zap" onclick="switchApp('zap')">
       <span class="nav-dot"></span> Zap Remote
@@ -3028,6 +3193,368 @@
     </div>
   </div>
 
+  <!-- 不動産電卓 -->
+  <div class="panel" id="realestate-panel">
+    <div class="page">
+      <header>
+        <div class="realestate-logo">
+          <div class="re-seal">計</div>
+          <div class="re-logo-text">
+            <div class="re-line1">Real Estate Calculator</div>
+            <div class="re-line2">不動産電卓</div>
+            <div class="re-line3">JA / EN · OFFLINE · NO ACCOUNT</div>
+          </div>
+        </div>
+        <p>サポート・ヘルプセンター</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="re-subnav">
+        <button class="re-subnav-btn active" onclick="switchRealestateTab('support')">サポート</button>
+        <button class="re-subnav-btn" onclick="switchRealestateTab('calculators')">計算機能</button>
+        <button class="re-subnav-btn" onclick="switchRealestateTab('privacy')">プライバシー</button>
+      </div>
+
+      <main>
+        <!-- サポート -->
+        <div class="re-subpanel active" id="realestate-support">
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">✉️</div><h2>お問い合わせ<span class="re-en">Contact Us</span></h2></div>
+            <form id="realestateForm">
+              <div><label for="re-name">お名前<span class="re-en">Name</span></label><input type="text" id="re-name" placeholder="山田 太郎" required /></div>
+              <div><label for="re-email">メールアドレス<span class="re-en">Email</span></label><input type="email" id="re-email" placeholder="you@example.com" required /></div>
+              <div><label for="re-topic">お問い合わせ内容<span class="re-en">Topic</span></label>
+                <select id="re-topic">
+                  <option>計算結果が想定と違う</option>
+                  <option>住宅ローン計算について</option>
+                  <option>繰り上げ返済・金利変更について</option>
+                  <option>返済負担率・借入可能額について</option>
+                  <option>仲介手数料について</option>
+                  <option>購入諸費用・税金について</option>
+                  <option>投資利回りについて</option>
+                  <option>面積・坪単価の換算について</option>
+                  <option>消費税計算について</option>
+                  <option>「広告を非表示」の購入・復元</option>
+                  <option>言語切り替え（日本語／English）</option>
+                  <option>表示・ダークモードについて</option>
+                  <option>不具合・クラッシュの報告</option>
+                  <option>機能のご要望</option>
+                  <option>その他</option>
+                </select>
+              </div>
+              <div><label for="re-message">メッセージ<span class="re-en">Message</span></label><textarea id="re-message" placeholder="計算に関するお問い合わせは、入力した数値（借入額・金利・期間など）と表示された結果をあわせてお知らせください。端末の機種名とiOSのバージョンも助かります。" required></textarea></div>
+              <button type="submit" class="send-btn">送信する</button>
+              <div class="success-msg" id="realestateSuccess">✓ 送信しました。48時間以内にご返信いたします。</div>
+            </form>
+            <div class="re-note">
+              <p>English is fine too — write in either language and we'll reply in the same one. Response time is within 48 hours.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">💡</div><h2>よくあるご質問<span class="re-en">FAQ</span></h2></div>
+
+            <details>
+              <summary>金融機関の試算と金額が少し違います</summary>
+              <p>本アプリは元利均等返済の標準的な計算式で算出しています。実際の金融機関の試算とわずかにずれる主な理由は、端数処理の方法（円未満の切り捨て・切り上げ）、初回返済までの日割り利息、そして融資手数料や保証料が計算に含まれていないことです。</p>
+              <p>数千円程度の差であれば、この端数処理と日割りの範囲内であることがほとんどです。正式な返済額は必ず金融機関の返済予定表でご確認ください。</p>
+            </details>
+
+            <details>
+              <summary>「借入可能額」は審査に通る金額ですか</summary>
+              <p>いいえ。毎月の返済予算から数学的に逆算した金額であり、審査の結果とは別のものです。</p>
+              <p>実際の融資可能額は、年収・勤続年数・他の借入・信用情報・物件の担保評価など、アプリが知り得ない要素で決まります。予算感をつかむための目安としてお使いください。</p>
+            </details>
+
+            <details>
+              <summary>返済負担率は何％までが安全ですか</summary>
+              <p>アプリでは年収に対する年間返済額の割合を計算します。一般に25〜35％が一つの目安とされますが、基準は金融機関ごとに異なり、教育費や車の維持費といった各家庭の事情は反映されません。</p>
+              <p>数値が基準内だから安全、という判断材料ではなく、比較のための共通のものさしとしてご覧ください。</p>
+            </details>
+
+            <details>
+              <summary>繰り上げ返済の「期間短縮」と「返済額軽減」はどちらが得ですか</summary>
+              <p>同じ金額を繰り上げる場合、利息の軽減額は期間短縮型のほうが大きくなります。返済額軽減型は総利息の削減幅は小さいものの、毎月の負担が下がるため家計に余裕が生まれます。</p>
+              <p>アプリでは両方を並べて試算できますので、削減額の差と毎月の安心感を見比べてご判断ください。金融機関によっては手数料や最低金額の条件がある点にもご注意ください。</p>
+            </details>
+
+            <details>
+              <summary>金利変更のシミュレーションはどういう前提ですか</summary>
+              <p>指定した時点以降、新しい金利がそのまま続くという前提で再計算します。変動金利の将来を予測するものではありません。</p>
+              <p>「1％上がったら毎月いくら増えるか」を確かめるための道具としてお使いいただくのが適切です。複数のパターンを試して、上振れに耐えられるかを確認することをおすすめします。</p>
+            </details>
+
+            <details>
+              <summary>仲介手数料の「速算式」と「区分計算」で答えが違います</summary>
+              <p>いいえ、一致します。速算式は区分計算を簡略化したもので、売買価格が400万円を超える場合は同じ結果になります。400万円以下では区分ごとの計算が必要なため、アプリは正式な区分計算にも対応しています。</p>
+              <p>なお表示されるのは法定の<strong>上限額</strong>です。実際の手数料は不動産会社との合意で決まり、上限より低い場合もあります。別途消費税がかかります。</p>
+            </details>
+
+            <details>
+              <summary>諸費用や税額が最新の制度と合っていない気がします</summary>
+              <p>税率や軽減措置は改正されます。アプリは一般的な税率にもとづく概算であり、住宅の種類・築年数・床面積・取得時期などによる特例や軽減措置をすべて反映するものではありません。</p>
+              <p>実際の税額は自治体や税務署、税理士にご確認ください。制度改正に気づかれた場合は、上のフォームからお知らせいただけると助かります。</p>
+            </details>
+
+            <details>
+              <summary>表面利回りと実質利回りの違いは</summary>
+              <p>表面利回りは年間家賃収入を物件価格で割った数値で、比較の入口として使われます。実質利回りは管理費・修繕費・固定資産税・保険料などの運営経費を差し引いたうえで算出するため、実際の手取りに近づきます。</p>
+              <p>広告に載っている利回りは表面であることが多く、実質はそれより低くなります。空室期間や将来の修繕は含まれていない点にもご注意ください。</p>
+            </details>
+
+            <details>
+              <summary>坪や畳の換算基準を教えてください</summary>
+              <p>坪は 1坪 = 400/121 平方メートル（約3.305785㎡）で換算しています。これは全国共通の基準です。</p>
+              <p>畳は地域によって大きさが異なります（京間・中京間・江戸間など）。アプリでは不動産公正取引協議会の表示基準にならい 1畳 = 1.62㎡ 以上を前提としていますので、実際の和室の畳の枚数とは一致しない場合があります。</p>
+            </details>
+
+            <details>
+              <summary>「広告を非表示」を購入したのに広告が出ます</summary>
+              <p>アプリ内の設定から「購入を復元」をお試しください。購入時と同じApple IDでサインインしている必要があります。機種変更後や再インストール後は、この復元操作が必要です。</p>
+              <p>それでも解決しない場合は、購入日とApple の注文番号（Order ID）を添えてお問い合わせください。</p>
+            </details>
+
+            <details>
+              <summary>英語表示に切り替えたい／日本語に戻したい</summary>
+              <p>アプリ内の設定から日本語と English を切り替えられます。端末の言語設定を変更する必要はありません。</p>
+            </details>
+
+            <details>
+              <summary>オフラインでも使えますか</summary>
+              <p>使えます。すべての計算は端末内で完結するため、通信のない場所でも同じように動作します。通信が必要なのは広告の表示と購入手続きのときだけで、いずれも計算機能を妨げることはありません。</p>
+            </details>
+
+            <details>
+              <summary>アプリが落ちてしまいます</summary>
+              <p>一度アプリを終了して再度起動してください。繰り返し発生する場合は、端末の機種名、iOSのバージョン、どの計算画面で、どの数値を入力したときに起きたかをお知らせください。クラッシュ収集の仕組みを入れていないため、状況の説明が唯一の手がかりになります。</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">⚠️</div><h2>ご利用上の注意<span class="re-en">Disclaimer</span></h2></div>
+            <div class="re-disclaimer">
+              <p><strong>計算結果はあくまで目安です。</strong>税率・制度は変更される場合があり、物件や契約の個別事情はすべて反映できません。</p>
+              <p>実際のご契約・お手続きの際は、必ず金融機関・不動産会社・税理士等の専門家にご確認ください。本アプリは金融商品・税務・法律に関する助言を行うものではありません。</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">📱</div><h2>アプリ情報<span class="re-en">App Info</span></h2></div>
+            <ul>
+              <li>開発者：Pathom Sriaroonthip</li>
+              <li>バンドルID：com.ptonygd.realestatecalc</li>
+              <li>対応OS：iOS 16.0 以降</li>
+              <li>対応言語：日本語／English（アプリ内で切り替え）</li>
+              <li>ダークモード対応</li>
+              <li>アカウント登録不要・オフラインで動作</li>
+              <li>広告は「広告を非表示」（買い切り）でオフにできます</li>
+              <li>ご返信：48時間以内</li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- 計算機能 -->
+        <div class="re-subpanel" id="realestate-calculators">
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">🏠</div><h2>住宅ローン計算<span class="re-en">Mortgage</span></h2></div>
+            <p>元利均等返済（毎月の返済額が一定の方式）で計算します。</p>
+
+            <div class="re-calc">
+              <div class="re-calc-name">毎月の返済額</div>
+              <div class="re-calc-desc">借入額・金利・返済期間から、毎月の返済額を算出します。</div>
+              <div class="re-formula">返済額 = 借入額 × r(1+r)ⁿ ÷ ((1+r)ⁿ − 1)　r=月利, n=回数</div>
+            </div>
+
+            <div class="re-calc">
+              <div class="re-calc-name">借入可能額の逆算</div>
+              <div class="re-calc-desc">毎月支払える金額から、借りられる元金を逆算します。審査の可否とは別のものです。</div>
+            </div>
+
+            <div class="re-calc">
+              <div class="re-calc-name">繰り上げ返済</div>
+              <div class="re-calc-desc">期間短縮型と返済額軽減型の両方を試算し、利息の削減額を比較できます。</div>
+            </div>
+
+            <div class="re-calc">
+              <div class="re-calc-name">金利変更</div>
+              <div class="re-calc-desc">変動金利の見直しを想定し、指定時点以降の金利を変えて再計算します。</div>
+            </div>
+
+            <div class="re-calc">
+              <div class="re-calc-name">返済負担率</div>
+              <div class="re-calc-desc">年収に対する年間返済額の割合を判定します。</div>
+              <div class="re-formula">返済負担率 = 年間返済額 ÷ 年収 × 100</div>
+            </div>
+
+            <div class="re-calc">
+              <div class="re-calc-name">年ごとの返済予定表</div>
+              <div class="re-calc-desc">各年の元金・利息の内訳と残高を一覧で確認できます。</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">🤝</div><h2>仲介手数料<span class="re-en">Brokerage Fee</span></h2></div>
+            <p>売買価格から法定の上限額を計算します。速算式と正式な区分計算の両方に対応しています。</p>
+            <div class="re-formula">速算式（400万円超）：売買価格 × 3% + 6万円 ＋ 消費税</div>
+            <div class="re-note">
+              <p>表示されるのは上限額です。実際の手数料は不動産会社との合意により決まります。</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">🧾</div><h2>購入諸費用<span class="re-en">Purchase Costs</span></h2></div>
+            <p>購入時にかかる費用をまとめて試算します。</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
+              <span class="re-chip">仲介手数料</span>
+              <span class="re-chip">印紙税</span>
+              <span class="re-chip">登録免許税</span>
+              <span class="re-chip">不動産取得税</span>
+            </div>
+            <div class="re-disclaimer">
+              <p>税率・軽減措置は改正されます。住宅の種類・床面積・取得時期などによる特例をすべて反映するものではありません。正確な税額は税務署・自治体・税理士にご確認ください。</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">📈</div><h2>投資利回り<span class="re-en">Yield</span></h2></div>
+            <div class="re-calc">
+              <div class="re-calc-name">表面利回り</div>
+              <div class="re-formula">年間家賃収入 ÷ 物件価格 × 100</div>
+            </div>
+            <div class="re-calc">
+              <div class="re-calc-name">実質利回り</div>
+              <div class="re-calc-desc">管理費・修繕費・固定資産税などの諸経費を差し引いて算出します。手取り額もあわせて確認できます。</div>
+              <div class="re-formula">(年間家賃収入 − 年間諸経費) ÷ (物件価格 + 購入諸費用) × 100</div>
+            </div>
+            <div class="re-note">
+              <p>空室期間・家賃下落・将来の大規模修繕は計算に含まれていません。実際の収支はこれらの影響を受けます。</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">📐</div><h2>面積・坪単価<span class="re-en">Area &amp; Unit Price</span></h2></div>
+            <p>坪・畳・平方メートルを相互に換算し、坪単価を計算します。</p>
+            <table class="re-table">
+              <thead><tr><th>単位</th><th>換算</th><th>備考</th></tr></thead>
+              <tbody>
+                <tr><td>1坪</td><td class="num">≒ 3.305785 ㎡</td><td>400/121 ㎡。全国共通</td></tr>
+                <tr><td>1畳</td><td class="num">≒ 1.62 ㎡</td><td>表示基準の下限。地域差あり</td></tr>
+                <tr><td>坪単価</td><td class="num">価格 ÷ 坪数</td><td>土地・建物のどちらを基準にするかで変わります</td></tr>
+              </tbody>
+            </table>
+            <div class="re-note">
+              <p>畳の大きさは京間・中京間・江戸間などで異なります。実際の和室の枚数とは一致しない場合があります。</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">💴</div><h2>消費税<span class="re-en">Consumption Tax</span></h2></div>
+            <p>税込・税抜の相互計算に対応し、軽減税率も選択できます。</p>
+            <div class="re-note">
+              <p>土地の売買には消費税はかかりません。課税対象となるのは建物部分と仲介手数料などです。</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- プライバシー -->
+        <div class="re-subpanel" id="realestate-privacy">
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">🔐</div><h2>プライバシーポリシー<span class="re-en">Privacy Policy</span></h2></div>
+            <p style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:rgba(28,26,23,.4);margin-bottom:16px">最終更新日：2026年8月3日</p>
+            <p>「不動産電卓」（以下、本アプリ）は Pathom Sriaroonthip が提供する計算アプリです。当方はサーバーを運用しておらず、アカウント登録の仕組みもありません。入力された数値と計算結果はすべて端末内で処理され、当方が受け取ることはありません。</p>
+            <p style="margin-top:10px">唯一の例外は広告配信で、Google が当方に代わって処理します。詳細は以下に記載します。</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">📦</div><h2>端末内に保存される情報<span class="re-en">On-Device Data</span></h2></div>
+            <p>以下の情報は端末内にのみ保存され、当方に送信されることはありません。</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span class="re-chip">入力した数値</span>
+              <span class="re-chip">計算履歴</span>
+              <span class="re-chip">言語設定</span>
+              <span class="re-chip">テーマ設定</span>
+              <span class="re-chip">購入状態</span>
+            </div>
+            <div class="re-note">
+              <p>年収・借入額・物件価格といった入力内容は、金融に関わる機微な情報です。だからこそ端末の外に出さない設計にしています。アプリを削除すれば、これらの情報もすべて消去されます。</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">📣</div><h2>広告について<span class="re-en">Advertising</span></h2></div>
+            <p>本アプリは <strong>Google AdMob</strong> によるバナー広告を表示します。広告配信のため、Google の SDK が広告識別子（IDFA）や端末の機種・OSバージョン・IPアドレスから推定される大まかな地域といった技術情報を取得する場合があります。</p>
+            <ul style="margin-top:12px">
+              <li>トラッキングを許可した場合：広告識別子にもとづくパーソナライズ広告が表示されることがあります</li>
+              <li>許可しない場合：広告は表示されますが、パーソナライズはされません</li>
+              <li>いずれの場合も：入力された数値や計算結果が Google や広告配信事業者に渡ることは一切ありません</li>
+            </ul>
+            <p style="margin-top:12px">設定は「設定 → プライバシーとセキュリティ → トラッキング」からいつでも変更できます。広告そのものを消したい場合は、アプリ内の<strong>「広告を非表示」（買い切り）</strong>をご購入ください。</p>
+            <p style="margin-top:10px">Google による情報の取り扱いは同社のポリシーに従います：<a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener" style="color:var(--re-ai)">policies.google.com/technologies/ads</a></p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">🔗</div><h2>第三者サービス<span class="re-en">Third Parties</span></h2></div>
+            <table class="re-table">
+              <thead><tr><th>サービス</th><th>目的</th><th>ポリシー</th></tr></thead>
+              <tbody>
+                <tr><td>Google AdMob</td><td>バナー広告の配信</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+                <tr><td>Google UMP</td><td>同意管理（GDPR／CCPA）</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+                <tr><td>Apple StoreKit</td><td>アプリ内課金の処理</td><td><a href="https://www.apple.com/legal/privacy/data/en/app-store/" target="_blank" rel="noopener">apple.com/…/app-store</a></td></tr>
+              </tbody>
+            </table>
+            <p style="margin-top:14px">解析SDK・クラッシュ収集ツール・アトリビューションSDKは一切導入していません。当方のサーバーも存在しません。</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">🚫</div><h2>取得しない情報<span class="re-en">Never Collected</span></h2></div>
+            <div class="re-not-grid">
+              <div class="re-not-item">入力した数値・計算結果</div>
+              <div class="re-not-item">年収・資産に関する情報</div>
+              <div class="re-not-item">氏名・メールアドレス</div>
+              <div class="re-not-item">電話番号・住所</div>
+              <div class="re-not-item">位置情報</div>
+              <div class="re-not-item">写真・連絡先</div>
+              <div class="re-not-item">お支払い情報</div>
+              <div class="re-not-item">利用状況の解析データ</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">⚙️</div><h2>お客様の選択と削除<span class="re-en">Your Choices</span></h2></div>
+            <ul>
+              <li><strong>トラッキング：</strong>設定 → プライバシーとセキュリティ → トラッキング</li>
+              <li><strong>広告の非表示：</strong>アプリ内の「広告を非表示」（買い切り）</li>
+              <li><strong>購入の復元：</strong>アプリ内の設定から「購入を復元」</li>
+              <li><strong>すべて削除：</strong>アプリを削除してください。サーバーに送信された情報はないため、削除依頼の必要はありません</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(200,69,46,.08)">👶</div><h2>お子様の利用<span class="re-en">Children</span></h2></div>
+            <p>本アプリは13歳未満のお子様を対象としたものではなく、13歳未満の方から意図的に情報を取得することはありません。</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="re-icon-tile" style="background:rgba(44,74,124,.08)">📝</div><h2>変更とお問い合わせ<span class="re-en">Changes &amp; Contact</span></h2></div>
+            <p>機能の追加にともない本ポリシーを更新する場合があります。重要な変更があった場合は、上記の最終更新日を改めます。</p>
+            <p style="margin-top:10px">ご不明な点は「サポート」タブのフォームからお問い合わせください。</p>
+            <p style="margin-top:10px">利用規約：<a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener" style="color:var(--re-ai);font-size:13px">Apple 標準EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2026 不動産電卓 · 計算結果はあくまで目安です · All rights reserved</footer>
+    </div>
+  </div>
+
   <!-- ZAP -->
   <div class="panel" id="zap-panel">
     <div class="page">
@@ -3787,6 +4314,7 @@
     <button class="crumb" data-app="airplane"   onclick="switchApp('airplane')">Airplane Games</button>
     <button class="crumb" data-app="adsearning" onclick="switchApp('adsearning')">Ads Earning</button>
     <button class="crumb" data-app="bitcoinplaces" onclick="switchApp('bitcoinplaces')">Bitcoin Places</button>
+    <button class="crumb" data-app="realestate" onclick="switchApp('realestate')">不動産電卓</button>
     <button class="crumb" data-app="zap"        onclick="switchApp('zap')">Zap Remote</button>
     <button class="crumb" data-app="poker"      onclick="switchApp('poker')">Video Poker Mania</button>
     <button class="crumb" data-app="poko"       onclick="switchApp('poko')">POKO</button>
@@ -3800,13 +4328,14 @@
 // ── QUERY PARAM ROUTER ─────────────────────────────────────────────
 // URLs: ?app=zap  ?app=zap&page=privacy  ?app=adsearning&page=metrics
 
-const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'bitcoinplaces', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
+const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'bitcoinplaces', 'realestate', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
 
 const TAB_MAP = {
   tonyfitter: ['support', 'whats-new', 'privacy'],
   airplane:   ['support', 'games', 'privacy'],
   adsearning: ['support', 'metrics', 'privacy'],
   bitcoinplaces: ['support', 'directory', 'safety', 'privacy'],
+  realestate: ['support', 'calculators', 'privacy'],
   zap:        ['support', 'privacy', 'terms'],
   poker:      ['support', 'privacy'],
   poko:       ['support', 'whats-new', 'privacy'],
@@ -3822,6 +4351,7 @@ const APP_CHROME = {
   airplane:   { bg: '#e9f2fb', fg: '#10233d' },
   adsearning: { bg: '#0a1310', fg: '#fff' },
   bitcoinplaces: { bg: '#0e1519', fg: '#fff' },
+  realestate: { bg: '#efeee6', fg: '#1c1a17' },
   zap:        { bg: '#0a0e1a', fg: '#fff' },
   poker:      { bg: '#0d0d0d', fg: '#fff' },
   poko:       { bg: '#0f0f14', fg: '#fff' },
@@ -3849,7 +4379,7 @@ function buildQuery(app, page) {
 function _switchApp(app) {
   const nav = document.getElementById('mainNav');
   APPS.forEach(a => document.getElementById(a + '-panel').classList.remove('active'));
-  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-bitcoinplaces', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
+  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-bitcoinplaces', 'on-realestate', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
   document.getElementById(app + '-panel').classList.add('active');
   if (app !== 'wordo') nav.classList.add('on-' + app);
   const chrome = APP_CHROME[app] || APP_CHROME.wordo;
@@ -3874,6 +4404,7 @@ const TAB_BTN_SELECTOR = {
   airplane:   '.ag-subnav-btn',
   adsearning: '.ae-subnav-btn',
   bitcoinplaces: '.bp-subnav-btn',
+  realestate: '.re-subnav-btn',
   zap:        '.zap-subnav-btn',
   poker:      '.poker-subnav-btn',
   poko:       '.poko-subnav-btn',
@@ -3905,6 +4436,7 @@ function switchTonyfitterTab(page){ navigate('tonyfitter', page); }
 function switchAirplaneTab(page)  { navigate('airplane',   page); }
 function switchAdsearningTab(page){ navigate('adsearning', page); }
 function switchBitcoinplacesTab(page){ navigate('bitcoinplaces', page); }
+function switchRealestateTab(page){ navigate('realestate', page); }
 function switchZapTab(page)       { navigate('zap',        page); }
 function switchPokerTab(page)     { navigate('poker',      page); }
 function switchPokoTab(page)      { navigate('poko',       page); }
@@ -3943,6 +4475,7 @@ setupForm('tonyfitterForm', 'tonyfitterSuccess');
 setupForm('airplaneForm',   'airplaneSuccess');
 setupForm('adsearningForm', 'adsearningSuccess');
 setupForm('bitcoinplacesForm', 'bitcoinplacesSuccess');
+setupForm('realestateForm', 'realestateSuccess');
 setupForm('zapForm',        'zapSuccess');
 setupForm('pokerForm',      'pokerSuccess');
 setupForm('pokoForm',       'pokoSuccess');
