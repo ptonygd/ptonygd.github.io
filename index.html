@@ -122,6 +122,18 @@
       --re-gold:     #a8863c;
       --re-shadow:   rgba(28,26,23,0.10);
       --re-jp: 'DM Sans', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP', system-ui, sans-serif;
+      /* TCG PACK — foil. Deep plum ground so the holographic sweep has
+         somewhere dark to sit; pink, cyan and gold are the three stops of
+         that sheen and are never used as flat brand colours on their own. */
+      --tp-plum:     #150f21;
+      --tp-pink:     #ff6ec7;
+      --tp-cyan:     #6ee7ff;
+      --tp-gold:     #ffd76e;
+      --tp-violet:   #9b6bff;
+      --tp-border:   rgba(255,110,199,0.18);
+      --tp-card:     rgba(255,255,255,0.04);
+      --tp-text:     rgba(255,255,255,0.72);
+      --tp-shadow:   rgba(155,107,255,0.28);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -368,6 +380,18 @@
     nav.on-realestate .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
     nav.on-realestate .nav-btn:not(.realestate) .nav-dot { background: var(--grey); }
     nav[class*="on-"]:not(.on-realestate) .nav-btn.realestate .nav-dot { background: var(--grey); }
+    /* TCG PACK nav */
+    .nav-btn.tcgpack { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.tcgpack:hover { border-color: var(--tp-pink); color: var(--tp-pink); }
+    .nav-btn.tcgpack .nav-dot { background: var(--tp-pink); }
+    nav.on-tcgpack .nav-btn.tcgpack {
+      background: linear-gradient(115deg, var(--tp-violet), var(--tp-pink) 55%, var(--tp-gold));
+      color: #1a1023; border-color: var(--tp-pink);
+      box-shadow: 0 0 14px rgba(255,110,199,0.35);
+    }
+    nav.on-tcgpack .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
+    nav.on-tcgpack .nav-btn:not(.tcgpack) .nav-dot { background: var(--grey); }
+    nav[class*="on-"]:not(.on-tcgpack) .nav-btn.tcgpack .nav-dot { background: var(--grey); }
     .panel { display: none; }
     .panel.active { display: block; }
 
@@ -1556,6 +1580,121 @@
     .re-table td a:hover { text-decoration: underline; }
     #realestate-panel footer { font-family: var(--re-jp); text-align: center; padding: 12px 24px 32px; font-size: 12px; color: rgba(28,26,23,.35); line-height: 1.7; animation: fadeUp 0.5s 0.75s both; }
 
+    /* TCG PACK — foil under a light. The sheen is the whole identity, so
+       it appears exactly twice: across the pack mark and along the top
+       edge of the rarity rows. Everywhere else stays quiet. */
+    #tcgpack-panel { background: var(--tp-plum); min-height: 100vh; position: relative; overflow: hidden; }
+    #tcgpack-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 62% 48% at 14% 0%, rgba(255,110,199,.17) 0%, transparent 58%),
+        radial-gradient(ellipse 58% 46% at 88% 96%, rgba(110,231,255,.12) 0%, transparent 58%),
+        radial-gradient(ellipse 70% 55% at 55% 45%, rgba(155,107,255,.10) 0%, transparent 68%);
+      pointer-events: none; z-index: 0;
+    }
+    #tcgpack-panel::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: repeating-linear-gradient(115deg, rgba(255,255,255,.02) 0 1px, transparent 1px 7px);
+      pointer-events: none; z-index: 0;
+    }
+    #tcgpack-panel .page { position: relative; z-index: 1; }
+    #tcgpack-panel header { padding: 32px 24px 24px; text-align: center; }
+    .tcgpack-logo { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    /* A foil pack, torn open along the top, with the sheen travelling. */
+    .tp-pack {
+      width: 50px; height: 70px; flex-shrink: 0; position: relative;
+      border-radius: 5px; overflow: hidden;
+      background: linear-gradient(150deg, #3a2159 0%, #7b3f9e 40%, #c04a8f 70%, #6b3a86 100%);
+      box-shadow: 0 6px 20px rgba(0,0,0,.55), 0 0 22px rgba(255,110,199,.28);
+      clip-path: polygon(0 9%, 12% 4%, 26% 10%, 40% 3%, 55% 9%, 70% 3%, 86% 10%, 100% 5%, 100% 100%, 0 100%);
+    }
+    .tp-pack-sheen {
+      position: absolute; inset: -40% -120%;
+      background: linear-gradient(105deg, transparent 38%, rgba(110,231,255,.5) 46%, rgba(255,255,255,.85) 50%, rgba(255,215,110,.5) 55%, transparent 63%);
+      animation: tpSheen 3.6s ease-in-out infinite;
+    }
+    @keyframes tpSheen { 0% { transform: translateX(-55%); } 60%, 100% { transform: translateX(55%); } }
+    .tp-pack-band {
+      position: absolute; left: 0; right: 0; bottom: 16px; height: 13px;
+      background: rgba(0,0,0,.28);
+      border-top: 1px solid rgba(255,255,255,.14);
+      border-bottom: 1px solid rgba(255,255,255,.14);
+    }
+    .tp-logo-text { text-align: left; }
+    .tp-logo-text .tp-line1 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--tp-pink); opacity: .82; line-height: 1; }
+    .tp-logo-text .tp-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 0.06em; line-height: 1; background: linear-gradient(115deg, #fff 15%, var(--tp-pink) 50%, var(--tp-gold) 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .tp-logo-text .tp-line3 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: rgba(255,255,255,.32); line-height: 1.5; }
+    #tcgpack-panel header > p { font-size: 15px; color: rgba(255,255,255,.35); font-weight: 500; }
+    #tcgpack-panel .as-badge { box-shadow: 0 4px 20px rgba(255,110,199,.16); border-color: rgba(255,110,199,.22); }
+    #tcgpack-panel .as-badge:hover { box-shadow: 0 8px 28px rgba(255,110,199,.35); }
+    .tp-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; flex-wrap: wrap; animation: fadeDown 0.5s 0.2s both; }
+    .tp-subnav-btn { padding: 8px 20px; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--tp-border); background: transparent; color: rgba(255,255,255,.38); transition: all .2s; }
+    .tp-subnav-btn.active { background: rgba(255,110,199,.12); color: var(--tp-pink); border-color: var(--tp-pink); box-shadow: 0 0 12px rgba(255,110,199,.2); }
+    .tp-subnav-btn:hover:not(.active) { border-color: rgba(255,110,199,.45); color: rgba(255,110,199,.72); }
+    .tp-subpanel { display: none; }
+    .tp-subpanel.active { display: block; }
+    #tcgpack-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #tcgpack-panel section { background: var(--tp-card); border: 1.5px solid var(--tp-border); border-radius: 18px; padding: 28px; margin-bottom: 16px; box-shadow: 0 2px 0 rgba(255,110,199,.04), 0 8px 32px rgba(0,0,0,.45); backdrop-filter: blur(10px); animation: fadeUp 0.5s both; }
+    #tcgpack-panel section:nth-child(1){animation-delay:.35s}
+    #tcgpack-panel section:nth-child(2){animation-delay:.45s}
+    #tcgpack-panel section:nth-child(3){animation-delay:.55s}
+    #tcgpack-panel section:nth-child(4){animation-delay:.65s}
+    #tcgpack-panel section:nth-child(5){animation-delay:.72s}
+    #tcgpack-panel section:nth-child(6){animation-delay:.79s}
+    #tcgpack-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    #tcgpack-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: var(--tp-pink); }
+    .tp-icon-tile { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #tcgpack-panel p, #tcgpack-panel li { font-size: 15px; line-height: 1.68; color: var(--tp-text); }
+    #tcgpack-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #tcgpack-panel li::before { content: '✦ '; color: var(--tp-gold); font-size: 11px; }
+    #tcgpack-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #tcgpack-panel label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,110,199,.5); margin-bottom: 4px; display: block; }
+    #tcgpack-panel input, #tcgpack-panel textarea, #tcgpack-panel select { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(255,110,199,.16); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #fff; background: rgba(255,110,199,.04); outline: none; transition: border-color .2s, box-shadow .2s; }
+    #tcgpack-panel select option { background: #150f21; }
+    #tcgpack-panel input::placeholder, #tcgpack-panel textarea::placeholder { color: rgba(255,255,255,.2); }
+    #tcgpack-panel input:focus, #tcgpack-panel textarea:focus, #tcgpack-panel select:focus { border-color: var(--tp-pink); box-shadow: 0 0 0 3px rgba(255,110,199,.12); background: rgba(255,110,199,.06); }
+    #tcgpack-panel textarea { resize: vertical; min-height: 110px; }
+    #tcgpack-panel .send-btn { background: linear-gradient(115deg, var(--tp-violet), var(--tp-pink) 60%, #ff9ad6); color: #1a1023; border: none; border-radius: 10px; padding: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; font-weight: 900; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.4), 0 0 24px var(--tp-shadow); transition: transform .1s, opacity .1s; }
+    #tcgpack-panel .send-btn:hover  { transform: translateY(-1px); opacity: .92; }
+    #tcgpack-panel .send-btn:active { transform: translateY(1px); }
+    #tcgpack-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(255,110,199,.1); border-radius: 10px; border: 1px solid rgba(255,110,199,.32); color: var(--tp-pink); font-weight: 600; font-size: 15px; }
+    #tcgpack-panel details { border-bottom: 1px solid rgba(255,110,199,.1); padding: 12px 0; }
+    #tcgpack-panel details:last-child { border-bottom: none; }
+    #tcgpack-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; color: rgba(255,255,255,.85); }
+    #tcgpack-panel summary::after { content: '+'; font-size: 20px; color: rgba(255,110,199,.38); transition: transform .2s; flex-shrink: 0; }
+    #tcgpack-panel details[open] summary::after { transform: rotate(45deg); }
+    #tcgpack-panel details p { margin-top: 10px; }
+    /* Feature rows — the sheen returns as a hairline along the top edge. */
+    .tp-feat { position: relative; padding: 15px 0 14px; border-bottom: 1px solid rgba(255,110,199,.1); }
+    .tp-feat:last-child { border-bottom: none; }
+    .tp-feat::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 46px; height: 2px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--tp-cyan), var(--tp-pink), var(--tp-gold));
+    }
+    .tp-feat-name { font-weight: 700; font-size: 15px; color: #fff; margin-bottom: 4px; }
+    .tp-feat-desc { font-size: 14px; line-height: 1.65; color: var(--tp-text); }
+    .tp-chip { display: inline-block; background: rgba(255,110,199,.09); border: 1px solid rgba(255,110,199,.24); border-radius: 6px; padding: 3px 9px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,140,212,.9); letter-spacing: 0.03em; margin: 2px; }
+    .tp-chip.gold { background: rgba(255,215,110,.09); border-color: rgba(255,215,110,.26); color: rgba(255,215,110,.9); }
+    .tp-chip.cyan { background: rgba(110,231,255,.08); border-color: rgba(110,231,255,.24); color: rgba(110,231,255,.88); }
+    /* The unofficial notice — gold-bordered so it reads as a standing
+       legal statement rather than a warning. */
+    .tp-legal { background: rgba(255,215,110,.06); border: 1px solid rgba(255,215,110,.28); border-radius: 12px; padding: 16px 18px; margin-top: 12px; }
+    .tp-legal p { font-size: 14px; color: rgba(255,224,150,.9); line-height: 1.7; }
+    .tp-legal p + p { margin-top: 10px; }
+    .tp-legal strong { color: #ffe9b8; }
+    .tp-note { background: rgba(110,231,255,.06); border: 1px solid rgba(110,231,255,.22); border-radius: 12px; padding: 14px 16px; margin-top: 12px; }
+    .tp-note p { font-size: 14px; color: rgba(160,235,255,.88); line-height: 1.65; }
+    #tcgpack-panel .tp-not-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    #tcgpack-panel .tp-not-item { display: flex; align-items: center; gap: 8px; background: rgba(255,110,199,.05); border: 1px solid rgba(255,110,199,.14); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: rgba(255,255,255,.5); }
+    #tcgpack-panel .tp-not-item::before { content: '✕'; color: var(--tp-pink); opacity: .7; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .tp-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .tp-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,110,199,.55); padding: 8px 10px; border-bottom: 1px solid rgba(255,110,199,.2); text-align: left; }
+    .tp-table td { font-size: 14px; color: var(--tp-text); padding: 10px; border-bottom: 1px solid rgba(255,255,255,.05); vertical-align: top; line-height: 1.5; }
+    .tp-table tr:last-child td { border-bottom: none; }
+    .tp-table td a { color: rgba(255,140,212,.78); text-decoration: none; font-size: 12px; word-break: break-all; }
+    .tp-table td a:hover { color: var(--tp-pink); }
+    #tcgpack-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .03em; line-height: 1.7; animation: fadeUp 0.5s 0.75s both; }
+
     @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
     @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
@@ -1564,9 +1703,12 @@
       .ag-cloud { animation: none; }
       .ae-bar   { animation: none; }
       .bp-pin-ring { animation: none; opacity: .35; }
+      .tp-pack-sheen { animation: none; opacity: .45; }
     }
 
     @media (max-width: 480px) {
+      #tcgpack-panel .tp-not-grid { grid-template-columns: 1fr; }
+      .tp-logo-text .tp-line2 { font-size: 35px; }
       #realestate-panel .re-not-grid { grid-template-columns: 1fr; }
       .re-logo-text .re-line2 { font-size: 27px; }
       #bitcoinplaces-panel .bp-not-grid { grid-template-columns: 1fr; }
@@ -1608,6 +1750,9 @@
     </button>
     <button class="nav-btn realestate" onclick="switchApp('realestate')">
       <span class="nav-dot"></span> 不動産電卓
+    </button>
+    <button class="nav-btn tcgpack" onclick="switchApp('tcgpack')">
+      <span class="nav-dot"></span> TCG Pack
     </button>
     <button class="nav-btn zap" onclick="switchApp('zap')">
       <span class="nav-dot"></span> Zap Remote
@@ -3555,6 +3700,335 @@
     </div>
   </div>
 
+  <!-- TCG PACK -->
+  <div class="panel" id="tcgpack-panel">
+    <div class="page">
+      <header>
+        <div class="tcgpack-logo">
+          <div class="tp-pack">
+            <div class="tp-pack-sheen"></div>
+            <div class="tp-pack-band"></div>
+          </div>
+          <div class="tp-logo-text">
+            <div class="tp-line1">Unofficial Fan App</div>
+            <div class="tp-line2">TCG PACK</div>
+            <div class="tp-line3">TEAR · REVEAL · COLLECT</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="tp-subnav">
+        <button class="tp-subnav-btn active" onclick="switchTcgpackTab('support')">Support</button>
+        <button class="tp-subnav-btn" onclick="switchTcgpackTab('features')">Packs &amp; Binder</button>
+        <button class="tp-subnav-btn" onclick="switchTcgpackTab('privacy')">Privacy</button>
+      </div>
+
+      <main>
+        <!-- SUPPORT -->
+        <div class="tp-subpanel active" id="tcgpack-support">
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,110,199,.1)">✉️</div><h2>Contact Us</h2></div>
+            <form id="tcgpackForm">
+              <div><label for="tp-name">Your Name</label><input type="text" id="tp-name" placeholder="Tony" required /></div>
+              <div><label for="tp-email">Email Address</label><input type="email" id="tp-email" placeholder="you@example.com" required /></div>
+              <div><label for="tp-topic">Topic</label>
+                <select id="tp-topic">
+                  <option>Collection or binder issue</option>
+                  <option>iCloud backup or new device</option>
+                  <option>Missing or wrong card data</option>
+                  <option>Pack opening or animation</option>
+                  <option>Chase card / Golden Pack</option>
+                  <option>Daily packs, streak or gift calendar</option>
+                  <option>Quests or weekly events</option>
+                  <option>Wonder Pick</option>
+                  <option>Trainer Duels</option>
+                  <option>Leaderboards</option>
+                  <option>Coins</option>
+                  <option>Widget or Lock Screen countdown</option>
+                  <option>Share clip or showcase</option>
+                  <option>Language (EN / ไทย / 日本語)</option>
+                  <option>Bug or crash report</option>
+                  <option>Feature request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label for="tp-message">Message</label><textarea id="tp-message" placeholder="Tell us what happened and what you expected — include your device model and iOS version, plus the set or card name if it's about card data…" required></textarea></div>
+              <button type="submit" class="send-btn">SEND MESSAGE</button>
+              <div class="success-msg" id="tcgpackSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,215,110,.1)">⚖️</div><h2>About This App</h2></div>
+            <div class="tp-legal">
+              <p><strong>TCG Pack is an unofficial fan app.</strong> It is not affiliated with, endorsed, or sponsored by Nintendo, The Pokémon Company, or Creatures Inc. Card data comes from public community sources.</p>
+              <p>Everything you open, collect and trade in the app is <strong>simulated</strong>. Cards exist only inside the app — they have no cash value, cannot be sold or exchanged for money, and are not physical cards. Opening a pack here doesn't produce anything you can hold or resell.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(110,231,255,.09)">💡</div><h2>FAQ</h2></div>
+
+            <details>
+              <summary>Are these real cards? Can I sell or trade them for money?</summary>
+              <p>No. Every card in TCG Pack is simulated and lives only in the app. There's no cash value, no marketplace, no way to convert a pull into money, and nothing arrives in the post. It's the feeling of opening a pack, without the cost or the clutter.</p>
+            </details>
+
+            <details>
+              <summary>My collection is gone on my new phone</summary>
+              <p>Your collection backs up automatically to your own iCloud. Sign into the same Apple ID on the new device and open the app — it restores on first launch.</p>
+              <p>If nothing comes back, check that iCloud Drive is on in Settings → [your name] → iCloud, and that you're on the same Apple ID rather than a second one. Backups live in your private iCloud storage, so we have no server-side copy to restore from if the account differs.</p>
+            </details>
+
+            <details>
+              <summary>A card is missing from a set, or the details look wrong</summary>
+              <p>Card data comes from public community databases, which are maintained by volunteers and are occasionally incomplete — particularly for brand-new sets in the first days after release, and for regional variants.</p>
+              <p>Send us the set name and card number and we'll look at it. Include a screenshot if the artwork or rarity looks wrong rather than simply absent.</p>
+            </details>
+
+            <details>
+              <summary>How do chase cards and Golden Packs work?</summary>
+              <p>Chase cards arrive hidden under golden mist — rub the card with your finger to clear it. A Golden Pack appears occasionally and contains hits in every slot rather than the usual mix.</p>
+              <p>Both are random. There's no sequence to learn, no time of day that improves your odds, and closing the app mid-pack doesn't reroll anything — the contents are decided when the pack opens.</p>
+            </details>
+
+            <details>
+              <summary>My daily streak reset even though I opened a pack</summary>
+              <p>The streak day rolls over at midnight in your device's local time zone. Opening a pack at 11:58pm and again at 12:03am counts as two different days — which is what you want — but travelling across time zones can shift that boundary in ways that feel wrong.</p>
+              <p>If you lost a streak despite playing daily, tell us the date and where you were, and we'll take a look.</p>
+            </details>
+
+            <details>
+              <summary>The tear animation or haptics aren't working</summary>
+              <p>Haptics need Settings → Sounds &amp; Haptics → System Haptics switched on, and they're suppressed entirely in Low Power Mode. If the tear feels flat but looks right, that's usually the cause.</p>
+              <p>If Reduce Motion is on in Accessibility, the app honours it and plays a gentler reveal instead of the full burst.</p>
+            </details>
+
+            <details>
+              <summary>Trainer Duels won't find an opponent</summary>
+              <p>Duels are played against other people, so they need a connection — and, at quiet hours in a small region, there may simply be nobody queuing. Waiting a few minutes, or trying at a busier time of day, usually resolves it.</p>
+              <p>Everything else in the app works offline; duels and leaderboards are the parts that don't.</p>
+            </details>
+
+            <details>
+              <summary>Which parts work offline?</summary>
+              <p>Opening packs, your binder, quests, the gift calendar and your showcase all work with no connection — the card data you've already loaded is on the device.</p>
+              <p>Duels, leaderboards, iCloud backup and pulling in a set you've never opened need a connection. Nothing is lost while offline; it syncs when you're back.</p>
+            </details>
+
+            <details>
+              <summary>The widget or Lock Screen countdown isn't updating</summary>
+              <p>iOS decides when widgets refresh and rations those updates to protect battery, so a countdown can sit a few minutes behind. Opening the app forces it to catch up.</p>
+              <p>If it's stuck for a long stretch, check Background App Refresh is on and that Low Power Mode isn't active — Low Power Mode suspends widget updates almost entirely.</p>
+            </details>
+
+            <details>
+              <summary>My share clip won't save or export</summary>
+              <p>Saving a clip to Photos needs photo library permission — check Settings → Privacy &amp; Security → Photos → TCG Pack. Rendering takes a few seconds on older devices, so give it a moment before assuming it's stuck.</p>
+            </details>
+
+            <details>
+              <summary>How do I change the language?</summary>
+              <p>TCG Pack follows your iPhone's language and supports English, ไทย and 日本語. To set it for this app only, use Settings → TCG Pack → Language.</p>
+            </details>
+
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, reopen, and check your binder — a pack that was mid-open is resolved before it's shown, so you shouldn't lose a pull. If the crash repeats, contact us with your device model, iOS version, and exactly what you were doing.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,110,199,.1)">🎯</div><h2>Quick Tips</h2></div>
+            <ul>
+              <li>Open your free packs before midnight local time — that's when the streak day turns over</li>
+              <li>Rub slowly on a misted card; the reveal follows your finger rather than a timer</li>
+              <li>Check quests before opening — some ask for a specific type or set</li>
+              <li>The binder's empty slots are the fastest way to see what a set still needs</li>
+              <li>Sign into iCloud before you start collecting, not after — it's what carries your binder to a new phone</li>
+              <li>Put the widget on your home screen if you keep missing the refill</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(110,231,255,.09)">📱</div><h2>App Info</h2></div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Bundle ID: com.ptonygd.tcgpack</li>
+              <li>Platform: iOS 16.0 and later</li>
+              <li>Languages: English, ไทย, 日本語</li>
+              <li>iCloud backup · home-screen widget · Lock Screen countdown</li>
+              <li>Works offline except duels, leaderboards and backup</li>
+              <li>Simulated cards only — no cash value, no physical cards</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- PACKS & BINDER -->
+        <div class="tp-subpanel" id="tcgpack-features">
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,110,199,.1)">✨</div><h2>Opening a Pack</h2></div>
+            <div class="tp-feat">
+              <div class="tp-feat-name">Tear it yourself</div>
+              <div class="tp-feat-desc">Drag your finger along the foil to open it. Haptics follow the tear, and each era uses its own real card count per pack.</div>
+            </div>
+            <div class="tp-feat">
+              <div class="tp-feat-name">Rare pulls</div>
+              <div class="tp-feat-desc">A hit breaks into a showcase of golden rays rather than sliding past with everything else.</div>
+            </div>
+            <div class="tp-feat">
+              <div class="tp-feat-name">Chase cards</div>
+              <div class="tp-feat-desc">Hidden under golden mist. Rub the card to clear it — the reveal tracks your finger, so you find it rather than watch it.</div>
+            </div>
+            <div class="tp-feat">
+              <div class="tp-feat-name">Golden Packs</div>
+              <div class="tp-feat-desc">Appear occasionally, with a hit in every slot. Random — there's no way to summon one.</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,215,110,.1)">📔</div><h2>Your Binder</h2></div>
+            <ul>
+              <li>Every set from the classics through to the newest releases</li>
+              <li>Missing cards shown as empty slots, the way a real binder reads</li>
+              <li>Medals for completing a set</li>
+              <li>A showcase of your nine best cards, exportable as a video clip</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(110,231,255,.09)">📅</div><h2>Every Day</h2></div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px;">
+              <span class="tp-chip">Free daily packs</span>
+              <span class="tp-chip">Streak bonuses</span>
+              <span class="tp-chip">Gift calendar</span>
+              <span class="tp-chip">Quests</span>
+              <span class="tp-chip gold">Chase Card of the Day</span>
+              <span class="tp-chip cyan">Wonder Pick</span>
+              <span class="tp-chip">Weekly type events</span>
+            </div>
+            <p>Wonder Pick gives you one choice from five hidden cards in a surprise set. The Chase Card of the Day is worth a large coin payout if you land it.</p>
+            <div class="tp-note">
+              <p>Daily resets follow your device's local time zone, so the day turns over at your midnight — not at a fixed hour somewhere else.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,110,199,.1)">⚔️</div><h2>Duels &amp; Leaderboards</h2></div>
+            <ul>
+              <li>Trainer Duels — best-of-three against real players</li>
+              <li>Global leaderboards for cards collected and sets completed</li>
+            </ul>
+            <div class="tp-note">
+              <p>These are the only parts of the app that need a connection. Quiet regions and off-peak hours mean a longer wait for a duel opponent — it's the queue, not a fault.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,215,110,.1)">🃏</div><h2>Where the Card Data Comes From</h2></div>
+            <p>Set lists, card names, numbering and rarities come from public community databases maintained by volunteers. That's why a brand-new set can take a little while to fill in completely, and why the occasional regional variant is missing.</p>
+            <div class="tp-legal">
+              <p><strong>TCG Pack is an unofficial fan app.</strong> It is not affiliated with, endorsed, or sponsored by Nintendo, The Pokémon Company, or Creatures Inc. All trademarks and card artwork remain the property of their respective owners.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="tp-subpanel" id="tcgpack-privacy">
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,110,199,.1)">🔐</div><h2>Privacy Policy</h2></div>
+            <p style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:rgba(255,110,199,.45);margin-bottom:16px">Last updated: August 3, 2026</p>
+            <p>TCG Pack ("the App", "we", "us") is a pack-opening and collecting app made by Pathom Sriaroonthip. Your collection is stored on your device and backed up to your own private iCloud account. We never see it.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(110,231,255,.09)">📦</div><h2>What Stays on Your Device</h2></div>
+            <p>The following lives in the App's own storage and, through iCloud backup, in your private iCloud account:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span class="tp-chip">Collection &amp; binder</span>
+              <span class="tp-chip">Pull history</span>
+              <span class="tp-chip">Coins</span>
+              <span class="tp-chip">Streak &amp; quests</span>
+              <span class="tp-chip">Medals</span>
+              <span class="tp-chip">Showcase</span>
+              <span class="tp-chip">Language &amp; settings</span>
+            </div>
+            <p>Delete the App and the on-device copy goes with it. The iCloud backup lives in your own account, and you can remove it from iOS Settings → [your name] → iCloud → Manage Storage.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,215,110,.1)">⚔️</div><h2>Duels &amp; Leaderboards</h2></div>
+            <p>Playing a duel or appearing on a leaderboard means exchanging the minimum needed to make that work — a display name, your score, and the moves in the match. Nothing about your device, your other apps or your location is involved.</p>
+            <div class="tp-note">
+              <p>You choose the display name shown to opponents and on leaderboards. Pick something you're happy for strangers to see, and avoid using your real name — it's visible to every other player.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(110,231,255,.09)">🔗</div><h2>Third-Party Services</h2></div>
+            <table class="tp-table">
+              <thead><tr><th>Service</th><th>Purpose</th><th>Policy</th></tr></thead>
+              <tbody>
+                <tr><td>Apple iCloud</td><td>Your own private collection backup</td><td><a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">apple.com/legal/privacy</a></td></tr>
+                <tr><td>Apple StoreKit</td><td>In-app purchases, where offered</td><td><a href="https://www.apple.com/legal/privacy/data/en/app-store/" target="_blank" rel="noopener">apple.com/…/app-store</a></td></tr>
+                <tr><td>Community card data</td><td>Set lists, names, numbering, rarities</td><td>Public databases — no personal data sent</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,110,199,.1)">🚫</div><h2>What We Never Collect</h2></div>
+            <div class="tp-not-grid">
+              <div class="tp-not-item">Your real name</div>
+              <div class="tp-not-item">Email or phone</div>
+              <div class="tp-not-item">Location of any kind</div>
+              <div class="tp-not-item">Photos or contacts</div>
+              <div class="tp-not-item">Microphone or camera</div>
+              <div class="tp-not-item">Payment details</div>
+              <div class="tp-not-item">Browsing history</div>
+              <div class="tp-not-item">Your collection</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,215,110,.1)">⚙️</div><h2>Your Choices &amp; Data Deletion</h2></div>
+            <ul>
+              <li><strong>Display name:</strong> change it any time in the App's settings</li>
+              <li><strong>Photo access:</strong> Settings → Privacy &amp; Security → Photos → TCG Pack</li>
+              <li><strong>iCloud backup:</strong> Settings → [your name] → iCloud → Manage Storage</li>
+              <li><strong>Delete everything:</strong> uninstall the App and remove its iCloud backup</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(110,231,255,.09)">👶</div><h2>Children</h2></div>
+            <p>We do not knowingly collect personal information from anyone under 13. TCG Pack includes online play against other people, so a display name you choose is visible to other players — worth a word with younger players about picking something that isn't their real name.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="tp-icon-tile" style="background:rgba(255,110,199,.1)">📝</div><h2>Changes &amp; Contact</h2></div>
+            <p>We may update this policy as the App gains features. Material changes will be noted by updating the date above.</p>
+            <p style="margin-top:10px">Questions? Use the Support tab to reach us directly.</p>
+            <p style="margin-top:10px">Terms of Use: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener" style="color:var(--tp-pink);font-size:13px">Apple Standard EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2026 TCG Pack · Unofficial fan app · Not affiliated with Nintendo, The Pokémon Company or Creatures Inc. · Simulated cards, no cash value</footer>
+    </div>
+  </div>
+
   <!-- ZAP -->
   <div class="panel" id="zap-panel">
     <div class="page">
@@ -4315,6 +4789,7 @@
     <button class="crumb" data-app="adsearning" onclick="switchApp('adsearning')">Ads Earning</button>
     <button class="crumb" data-app="bitcoinplaces" onclick="switchApp('bitcoinplaces')">Bitcoin Places</button>
     <button class="crumb" data-app="realestate" onclick="switchApp('realestate')">不動産電卓</button>
+    <button class="crumb" data-app="tcgpack"    onclick="switchApp('tcgpack')">TCG Pack</button>
     <button class="crumb" data-app="zap"        onclick="switchApp('zap')">Zap Remote</button>
     <button class="crumb" data-app="poker"      onclick="switchApp('poker')">Video Poker Mania</button>
     <button class="crumb" data-app="poko"       onclick="switchApp('poko')">POKO</button>
@@ -4328,7 +4803,7 @@
 // ── QUERY PARAM ROUTER ─────────────────────────────────────────────
 // URLs: ?app=zap  ?app=zap&page=privacy  ?app=adsearning&page=metrics
 
-const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'bitcoinplaces', 'realestate', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
+const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'bitcoinplaces', 'realestate', 'tcgpack', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
 
 const TAB_MAP = {
   tonyfitter: ['support', 'whats-new', 'privacy'],
@@ -4336,6 +4811,7 @@ const TAB_MAP = {
   adsearning: ['support', 'metrics', 'privacy'],
   bitcoinplaces: ['support', 'directory', 'safety', 'privacy'],
   realestate: ['support', 'calculators', 'privacy'],
+  tcgpack: ['support', 'features', 'privacy'],
   zap:        ['support', 'privacy', 'terms'],
   poker:      ['support', 'privacy'],
   poko:       ['support', 'whats-new', 'privacy'],
@@ -4352,6 +4828,7 @@ const APP_CHROME = {
   adsearning: { bg: '#0a1310', fg: '#fff' },
   bitcoinplaces: { bg: '#0e1519', fg: '#fff' },
   realestate: { bg: '#efeee6', fg: '#1c1a17' },
+  tcgpack: { bg: '#150f21', fg: '#fff' },
   zap:        { bg: '#0a0e1a', fg: '#fff' },
   poker:      { bg: '#0d0d0d', fg: '#fff' },
   poko:       { bg: '#0f0f14', fg: '#fff' },
@@ -4379,7 +4856,7 @@ function buildQuery(app, page) {
 function _switchApp(app) {
   const nav = document.getElementById('mainNav');
   APPS.forEach(a => document.getElementById(a + '-panel').classList.remove('active'));
-  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-bitcoinplaces', 'on-realestate', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
+  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-bitcoinplaces', 'on-realestate', 'on-tcgpack', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
   document.getElementById(app + '-panel').classList.add('active');
   if (app !== 'wordo') nav.classList.add('on-' + app);
   const chrome = APP_CHROME[app] || APP_CHROME.wordo;
@@ -4405,6 +4882,7 @@ const TAB_BTN_SELECTOR = {
   adsearning: '.ae-subnav-btn',
   bitcoinplaces: '.bp-subnav-btn',
   realestate: '.re-subnav-btn',
+  tcgpack: '.tp-subnav-btn',
   zap:        '.zap-subnav-btn',
   poker:      '.poker-subnav-btn',
   poko:       '.poko-subnav-btn',
@@ -4437,6 +4915,7 @@ function switchAirplaneTab(page)  { navigate('airplane',   page); }
 function switchAdsearningTab(page){ navigate('adsearning', page); }
 function switchBitcoinplacesTab(page){ navigate('bitcoinplaces', page); }
 function switchRealestateTab(page){ navigate('realestate', page); }
+function switchTcgpackTab(page){ navigate('tcgpack', page); }
 function switchZapTab(page)       { navigate('zap',        page); }
 function switchPokerTab(page)     { navigate('poker',      page); }
 function switchPokoTab(page)      { navigate('poko',       page); }
@@ -4476,6 +4955,7 @@ setupForm('airplaneForm',   'airplaneSuccess');
 setupForm('adsearningForm', 'adsearningSuccess');
 setupForm('bitcoinplacesForm', 'bitcoinplacesSuccess');
 setupForm('realestateForm', 'realestateSuccess');
+setupForm('tcgpackForm',    'tcgpackSuccess');
 setupForm('zapForm',        'zapSuccess');
 setupForm('pokerForm',      'pokerSuccess');
 setupForm('pokoForm',       'pokoSuccess');
