@@ -28,20 +28,6 @@
   ],
   "messages": [
     {
-      "id": "test-2026-09-18-sorry-about-yesterday",
-      "from": "2026-09-18",
-      "until": "2026-09-24",
-      "kind": "sheet",
-      "title": {
-        "en": "Sorry about yesterday"
-      },
-      "body": {
-        "en": "Claim free 200 coins as our apology for downtime"
-      },
-      "coins": 200,
-      "test": true
-    },
-    {
       "id": "test-2026-09-18-rehearsal-two",
       "from": "2026-09-18",
       "until": "2026-09-18",
@@ -53,6 +39,20 @@
         "en": "Checking the push credential. Ignore this one."
       },
       "coins": 10,
+      "test": true
+    },
+    {
+      "id": "test-2026-09-18-sorry-about-yesterday",
+      "from": "2026-09-18",
+      "until": "2026-09-24",
+      "kind": "dialog",
+      "title": {
+        "en": "Sorry about yesterday"
+      },
+      "body": {
+        "en": "Claim free 200 coins as our apology for downtime"
+      },
+      "coins": 200,
       "test": true
     }
   ]
