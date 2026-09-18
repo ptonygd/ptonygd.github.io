@@ -54,6 +54,20 @@
       },
       "coins": 200,
       "test": true
+    },
+    {
+      "id": "test-2026-09-18-sorry-for-recent-downtime-claim-",
+      "from": "2026-09-18",
+      "until": "2026-09-24",
+      "kind": "dialog",
+      "title": {
+        "en": "Sorry for recent downtime - Claim free coins"
+      },
+      "body": {
+        "en": "Sorry for recent downtime - Claim 200 coins"
+      },
+      "coins": 200,
+      "test": true
     }
   ]
 }
