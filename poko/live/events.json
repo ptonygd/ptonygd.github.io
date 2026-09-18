@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "events": [
+    {
+      "id": "launch-celebration",
+      "from": "2026-08-25",
+      "until": "2026-09-15",
+      "banner": {
+        "en": "Launch Celebration — event cards pay double coins!",
+        "th": "ฉลองเปิดตัว — การ์ดอีเวนต์ได้เหรียญคูณสอง!",
+        "ja": "リリース記念 — イベントカードのコイン2倍！"
+      },
+      "eventCoinsPerCard": 10,
+      "extraDailyPacks": 0
+    },
+    {
+      "id": "example-event-packs",
+      "from": "2099-01-01",
+      "until": "2099-01-03",
+      "banner": {
+        "en": "Event packs: Surging Sparks hits roll twice this weekend!",
+        "th": "ซองอีเวนต์: Surging Sparks สุ่มการ์ดพิเศษสองครั้งสุดสัปดาห์นี้!",
+        "ja": "イベントパック：今週末はSurging Sparksのヒット枠が2回抽選！"
+      },
+      "boostedSetId": "sv8",
+      "boostRolls": 2
+    }
+  ]
+}
