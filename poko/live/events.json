@@ -25,5 +25,21 @@
       "boostedSetId": "sv8",
       "boostRolls": 2
     }
+  ],
+  "messages": [
+    {
+      "id": "test-2026-09-18-sorry-about-yesterday",
+      "from": "2026-09-18",
+      "until": "2026-09-24",
+      "kind": "sheet",
+      "title": {
+        "en": "Sorry about yesterday"
+      },
+      "body": {
+        "en": "Claim free 200 coins as our apology for downtime"
+      },
+      "coins": 200,
+      "test": true
+    }
   ]
 }
