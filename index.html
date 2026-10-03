@@ -147,6 +147,19 @@
       --op-card:     rgba(255,255,255,0.04);
       --op-text:     rgba(240,227,198,0.72);
       --op-shadow:   rgba(62,201,180,0.24);
+      /* WIPER — a clean slate. Near-white with a cool cast, one decisive
+         blue for the swipe-keep direction and a soft red for the delete
+         direction; the rank metals are the only warm colours allowed. */
+      --wp-wash:     #f2f4f7;
+      --wp-surface:  #ffffff;
+      --wp-ink:      #141a22;
+      --wp-ink2:     #566274;
+      --wp-border:   #dde2e9;
+      --wp-blue:     #1f6feb;
+      --wp-blue2:    #1a56c4;
+      --wp-red:      #e5484d;
+      --wp-green:    #1a9d6a;
+      --wp-shadow:   rgba(20,26,34,0.10);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -417,6 +430,18 @@
     nav.on-optcg .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
     nav.on-optcg .nav-btn:not(.optcg) .nav-dot { background: var(--grey); }
     nav[class*="on-"]:not(.on-optcg) .nav-btn.optcg .nav-dot { background: var(--grey); }
+    /* WIPER nav */
+    .nav-btn.wiper { background: transparent; color: var(--grey); border-color: var(--border); }
+    .nav-btn.wiper:hover { border-color: var(--wp-blue); color: var(--wp-blue); }
+    .nav-btn.wiper .nav-dot { background: var(--wp-blue); }
+    nav.on-wiper .nav-btn.wiper {
+      background: linear-gradient(135deg, var(--wp-blue), var(--wp-blue2));
+      color: #fff; border-color: var(--wp-blue);
+      box-shadow: 0 3px 12px rgba(31,111,235,0.28);
+    }
+    nav.on-wiper .nav-btn.wordo { background: transparent; color: var(--grey); border-color: var(--border); }
+    nav.on-wiper .nav-btn:not(.wiper) .nav-dot { background: var(--grey); }
+    nav[class*="on-"]:not(.on-wiper) .nav-btn.wiper .nav-dot { background: var(--grey); }
     .panel { display: none; }
     .panel.active { display: block; }
 
@@ -1849,6 +1874,154 @@
     .op-table td a:hover { color: var(--op-foam2); }
     #optcg-panel footer { text-align: center; padding: 12px 24px 32px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(240,227,198,.22); letter-spacing: .03em; line-height: 1.7; animation: fadeUp 0.5s 0.75s both; }
 
+    /* WIPER — a clean slate. The fourth light panel, and the coolest of
+       them: near-white with a faint blue cast, almost no ornament, because
+       a storage-cleaning app should look like space rather than stuff. */
+    #wiper-panel { background: var(--wp-wash); min-height: 100vh; position: relative; overflow: hidden; }
+    #wiper-panel::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 58% 42% at 10% 0%, rgba(31,111,235,.07) 0%, transparent 56%),
+        radial-gradient(ellipse 55% 44% at 92% 97%, rgba(26,157,106,.06) 0%, transparent 56%);
+      pointer-events: none; z-index: 0;
+    }
+    #wiper-panel .page { position: relative; z-index: 1; }
+    #wiper-panel header { padding: 32px 24px 24px; text-align: center; }
+    .wiper-logo { display: flex; justify-content: center; align-items: center; gap: 18px; margin-bottom: 16px; animation: fadeDown 0.5s 0.1s both; }
+    /* A stack of photos with the top one swiped away — the core gesture. */
+    .wp-stack { width: 64px; height: 66px; position: relative; flex-shrink: 0; }
+    .wp-card {
+      position: absolute; width: 42px; height: 54px; border-radius: 7px;
+      background: var(--wp-surface); border: 1.5px solid var(--wp-border);
+      box-shadow: 0 3px 10px rgba(20,26,34,.12);
+    }
+    .wp-card.c3 { left: 6px;  top: 8px; transform: rotate(-7deg); }
+    .wp-card.c2 { left: 10px; top: 5px; transform: rotate(-2deg); }
+    .wp-card.c1 {
+      left: 14px; top: 2px;
+      border-color: rgba(31,111,235,.45);
+      box-shadow: 0 5px 16px rgba(31,111,235,.22);
+      animation: wpSwipe 4.2s cubic-bezier(.5,.05,.3,1) infinite;
+    }
+    @keyframes wpSwipe {
+      0%, 22%   { transform: translateX(0) rotate(0deg); opacity: 1; }
+      44%, 56%  { transform: translateX(26px) rotate(15deg); opacity: 0; }
+      62%, 100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+    }
+    .wp-card-bar { position: absolute; left: 7px; right: 7px; height: 3px; border-radius: 2px; background: var(--wp-border); }
+    .wp-card-bar.b1 { top: 34px; }
+    .wp-card-bar.b2 { top: 41px; right: 16px; }
+    .wp-card-eye { position: absolute; top: 9px; left: 50%; margin-left: -9px; width: 18px; height: 18px; border-radius: 50%; background: rgba(31,111,235,.14); }
+    .wp-logo-text { text-align: left; }
+    .wp-logo-text .wp-line1 { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--wp-blue); opacity: .85; line-height: 1; }
+    .wp-logo-text .wp-line2 { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 0.06em; line-height: 1; color: var(--wp-ink); }
+    .wp-logo-text .wp-line3 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: rgba(20,26,34,.4); line-height: 1.5; }
+    #wiper-panel header > p { font-size: 15px; color: rgba(20,26,34,.45); font-weight: 500; }
+    #wiper-panel .as-badge { box-shadow: 0 4px 18px rgba(20,26,34,.2); }
+    #wiper-panel .as-badge:hover { box-shadow: 0 8px 26px rgba(31,111,235,.3); }
+    #wiper-panel .as-badge.coming-soon { background: rgba(20,26,34,.05); border-color: rgba(20,26,34,.14); box-shadow: none; }
+    #wiper-panel .as-badge.coming-soon svg { opacity: 1; }
+    #wiper-panel .as-badge.coming-soon svg path { fill: rgba(20,26,34,.4); }
+    #wiper-panel .as-badge.coming-soon .as-badge-sub  { color: rgba(20,26,34,.45); }
+    #wiper-panel .as-badge.coming-soon .as-badge-main { color: rgba(20,26,34,.6); }
+    .wp-subnav { display: flex; justify-content: center; gap: 8px; padding: 16px 20px 0; flex-wrap: wrap; animation: fadeDown 0.5s 0.2s both; }
+    .wp-subnav-btn { padding: 8px 20px; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--wp-border); background: transparent; color: rgba(20,26,34,.45); transition: all .2s; }
+    .wp-subnav-btn.active { background: var(--wp-ink); color: #fff; border-color: var(--wp-ink); box-shadow: 0 3px 10px rgba(20,26,34,.2); }
+    .wp-subnav-btn:hover:not(.active) { border-color: var(--wp-blue); color: var(--wp-blue); }
+    .wp-subpanel { display: none; }
+    .wp-subpanel.active { display: block; }
+    #wiper-panel main { max-width: 600px; margin: 0 auto; padding: 20px 20px 60px; }
+    #wiper-panel section {
+      background: var(--wp-surface); border: 1.5px solid var(--wp-border); border-radius: 20px;
+      padding: 28px; margin-bottom: 16px;
+      box-shadow: 0 2px 0 var(--wp-border), 0 6px 24px var(--wp-shadow);
+      animation: fadeUp 0.5s both;
+    }
+    #wiper-panel section:nth-child(1){animation-delay:.35s}
+    #wiper-panel section:nth-child(2){animation-delay:.45s}
+    #wiper-panel section:nth-child(3){animation-delay:.55s}
+    #wiper-panel section:nth-child(4){animation-delay:.65s}
+    #wiper-panel section:nth-child(5){animation-delay:.72s}
+    #wiper-panel section:nth-child(6){animation-delay:.79s}
+    #wiper-panel .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    #wiper-panel h2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; color: var(--wp-ink); }
+    .wp-icon-tile { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    #wiper-panel p, #wiper-panel li { font-size: 15px; line-height: 1.7; color: var(--wp-ink2); }
+    #wiper-panel ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    #wiper-panel li::before { content: '→ '; color: var(--wp-blue); font-weight: 700; }
+    #wiper-panel form { display: flex; flex-direction: column; gap: 12px; }
+    #wiper-panel label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(20,26,34,.45); margin-bottom: 4px; display: block; }
+    #wiper-panel input, #wiper-panel textarea, #wiper-panel select {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--wp-border);
+      border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--wp-ink); background: #f8fafc; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    #wiper-panel select option { background: #fff; }
+    #wiper-panel input::placeholder, #wiper-panel textarea::placeholder { color: rgba(20,26,34,.3); }
+    #wiper-panel input:focus, #wiper-panel textarea:focus, #wiper-panel select:focus {
+      border-color: var(--wp-blue); box-shadow: 0 0 0 3px rgba(31,111,235,.13); background: #fff;
+    }
+    #wiper-panel textarea { resize: vertical; min-height: 110px; }
+    #wiper-panel .send-btn {
+      background: linear-gradient(135deg, var(--wp-blue), var(--wp-blue2));
+      color: #fff; border: none; border-radius: 12px; padding: 15px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em;
+      cursor: pointer; box-shadow: 0 3px 0 rgba(26,86,196,.45), 0 6px 20px rgba(31,111,235,.22);
+      transition: transform .1s, box-shadow .1s, opacity .1s;
+    }
+    #wiper-panel .send-btn:hover  { transform: translateY(-1px); opacity: .94; box-shadow: 0 4px 0 rgba(26,86,196,.45), 0 8px 26px rgba(31,111,235,.3); }
+    #wiper-panel .send-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(26,86,196,.45); }
+    #wiper-panel .success-msg { display: none; text-align: center; padding: 16px; background: rgba(26,157,106,.08); border-radius: 12px; border: 1px solid rgba(26,157,106,.28); color: #157a52; font-weight: 600; font-size: 15px; }
+    #wiper-panel details { border-bottom: 1px solid var(--wp-border); padding: 12px 0; }
+    #wiper-panel details:last-child { border-bottom: none; }
+    #wiper-panel summary { font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--wp-ink); }
+    #wiper-panel summary::after { content: '+'; font-size: 20px; color: rgba(20,26,34,.32); transition: transform .2s; flex-shrink: 0; }
+    #wiper-panel details[open] summary::after { transform: rotate(45deg); }
+    #wiper-panel details p { margin-top: 10px; }
+    #wiper-panel details p + p { margin-top: 10px; }
+    /* Tool rows */
+    .wp-tool { display: flex; gap: 13px; padding: 14px 0; border-bottom: 1px solid var(--wp-border); }
+    .wp-tool:last-child { border-bottom: none; }
+    .wp-tool-dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+    .wp-tool-dot.free  { background: var(--wp-green); }
+    .wp-tool-dot.prem  { background: var(--wp-blue); }
+    .wp-tool-name { font-weight: 600; font-size: 15px; color: var(--wp-ink); margin-bottom: 2px; }
+    .wp-tool-tier { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: rgba(20,26,34,.38); margin-bottom: 4px; }
+    .wp-tool-desc { font-size: 14px; line-height: 1.6; color: var(--wp-ink2); }
+    /* Rank ladder */
+    .wp-rank { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--wp-border); }
+    .wp-rank:last-child { border-bottom: none; }
+    .wp-rank-pip { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; transform: rotate(45deg); }
+    .wp-rank-pip.bronze   { background: #a9713f; }
+    .wp-rank-pip.silver   { background: #9aa4b0; }
+    .wp-rank-pip.gold     { background: #d8a327; }
+    .wp-rank-pip.platinum { background: #6f8fa8; }
+    .wp-rank-pip.diamond  { background: linear-gradient(135deg, #6ad0e8, #3f7fd8); }
+    .wp-rank-name { font-weight: 600; font-size: 15px; color: var(--wp-ink); }
+    .wp-rank-req { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--wp-ink2); margin-left: auto; white-space: nowrap; }
+    .wp-chip { display: inline-block; background: rgba(31,111,235,.07); border: 1px solid rgba(31,111,235,.2); border-radius: 7px; padding: 3px 9px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--wp-blue); letter-spacing: 0.02em; margin: 2px; }
+    .wp-chip.green { background: rgba(26,157,106,.08); border-color: rgba(26,157,106,.24); color: #157a52; }
+    /* Safety notes — green, because the message is reassurance, not risk. */
+    .wp-safe { background: rgba(26,157,106,.07); border: 1px solid rgba(26,157,106,.24); border-radius: 14px; padding: 15px 17px; margin-top: 12px; }
+    .wp-safe p { font-size: 14px; color: #146b48; line-height: 1.7; }
+    .wp-safe p + p { margin-top: 10px; }
+    .wp-safe strong { color: #0f5537; }
+    .wp-note { background: #f8fafc; border: 1px solid var(--wp-border); border-radius: 14px; padding: 14px 16px; margin-top: 12px; }
+    .wp-note p { font-size: 14px; color: var(--wp-ink2); line-height: 1.68; }
+    .wp-note p + p { margin-top: 10px; }
+    .wp-path { font-family: 'Space Mono', monospace; font-size: 12.5px; color: var(--wp-ink); background: #eef1f5; border: 1px solid var(--wp-border); border-radius: 6px; padding: 1px 7px; white-space: nowrap; }
+    #wiper-panel .wp-not-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    #wiper-panel .wp-not-item { display: flex; align-items: center; gap: 8px; background: #f8fafc; border: 1px solid var(--wp-border); border-radius: 10px; padding: 8px 12px; font-size: 13px; color: rgba(20,26,34,.55); }
+    #wiper-panel .wp-not-item::before { content: '✕'; color: var(--wp-red); opacity: .65; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .wp-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .wp-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(20,26,34,.45); padding: 8px 10px; border-bottom: 1.5px solid var(--wp-border); text-align: left; }
+    .wp-table td { font-size: 14px; color: var(--wp-ink2); padding: 10px; border-bottom: 1px solid var(--wp-border); vertical-align: top; line-height: 1.5; }
+    .wp-table tr:last-child td { border-bottom: none; }
+    .wp-table td a { color: var(--wp-blue); text-decoration: none; font-size: 12px; word-break: break-all; }
+    .wp-table td a:hover { text-decoration: underline; }
+    #wiper-panel footer { text-align: center; padding: 12px 24px 32px; font-size: 13px; color: rgba(20,26,34,.35); line-height: 1.7; animation: fadeUp 0.5s 0.75s both; }
+
     @keyframes tileIn { from { opacity: 0; transform: translateY(-16px) rotate(-4deg); } to { opacity: 1; transform: none; } }
     @keyframes fadeUp  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes fadeDown{ from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
@@ -1859,9 +2032,12 @@
       .bp-pin-ring { animation: none; opacity: .35; }
       .tp-pack-sheen { animation: none; opacity: .45; }
       .op-needle { animation: none; }
+      .wp-card.c1 { animation: none; }
     }
 
     @media (max-width: 480px) {
+      #wiper-panel .wp-not-grid { grid-template-columns: 1fr; }
+      .wp-logo-text .wp-line2 { font-size: 36px; }
       #optcg-panel .op-not-grid { grid-template-columns: 1fr; }
       .op-logo-text .op-line2 { font-size: 36px; }
       #tcgpack-panel .tp-not-grid { grid-template-columns: 1fr; }
@@ -1913,6 +2089,9 @@
     </button>
     <button class="nav-btn optcg" onclick="switchApp('optcg')">
       <span class="nav-dot"></span> OP TCG
+    </button>
+    <button class="nav-btn wiper" onclick="switchApp('wiper')">
+      <span class="nav-dot"></span> Wiper
     </button>
     <button class="nav-btn zap" onclick="switchApp('zap')">
       <span class="nav-dot"></span> Zap Remote
@@ -4511,6 +4690,439 @@
     </div>
   </div>
 
+  <!-- WIPER -->
+  <div class="panel" id="wiper-panel">
+    <div class="page">
+      <header>
+        <div class="wiper-logo">
+          <div class="wp-stack">
+            <div class="wp-card c3"></div>
+            <div class="wp-card c2"></div>
+            <div class="wp-card c1">
+              <div class="wp-card-eye"></div>
+              <div class="wp-card-bar b1"></div>
+              <div class="wp-card-bar b2"></div>
+            </div>
+          </div>
+          <div class="wp-logo-text">
+            <div class="wp-line1">Photo Cleaner</div>
+            <div class="wp-line2">WIPER</div>
+            <div class="wp-line3">SWIPE · CLEAN · RECLAIM</div>
+          </div>
+        </div>
+        <p>Support &amp; Help Center</p>
+        <div class="header-badge-row">
+          <a class="as-badge coming-soon" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="as-badge-text">
+              <span class="as-badge-sub">Coming soon to the</span>
+              <span class="as-badge-main">App Store</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <div class="wp-subnav">
+        <button class="wp-subnav-btn active" onclick="switchWiperTab('support')">Support</button>
+        <button class="wp-subnav-btn" onclick="switchWiperTab('tools')">Tools &amp; Plans</button>
+        <button class="wp-subnav-btn" onclick="switchWiperTab('privacy')">Privacy</button>
+      </div>
+
+      <main>
+        <!-- SUPPORT -->
+        <div class="wp-subpanel active" id="wiper-support">
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">✉️</div><h2>Contact Us</h2></div>
+            <form id="wiperForm">
+              <div><label for="wp-name">Your Name</label><input type="text" id="wp-name" placeholder="Tony" required /></div>
+              <div><label for="wp-email">Email Address</label><input type="email" id="wp-email" placeholder="you@example.com" required /></div>
+              <div><label for="wp-topic">Topic</label>
+                <select id="wp-topic">
+                  <option>Photo library access</option>
+                  <option>Scanning is slow or stuck</option>
+                  <option>Photos won't load</option>
+                  <option>Duplicates or Similar Photos</option>
+                  <option>Smart Clean</option>
+                  <option>Video Compressor</option>
+                  <option>Recovering something I deleted</option>
+                  <option>Swipes or rewarded videos</option>
+                  <option>Premium purchase or restore</option>
+                  <option>Subscription, trial or refund</option>
+                  <option>Ranks or leaderboard</option>
+                  <option>Kept-photo history</option>
+                  <option>Language (EN / 日本語 / ไทย)</option>
+                  <option>Bug or crash report</option>
+                  <option>Feature request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label for="wp-message">Message</label><textarea id="wp-message" placeholder="Tell us what happened and what you expected — include your device model, iOS version, and roughly how large your photo library is…" required></textarea></div>
+              <button type="submit" class="send-btn">SEND MESSAGE</button>
+              <div class="success-msg" id="wiperSuccess">✓ Message received! We'll reply within 48 hours.</div>
+            </form>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(26,157,106,.1)">🛡️</div><h2>Safety &amp; Privacy</h2></div>
+
+            <details>
+              <summary>Are my photos uploaded?</summary>
+              <p>No. Everything happens on your iPhone. Wiper works fully in Airplane Mode.</p>
+            </details>
+
+            <details>
+              <summary>I deleted something by mistake. Can I get it back?</summary>
+              <p>Yes, for 30 days. Open the Photos app › Albums › Recently Deleted, select the item and tap Recover.</p>
+            </details>
+
+            <details>
+              <summary>Why does Wiper ask for full photo access?</summary>
+              <p>To find duplicates, similar shots and blurry photos, Wiper needs to see your whole library. With "Limited Access", it can only work with the photos you selected.</p>
+              <p>You can change this in <span class="wp-path">iOS Settings › Privacy &amp; Security › Photos › Wiper</span>.</p>
+            </details>
+
+            <details>
+              <summary>I tapped "Don't Allow". How do I turn access on?</summary>
+              <p>Open Wiper and tap <strong>Open Settings</strong>, or go to <span class="wp-path">iOS Settings › Privacy &amp; Security › Photos › Wiper</span> and choose <strong>Full Access</strong>.</p>
+            </details>
+
+            <div class="wp-safe">
+              <p><strong>Nothing is deleted without you seeing it first.</strong> Every list is reviewable before you clean, and anything removed goes to Recently Deleted rather than disappearing — you have 30 days to change your mind.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">💡</div><h2>Cleaning</h2></div>
+
+            <details>
+              <summary>What does Smart Clean find?</summary>
+              <p>Old screenshots, the extra shots in bursts of similar photos, and blurry photos. It always keeps your favourites and the best shot of every similar group.</p>
+              <p>You can review each list and remove anything before cleaning.</p>
+            </details>
+
+            <details>
+              <summary>What is the Video Compressor?</summary>
+              <p>It makes videos smaller by saving them at the definition you pick — 4K, 1080p, 720p, 540p or 480p. The new copy keeps the original date, place and favourite status.</p>
+              <p>The original goes to Recently Deleted, so you can restore it for 30 days.</p>
+            </details>
+
+            <details>
+              <summary>Wiper keeps showing photos I already kept</summary>
+              <p>Make sure <strong>Hide photos I already kept</strong> is on in Settings. To see them again, use <strong>Reset kept history</strong>.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(229,72,77,.09)">🔧</div><h2>Troubleshooting</h2></div>
+
+            <details>
+              <summary>Scanning is slow</summary>
+              <p>The first scan of a large library can take a few minutes. Keep Wiper open and your iPhone unlocked. Later scans are faster.</p>
+            </details>
+
+            <details>
+              <summary>Some photos don't load</summary>
+              <p>They may be stored only in iCloud. Check your internet connection, or turn off <strong>Optimize iPhone Storage</strong> in <span class="wp-path">iOS Settings › Photos</span> if you have enough space.</p>
+            </details>
+
+            <details>
+              <summary>Video compression failed</summary>
+              <p>Some videos are already efficiently compressed and can't get much smaller, so Wiper skips them. Videos stored in iCloud need to download first, so check your connection.</p>
+            </details>
+
+            <details>
+              <summary>The app crashed — what should I do?</summary>
+              <p>Force-quit, reopen, and try again. If the crash repeats, contact us with your device model, iOS version, roughly how many photos are in your library, and which screen you were on.</p>
+            </details>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(26,157,106,.1)">🎯</div><h2>Quick Tips</h2></div>
+            <ul>
+              <li>Run the first scan on charge and leave the phone unlocked — it's the slow one, and only once</li>
+              <li>Mark anything you'd hate to lose as a favourite; Smart Clean never touches favourites</li>
+              <li>Start with Large Videos if you want the fastest gigabytes back</li>
+              <li>Empty Recently Deleted in Photos afterwards — space isn't actually reclaimed until you do</li>
+              <li>Compress before you delete a video you're unsure about: you keep the memory and most of the space</li>
+            </ul>
+            <div class="wp-note">
+              <p>Freed space shows up in iOS storage once Recently Deleted empties, which is why the number can lag for a day or two if you leave it to clear on its own.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">📱</div><h2>App Info</h2></div>
+            <ul>
+              <li>Developer: Pathom Sriaroonthip</li>
+              <li>Bundle ID: com.ptonygd.wiper</li>
+              <li>Requires iPhone with iOS 18.6 or later</li>
+              <li>Available in English, 日本語 and ไทย</li>
+              <li>Works entirely on device — no upload, no account</li>
+              <li>Free tier with ads · Wiper Premium subscription</li>
+              <li>Response time: within 48 hours</li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- TOOLS & PLANS -->
+        <div class="wp-subpanel" id="wiper-tools">
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">🧹</div><h2>The Tools</h2></div>
+
+            <div class="wp-tool">
+              <div class="wp-tool-dot free"></div>
+              <div>
+                <div class="wp-tool-name">Duplicates</div>
+                <div class="wp-tool-tier">Free</div>
+                <div class="wp-tool-desc">Exact copies of the same photo, grouped so you keep one and clear the rest.</div>
+              </div>
+            </div>
+
+            <div class="wp-tool">
+              <div class="wp-tool-dot free"></div>
+              <div>
+                <div class="wp-tool-name">Similar Photos</div>
+                <div class="wp-tool-tier">Free</div>
+                <div class="wp-tool-desc">Near-identical shots from the same moment, with the best one of each group kept.</div>
+              </div>
+            </div>
+
+            <div class="wp-tool">
+              <div class="wp-tool-dot free"></div>
+              <div>
+                <div class="wp-tool-name">Large Videos</div>
+                <div class="wp-tool-tier">Free</div>
+                <div class="wp-tool-desc">Your biggest files, by size. Usually the quickest route to real gigabytes.</div>
+              </div>
+            </div>
+
+            <div class="wp-tool">
+              <div class="wp-tool-dot free"></div>
+              <div>
+                <div class="wp-tool-name">Library Breakdown</div>
+                <div class="wp-tool-tier">Free</div>
+                <div class="wp-tool-desc">What's actually taking up the space, before you decide where to start.</div>
+              </div>
+            </div>
+
+            <div class="wp-tool">
+              <div class="wp-tool-dot prem"></div>
+              <div>
+                <div class="wp-tool-name">Smart Clean</div>
+                <div class="wp-tool-tier">Premium</div>
+                <div class="wp-tool-desc">Old screenshots, extra burst shots and blurry photos in one pass — favourites and the best shot of each group always kept.</div>
+              </div>
+            </div>
+
+            <div class="wp-tool">
+              <div class="wp-tool-dot prem"></div>
+              <div>
+                <div class="wp-tool-name">Video Compressor</div>
+                <div class="wp-tool-tier">Premium</div>
+                <div class="wp-tool-desc">Re-saves a video at 4K, 1080p, 720p, 540p or 480p, keeping its date, place and favourite status.</div>
+              </div>
+            </div>
+
+            <div class="wp-tool">
+              <div class="wp-tool-dot prem"></div>
+              <div>
+                <div class="wp-tool-name">Blurry-photo cleanup</div>
+                <div class="wp-tool-tier">Premium</div>
+                <div class="wp-tool-desc">Shots that didn't come out, found and listed for review.</div>
+              </div>
+            </div>
+
+            <div class="wp-tool">
+              <div class="wp-tool-dot prem"></div>
+              <div>
+                <div class="wp-tool-name">Live Photo → still</div>
+                <div class="wp-tool-tier">Premium</div>
+                <div class="wp-tool-desc">Drops the motion and keeps the frame, which is most of the file size gone.</div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(26,157,106,.1)">🎟️</div><h2>Free, Premium &amp; Ads</h2></div>
+
+            <details>
+              <summary>What's free?</summary>
+              <p>50 swipes a day, Duplicates, Similar Photos, Large Videos and Library Breakdown. When you run out of swipes, you can watch a short video for 20 more — up to 3 times a day.</p>
+            </details>
+
+            <details>
+              <summary>What does Premium unlock?</summary>
+              <p>Unlimited swipes, Smart Clean, Video Compressor, blurry-photo cleanup and Live Photo → still conversion, with no ads.</p>
+            </details>
+
+            <details>
+              <summary>How does the free trial work?</summary>
+              <p>The yearly plan includes a 1-week free trial for new subscribers. You won't be charged if you cancel at least 24 hours before the trial ends.</p>
+            </details>
+
+            <details>
+              <summary>How do I cancel my subscription?</summary>
+              <p><span class="wp-path">iOS Settings › your name › Subscriptions › Wiper Premium › Cancel Subscription</span></p>
+              <p>You keep Premium until the end of the period you paid for. Cancel at least 24 hours before renewal to avoid being charged.</p>
+            </details>
+
+            <details>
+              <summary>I bought Premium but the app still shows the free version</summary>
+              <p>Go to Settings in Wiper and tap <strong>Restore Purchases</strong>. Make sure you're signed in with the same Apple Account you used to buy.</p>
+            </details>
+
+            <details>
+              <summary>How do I get a refund?</summary>
+              <p>Refunds are handled by Apple. Visit <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener" style="color:var(--wp-blue)">reportaproblem.apple.com</a>, sign in and choose the purchase.</p>
+            </details>
+
+            <div class="wp-note">
+              <p>Billing, trials, renewals and refunds are all handled by Apple. We can't charge you, extend a trial or issue a refund ourselves — but tell us if something looks wrong and we'll help you work out what happened.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(216,163,39,.11)">🏅</div><h2>Ranks</h2></div>
+            <p>Ranks are based on the total space you've freed:</p>
+            <div class="wp-rank"><span class="wp-rank-pip bronze"></span><span class="wp-rank-name">Bronze</span><span class="wp-rank-req">5 GB</span></div>
+            <div class="wp-rank"><span class="wp-rank-pip silver"></span><span class="wp-rank-name">Silver</span><span class="wp-rank-req">25 GB</span></div>
+            <div class="wp-rank"><span class="wp-rank-pip gold"></span><span class="wp-rank-name">Gold</span><span class="wp-rank-req">100 GB</span></div>
+            <div class="wp-rank"><span class="wp-rank-pip platinum"></span><span class="wp-rank-name">Platinum</span><span class="wp-rank-req">300 GB</span></div>
+            <div class="wp-rank"><span class="wp-rank-pip diamond"></span><span class="wp-rank-name">Diamond Lion</span><span class="wp-rank-req">1 TB</span></div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">🏆</div><h2>Leaderboard</h2></div>
+            <p>Turn <strong>Leaderboards</strong> on or off in Wiper's Settings. You need to be signed in to Game Center (<span class="wp-path">iOS Settings › Game Center</span>).</p>
+            <p style="margin-top:10px">Only two things are shared:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
+              <span class="wp-chip">Game Center name</span>
+              <span class="wp-chip">Total MB freed</span>
+            </div>
+            <div class="wp-safe">
+              <p>No photo, filename or library detail is ever submitted. Leave Leaderboards off and nothing at all is sent — every other part of the app works the same.</p>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(26,157,106,.1)">🌐</div><h2>Languages &amp; Requirements</h2></div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px;">
+              <span class="wp-chip green">English</span>
+              <span class="wp-chip green">日本語</span>
+              <span class="wp-chip green">ไทย</span>
+            </div>
+            <p>iPhone with iOS 18.6 or later.</p>
+          </section>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="wp-subpanel" id="wiper-privacy">
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">🔐</div><h2>Privacy Policy</h2></div>
+            <p style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:rgba(20,26,34,.42);margin-bottom:16px">Last updated: October 4, 2026</p>
+            <p>Wiper ("the App", "we", "us") is a photo-library cleaner made by Pathom Sriaroonthip. There is no account and no sign-up, and we do not run a server that holds anything about you.</p>
+            <p style="margin-top:10px">A photo library is about as personal as data gets. Wiper is built so that none of it has anywhere to go.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(26,157,106,.1)">📷</div><h2>Your Photos</h2></div>
+            <p>Wiper reads your photo library <strong>on your device</strong> to find duplicates, similar shots, screenshots, blurry photos and large videos. That analysis runs locally and the results stay locally.</p>
+            <div class="wp-safe">
+              <p><strong>No photo or video ever leaves your iPhone.</strong> Nothing is uploaded, nothing is sent to us, and nothing is shared with a third party. Wiper works fully in Airplane Mode — which is the simplest way to prove it to yourself.</p>
+              <p>Deletion goes through Apple's own Photos framework, so removed items land in Recently Deleted and are recoverable for 30 days.</p>
+            </div>
+            <p style="margin-top:12px">Revoke or change access any time in <span class="wp-path">iOS Settings › Privacy &amp; Security › Photos › Wiper</span>.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">📦</div><h2>What Stays on Your Device</h2></div>
+            <p>The following lives in the App's own storage and is never transmitted to us:</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+              <span class="wp-chip">Kept-photo history</span>
+              <span class="wp-chip">Space freed &amp; rank</span>
+              <span class="wp-chip">Daily swipe count</span>
+              <span class="wp-chip">Scan results</span>
+              <span class="wp-chip">Settings</span>
+              <span class="wp-chip">Purchase status</span>
+            </div>
+            <p>Delete the App and all of it goes with it.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(216,163,39,.11)">🏆</div><h2>Game Center (optional)</h2></div>
+            <p>If you switch Leaderboards on and are signed into Game Center, the App submits your Game Center name and your total MB freed — nothing else. No photo, filename, album or library detail is involved.</p>
+            <p style="margin-top:10px">Game Center is Apple's service, covered by <a href="https://www.apple.com/legal/privacy/data/en/game-center/" target="_blank" rel="noopener" style="color:var(--wp-blue)">Apple's privacy policy</a>. Leave Leaderboards off and nothing is sent.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(229,72,77,.09)">📣</div><h2>Advertising</h2></div>
+            <p>The free tier shows ads, including the optional rewarded video that grants extra swipes. Premium removes them entirely.</p>
+            <p style="margin-top:10px">To serve those ads, the ad SDK may access your device's advertising identifier (IDFA) and coarse technical information such as device model, OS version and general location derived from IP address. Whether that identifier is used for personalised advertising depends on your answer to the App Tracking Transparency prompt.</p>
+            <ul style="margin-top:12px">
+              <li><strong>If you allow tracking:</strong> ads may be personalised using your advertising identifier.</li>
+              <li><strong>If you decline:</strong> ads still appear, but are not personalised.</li>
+              <li><strong>Either way:</strong> nothing about your photos — no image, no filename, no count, no scan result — is ever passed to an ad network.</li>
+            </ul>
+            <p style="margin-top:12px">Change your mind any time in <span class="wp-path">iOS Settings › Privacy &amp; Security › Tracking</span>.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">🔗</div><h2>Third-Party Services</h2></div>
+            <table class="wp-table">
+              <thead><tr><th>Service</th><th>Purpose</th><th>Policy</th></tr></thead>
+              <tbody>
+                <tr><td>Apple Photos</td><td>Reads and deletes on device only</td><td><a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">apple.com/legal/privacy</a></td></tr>
+                <tr><td>Apple StoreKit</td><td>Subscription and purchases</td><td><a href="https://www.apple.com/legal/privacy/data/en/app-store/" target="_blank" rel="noopener">apple.com/…/app-store</a></td></tr>
+                <tr><td>Apple Game Center</td><td>Leaderboard — optional, off until you enable it</td><td><a href="https://www.apple.com/legal/privacy/data/en/game-center/" target="_blank" rel="noopener">apple.com/…/game-center</a></td></tr>
+                <tr><td>Google AdMob</td><td>Ads on the free tier</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+              </tbody>
+            </table>
+            <p style="margin-top:14px">There is no analytics SDK, no crash reporter, and no Wiper server of any kind.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">🚫</div><h2>What We Never Collect</h2></div>
+            <div class="wp-not-grid">
+              <div class="wp-not-item">Your photos or videos</div>
+              <div class="wp-not-item">Filenames or metadata</div>
+              <div class="wp-not-item">Your name or email</div>
+              <div class="wp-not-item">Location of any kind</div>
+              <div class="wp-not-item">Contacts or microphone</div>
+              <div class="wp-not-item">Payment details</div>
+              <div class="wp-not-item">Browsing history</div>
+              <div class="wp-not-item">Usage analytics</div>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(26,157,106,.1)">⚙️</div><h2>Your Choices &amp; Data Deletion</h2></div>
+            <ul>
+              <li><strong>Photo access:</strong> <span class="wp-path">iOS Settings › Privacy &amp; Security › Photos › Wiper</span></li>
+              <li><strong>Ad tracking:</strong> <span class="wp-path">iOS Settings › Privacy &amp; Security › Tracking</span></li>
+              <li><strong>Leaderboard:</strong> switch Leaderboards off in Wiper's Settings</li>
+              <li><strong>Kept history:</strong> clear it with <strong>Reset kept history</strong> in Settings</li>
+              <li><strong>Delete everything:</strong> uninstall the App. Nothing is retained server-side, because nothing was ever sent there.</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">👶</div><h2>Children</h2></div>
+            <p>Wiper is not directed at children under 13, and we do not knowingly collect information from anyone under 13. Because the App has no account and collects no personal information, there is nothing for a child to hand over.</p>
+          </section>
+
+          <section>
+            <div class="section-header"><div class="wp-icon-tile" style="background:rgba(31,111,235,.09)">📝</div><h2>Changes &amp; Contact</h2></div>
+            <p>We may update this policy as the App gains features. Material changes will be noted by updating the date above.</p>
+            <p style="margin-top:10px">Questions? Use the Support tab to reach us directly.</p>
+            <p style="margin-top:10px">Terms of Use: <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener" style="color:var(--wp-blue);font-size:13px">Apple Standard EULA</a></p>
+          </section>
+        </div>
+
+      </main>
+      <footer>© 2026 Wiper · Everything happens on your iPhone · Deleted items stay recoverable for 30 days · All rights reserved</footer>
+    </div>
+  </div>
+
   <!-- ZAP -->
   <div class="panel" id="zap-panel">
     <div class="page">
@@ -5273,6 +5885,7 @@
     <button class="crumb" data-app="realestate" onclick="switchApp('realestate')">不動産電卓</button>
     <button class="crumb" data-app="tcgpack"    onclick="switchApp('tcgpack')">TCG Pack</button>
     <button class="crumb" data-app="optcg"      onclick="switchApp('optcg')">OP TCG</button>
+    <button class="crumb" data-app="wiper"      onclick="switchApp('wiper')">Wiper</button>
     <button class="crumb" data-app="zap"        onclick="switchApp('zap')">Zap Remote</button>
     <button class="crumb" data-app="poker"      onclick="switchApp('poker')">Video Poker Mania</button>
     <button class="crumb" data-app="poko"       onclick="switchApp('poko')">POKO</button>
@@ -5286,7 +5899,7 @@
 // ── QUERY PARAM ROUTER ─────────────────────────────────────────────
 // URLs: ?app=zap  ?app=zap&page=privacy  ?app=adsearning&page=metrics
 
-const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'bitcoinplaces', 'realestate', 'tcgpack', 'optcg', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
+const APPS = ['wordo', 'tonyfitter', 'airplane', 'adsearning', 'bitcoinplaces', 'realestate', 'tcgpack', 'optcg', 'wiper', 'zap', 'poker', 'poko', 'sudokuru', 'warofart'];
 
 const TAB_MAP = {
   tonyfitter: ['support', 'whats-new', 'privacy'],
@@ -5296,6 +5909,7 @@ const TAB_MAP = {
   realestate: ['support', 'calculators', 'privacy'],
   tcgpack: ['support', 'features', 'privacy'],
   optcg: ['support', 'collecting', 'privacy'],
+  wiper: ['support', 'tools', 'privacy'],
   zap:        ['support', 'privacy', 'terms'],
   poker:      ['support', 'privacy'],
   poko:       ['support', 'whats-new', 'privacy'],
@@ -5314,6 +5928,7 @@ const APP_CHROME = {
   realestate: { bg: '#efeee6', fg: '#1c1a17' },
   tcgpack: { bg: '#150f21', fg: '#fff' },
   optcg: { bg: '#06202b', fg: '#f0e3c6' },
+  wiper: { bg: '#f2f4f7', fg: '#141a22' },
   zap:        { bg: '#0a0e1a', fg: '#fff' },
   poker:      { bg: '#0d0d0d', fg: '#fff' },
   poko:       { bg: '#0f0f14', fg: '#fff' },
@@ -5341,7 +5956,7 @@ function buildQuery(app, page) {
 function _switchApp(app) {
   const nav = document.getElementById('mainNav');
   APPS.forEach(a => document.getElementById(a + '-panel').classList.remove('active'));
-  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-bitcoinplaces', 'on-realestate', 'on-tcgpack', 'on-optcg', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
+  nav.classList.remove('on-tonyfitter', 'on-airplane', 'on-adsearning', 'on-bitcoinplaces', 'on-realestate', 'on-tcgpack', 'on-optcg', 'on-wiper', 'on-zap', 'on-poker', 'on-poko', 'on-sudokuru', 'on-warofart');
   document.getElementById(app + '-panel').classList.add('active');
   if (app !== 'wordo') nav.classList.add('on-' + app);
   const chrome = APP_CHROME[app] || APP_CHROME.wordo;
@@ -5369,6 +5984,7 @@ const TAB_BTN_SELECTOR = {
   realestate: '.re-subnav-btn',
   tcgpack: '.tp-subnav-btn',
   optcg: '.op-subnav-btn',
+  wiper: '.wp-subnav-btn',
   zap:        '.zap-subnav-btn',
   poker:      '.poker-subnav-btn',
   poko:       '.poko-subnav-btn',
@@ -5403,6 +6019,7 @@ function switchBitcoinplacesTab(page){ navigate('bitcoinplaces', page); }
 function switchRealestateTab(page){ navigate('realestate', page); }
 function switchTcgpackTab(page){ navigate('tcgpack', page); }
 function switchOptcgTab(page){ navigate('optcg', page); }
+function switchWiperTab(page){ navigate('wiper', page); }
 function switchZapTab(page)       { navigate('zap',        page); }
 function switchPokerTab(page)     { navigate('poker',      page); }
 function switchPokoTab(page)      { navigate('poko',       page); }
@@ -5444,6 +6061,7 @@ setupForm('bitcoinplacesForm', 'bitcoinplacesSuccess');
 setupForm('realestateForm', 'realestateSuccess');
 setupForm('tcgpackForm',    'tcgpackSuccess');
 setupForm('optcgForm',      'optcgSuccess');
+setupForm('wiperForm',      'wiperSuccess');
 setupForm('zapForm',        'zapSuccess');
 setupForm('pokerForm',      'pokerSuccess');
 setupForm('pokoForm',       'pokoSuccess');
