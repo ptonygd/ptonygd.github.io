@@ -1,5 +1,5 @@
 {
-"commit": "39a26a144c8b6ef6c2fb17b2c29d0bb7121e3a11",
+"commit": "90f27d0e14cefe48ccb2b8922a7a356b2fcf0072",
 "files": {
 "cards/en/base1.json": "c7290ee392ad359f64f537428f35fb8a0b8941f2",
 "cards/en/base2.json": "48df223153527aec115abf80b0f56de7bc6e9b7e",
@@ -81,6 +81,7 @@
 "cards/en/me5.json": "7374637f4d1e6e354490526216ee0deab75cbac8",
 "cards/en/me55.json": "89ee4d5c628aba1b7a6afe37c68cf09b3c766c07",
 "cards/en/me55c.json": "b292ddb34fd9f7f33d7208c357914b1d654cc7f1",
+"cards/en/me6.json": "fd39a508c142f1be3ff0e26468d5711eac3c3c9e",
 "cards/en/neo1.json": "34eb0e225102be46748ce4328bc11bb7c3be8219",
 "cards/en/neo2.json": "c09923da181ee5a5bb829bf16b52ede5e6a10004",
 "cards/en/neo3.json": "2e23a8367257940c20d3edcc4d324f94486803ff",
@@ -177,8 +178,8 @@
 "cards/en/xy9.json": "dcfa9ec1b6b0ff6a0b446114c9d567c598cf71ce",
 "cards/en/xyp.json": "a06b6ed63b5c800ce74dad8cccbf4faae10c223f",
 "cards/en/zsv10pt5.json": "4c7fcf1690aa6b515520102aa26d91109dcaadbb",
-"sets/en.json": "69a8ef97454d072e29c09bfd3862ccd1c3019f5c"
+"sets/en.json": "b14130070f30b4cb3f66504f2ebcfdcac3f5b328"
 },
-"generated": "2026-10-03T06:02:10Z",
+"generated": "2026-11-09T00:59:46Z",
 "source": "PokemonTCG/pokemon-tcg-data@master"
 }
